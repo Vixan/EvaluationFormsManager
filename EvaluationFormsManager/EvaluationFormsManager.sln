@@ -1,0 +1,87 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvaluationFormsManager", "EvaluationFormsManager\EvaluationFormsManager.csproj", "{71C080B2-EEE1-4311-AC09-C8BA41B472FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{9969588E-739B-4B6B-A9EC-E8DD3590DAB0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{00349E45-2AE1-42F9-9869-B8027047B8B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{38808CF7-CFAE-4953-AC53-DDB53E823622}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{B64D4951-4B2F-4BC5-ADA6-1FB7057D9A69}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{03FD6E1A-0A31-4784-95D6-EC309E1800D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvaluationFormsManager.Persistence.EF", "EvaluationFormsManager.Persistence.EF\EvaluationFormsManager.Persistence.EF.csproj", "{356E7882-6371-4C3D-9F44-754CE474C4BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvaluationFormsManager.Persistence", "EvaluationFormsManager.Persistence\EvaluationFormsManager.Persistence.csproj", "{51B63405-1A66-4554-8CD1-C203BC8AA49A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvaluationFormsManager.Persistence.Memory", "EvaluationFormsManager.Persistence.Memory\EvaluationFormsManager.Persistence.Memory.csproj", "{6C5F4A91-0876-4A72-8984-B9AE1B09390B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvaluationFormsManager.Core", "EvaluationFormsManager.Core\EvaluationFormsManager.Core.csproj", "{03EE9AC5-7123-4210-B074-B6B982959086}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvaluationFormsManager.Shared", "EvaluationFormsManager.Shared\EvaluationFormsManager.Shared.csproj", "{EEB5101A-312F-4352-AFCD-9EE19F87AE2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvaluationFormsManager.Domain", "EvaluationFormsManager.Domain\EvaluationFormsManager.Domain.csproj", "{AF2A429A-6CED-4D05-83B7-2CF3AC0D51C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvaluationFormsManager.WebApi", "EvaluationFormsManager.WebApi\EvaluationFormsManager.WebApi.csproj", "{73B49B38-38C4-4944-B564-C5F0C4032DDA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{71C080B2-EEE1-4311-AC09-C8BA41B472FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71C080B2-EEE1-4311-AC09-C8BA41B472FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71C080B2-EEE1-4311-AC09-C8BA41B472FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71C080B2-EEE1-4311-AC09-C8BA41B472FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{356E7882-6371-4C3D-9F44-754CE474C4BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{356E7882-6371-4C3D-9F44-754CE474C4BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{356E7882-6371-4C3D-9F44-754CE474C4BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{356E7882-6371-4C3D-9F44-754CE474C4BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51B63405-1A66-4554-8CD1-C203BC8AA49A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51B63405-1A66-4554-8CD1-C203BC8AA49A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51B63405-1A66-4554-8CD1-C203BC8AA49A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51B63405-1A66-4554-8CD1-C203BC8AA49A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C5F4A91-0876-4A72-8984-B9AE1B09390B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C5F4A91-0876-4A72-8984-B9AE1B09390B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C5F4A91-0876-4A72-8984-B9AE1B09390B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C5F4A91-0876-4A72-8984-B9AE1B09390B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03EE9AC5-7123-4210-B074-B6B982959086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03EE9AC5-7123-4210-B074-B6B982959086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03EE9AC5-7123-4210-B074-B6B982959086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03EE9AC5-7123-4210-B074-B6B982959086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEB5101A-312F-4352-AFCD-9EE19F87AE2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEB5101A-312F-4352-AFCD-9EE19F87AE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEB5101A-312F-4352-AFCD-9EE19F87AE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEB5101A-312F-4352-AFCD-9EE19F87AE2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF2A429A-6CED-4D05-83B7-2CF3AC0D51C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF2A429A-6CED-4D05-83B7-2CF3AC0D51C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF2A429A-6CED-4D05-83B7-2CF3AC0D51C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF2A429A-6CED-4D05-83B7-2CF3AC0D51C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73B49B38-38C4-4944-B564-C5F0C4032DDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73B49B38-38C4-4944-B564-C5F0C4032DDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73B49B38-38C4-4944-B564-C5F0C4032DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73B49B38-38C4-4944-B564-C5F0C4032DDA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{71C080B2-EEE1-4311-AC09-C8BA41B472FE} = {9969588E-739B-4B6B-A9EC-E8DD3590DAB0}
+		{356E7882-6371-4C3D-9F44-754CE474C4BB} = {38808CF7-CFAE-4953-AC53-DDB53E823622}
+		{51B63405-1A66-4554-8CD1-C203BC8AA49A} = {38808CF7-CFAE-4953-AC53-DDB53E823622}
+		{6C5F4A91-0876-4A72-8984-B9AE1B09390B} = {38808CF7-CFAE-4953-AC53-DDB53E823622}
+		{03EE9AC5-7123-4210-B074-B6B982959086} = {00349E45-2AE1-42F9-9869-B8027047B8B9}
+		{EEB5101A-312F-4352-AFCD-9EE19F87AE2C} = {00349E45-2AE1-42F9-9869-B8027047B8B9}
+		{AF2A429A-6CED-4D05-83B7-2CF3AC0D51C9} = {B64D4951-4B2F-4BC5-ADA6-1FB7057D9A69}
+		{73B49B38-38C4-4944-B564-C5F0C4032DDA} = {03FD6E1A-0A31-4784-95D6-EC309E1800D6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {65C4A75A-55B6-4EB4-8C75-C1CF936DC919}
+	EndGlobalSection
+EndGlobal
