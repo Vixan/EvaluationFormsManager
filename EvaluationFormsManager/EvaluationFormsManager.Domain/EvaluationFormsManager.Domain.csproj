@@ -4,4 +4,10 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="IdentityServer.Domain">
+      <HintPath>..\..\..\EvaluationFormsManager Identity\IdentityServer.Domain.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

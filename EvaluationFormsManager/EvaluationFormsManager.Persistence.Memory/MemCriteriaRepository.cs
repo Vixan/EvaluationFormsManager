@@ -24,16 +24,6 @@ namespace EvaluationFormsManager.Persistence.Memory
             return criteria;
         }
 
-        public IEnumerable<Criteria> GetByCreatedDate(DateTime createdDate)
-        {
-            return criteria.FindAll(criteria => criteria.CreatedDate == createdDate);
-        }
-
-        public IEnumerable<Criteria> GetByEvaluationScaleOption(int evaluationScaleOptionIdentifier)
-        {
-            return criteria.FindAll(criteria => criteria.Grade.Id == evaluationScaleOptionIdentifier);
-        }
-
         public Criteria GetById(int identifier)
         {
             return criteria.Find(criteria => criteria.Id == identifier);
