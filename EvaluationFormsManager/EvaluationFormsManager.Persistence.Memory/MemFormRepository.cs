@@ -1,6 +1,7 @@
 ﻿using EvaluationFormsManager.Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EvaluationFormsManager.Persistence.Memory
 {
@@ -56,6 +57,31 @@ namespace EvaluationFormsManager.Persistence.Memory
         public IEnumerable<Form> GetModifiedBy(int employeeIdentifier)
         {
             return forms.FindAll(evaluation => evaluation.ModifiedBy == employeeIdentifier);
+        }
+
+        public Section GetSection(int formIdentifier, int sectionIdentifier)
+        {
+            return forms.Find(form => form.Id == formIdentifier)
+                .Sections.Where(section => section.Id == sectionIdentifier).FirstOrDefault();
+        }
+
+        public IEnumerable<Criteria> GetSectionCriteria(int formIdentifier, int sectionIdentifier)
+        {
+            return forms.Find(form => form.Id == formIdentifier)
+                .Sections.Where(section => section.Id == sectionIdentifier).FirstOrDefault().Criteria;
+        }
+
+        public Criteria GetSectionCriterion(int formIdentifier, int sectionIdentifier, int criterionIdentifier)
+        {
+            return forms.Find(form => form.Id == formIdentifier)
+                .Sections.Where(section => section.Id == sectionIdentifier).FirstOrDefault()
+                .Criteria.Where(criterion => criterion.Id == criterionIdentifier).FirstOrDefault();
+        }
+
+        public IEnumerable<Section> GetSectionsByEvaluationScale(int formIdentifier, int evaluationScaleIdentifier)
+        {
+            return forms.Find(form => form.Id == formIdentifier)
+                .Sections.Where(section => section.EvaluationScale.Id == evaluationScaleIdentifier);
         }
 
         public IEnumerable<Form> GetUnavailable()

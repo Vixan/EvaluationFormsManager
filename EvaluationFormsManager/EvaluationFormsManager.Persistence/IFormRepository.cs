@@ -16,5 +16,10 @@ namespace EvaluationFormsManager.Persistence
 
         IEnumerable<Form> GetCreatedBy(int employeeIdentifier);
         IEnumerable<Form> GetModifiedBy(int employeeIdentifier);
+
+        IEnumerable<Section> GetSectionsByEvaluationScale(int formIdentifier, int evaluationScaleIdentifier);
+        Section GetSection(int formIdentifier, int sectionIdentifier);
+        IEnumerable<Criteria> GetSectionCriteria(int formIdentifier, int sectionIdentifier);
+        Criteria GetSectionCriterion(int formIdentifier, int sectionIdentifier, int criterionIdentifier);
     }
 }

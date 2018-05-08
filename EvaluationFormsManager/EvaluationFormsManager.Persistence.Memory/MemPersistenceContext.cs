@@ -10,22 +10,10 @@ namespace EvaluationFormsManager.Persistence.Memory
     public class MemPersistenceContext : IPersistenceContext
     {
         MemFormRepository formRepository = new MemFormRepository();
-        MemSectionRepository sectionRepository = new MemSectionRepository();
-        MemCriteriaRepository criteriaRepository = new MemCriteriaRepository();
-
-        public ICriteriaRepository GetCriteriaRepository()
-        {
-            return criteriaRepository;
-        }
 
         public IFormRepository GetFormRepository()
         {
             return formRepository;
-        }
-
-        public ISectionRepository GetSectionRepository()
-        {
-            return sectionRepository;
         }
 
         public void InitializeContext(IServiceCollection services, IConfiguration configuration)
