@@ -4,7 +4,7 @@ namespace EvaluationFormsManager.Persistence
 {
     public interface IPersistenceContext : IInitializer
     {
-        IEvaluationRepository GetEvaluationRepository();
+        IFormRepository GetEvaluationRepository();
         ISectionRepository GetSectionRepository();
         ICriteriaRepository GetCriteriaRepository();
     }
