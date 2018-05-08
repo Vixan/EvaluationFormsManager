@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EvaluationFormsManager.Domain
+﻿namespace EvaluationFormsManager.Domain
 {
     public class Importance
     {
