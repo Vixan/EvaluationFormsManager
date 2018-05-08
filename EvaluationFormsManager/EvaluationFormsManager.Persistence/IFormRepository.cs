@@ -14,10 +14,7 @@ namespace EvaluationFormsManager.Persistence
         IEnumerable<Form> GetByCreatedDate(DateTime createdDate);
         IEnumerable<Form> GetByModifiedDate(DateTime modifiedDate);
 
-        IEnumerable<Form> GetCompleted();
-        IEnumerable<Form> GetUncompleted();
-
-        IEnumerable<Form> GetCreatedBy(int userIdentifier);
-        IEnumerable<Form> GetModifiedBy(int userIdentifier);
+        IEnumerable<Form> GetCreatedBy(int employeeIdentifier);
+        IEnumerable<Form> GetModifiedBy(int employeeIdentifier);
     }
 }

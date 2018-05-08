@@ -48,29 +48,19 @@ namespace EvaluationFormsManager.Persistence.Memory
             return forms.Find(evaluation => evaluation.Name == evaluationName);
         }
 
-        public IEnumerable<Form> GetCompleted()
+        public IEnumerable<Form> GetCreatedBy(int employeeIdentifier)
         {
-            return forms.FindAll(evaluation => evaluation.IsCompleted == true);
+            return forms.FindAll(evaluation => evaluation.CreatedBy == employeeIdentifier);
         }
 
-        public IEnumerable<Form> GetCreatedBy(int userIdentifier)
+        public IEnumerable<Form> GetModifiedBy(int employeeIdentifier)
         {
-            return forms.FindAll(evaluation => evaluation.CreatedBy == userIdentifier);
-        }
-
-        public IEnumerable<Form> GetModifiedBy(int userIdentifier)
-        {
-            return forms.FindAll(evaluation => evaluation.ModifiedBy == userIdentifier);
+            return forms.FindAll(evaluation => evaluation.ModifiedBy == employeeIdentifier);
         }
 
         public IEnumerable<Form> GetUnavailable()
         {
             return forms.FindAll(evaluation => evaluation.Status == false);
-        }
-
-        public IEnumerable<Form> GetUncompleted()
-        {
-            return forms.FindAll(evaluation => evaluation.IsCompleted == false);
         }
 
         public void Save()

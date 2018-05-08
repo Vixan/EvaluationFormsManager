@@ -49,14 +49,14 @@ namespace EvaluationFormsManager.Persistence.Memory
             return criteria.Find(criteria => criteria.Name == criteriaName);
         }
 
-        public IEnumerable<Criteria> GetCreatedBy(int userIdentifier)
+        public IEnumerable<Criteria> GetCreatedBy(int employeeIdentifier)
         {
-            return criteria.FindAll(criteria => criteria.CreatedBy == userIdentifier);
+            return criteria.FindAll(criteria => criteria.CreatedBy == employeeIdentifier);
         }
 
-        public IEnumerable<Criteria> GetModifiedBy(int userIdentifier)
+        public IEnumerable<Criteria> GetModifiedBy(int employeeIdentifier)
         {
-            return criteria.FindAll(criteria => criteria.ModifiedBy == userIdentifier);
+            return criteria.FindAll(criteria => criteria.ModifiedBy == employeeIdentifier);
         }
 
         public void Save()

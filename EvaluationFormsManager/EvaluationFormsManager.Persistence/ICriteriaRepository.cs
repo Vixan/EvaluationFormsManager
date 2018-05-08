@@ -11,8 +11,8 @@ namespace EvaluationFormsManager.Persistence
         IEnumerable<Criteria> GetByCreatedDate(DateTime createdDate);
         IEnumerable<Criteria> GetByModifiedDate(DateTime modifiedDate);
 
-        IEnumerable<Criteria> GetCreatedBy(int userIdentifier);
-        IEnumerable<Criteria> GetModifiedBy(int userIdentifier);
+        IEnumerable<Criteria> GetCreatedBy(int employeeIdentifier);
+        IEnumerable<Criteria> GetModifiedBy(int employeeIdentifier);
 
         IEnumerable<Criteria> GetByEvaluationScaleOption(int evaluationScaleOptionIdentifier);
     }

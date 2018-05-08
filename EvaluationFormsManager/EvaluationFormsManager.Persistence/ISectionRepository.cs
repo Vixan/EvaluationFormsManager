@@ -13,7 +13,7 @@ namespace EvaluationFormsManager.Persistence
         IEnumerable<Section> GetByCreatedDate(DateTime createdDate);
         IEnumerable<Section> GetByModifiedDate(DateTime modifiedDate);
 
-        IEnumerable<Section> GetCreatedBy(int userIdentifier);
-        IEnumerable<Section> GetModifiedBy(int userIdentifier);
+        IEnumerable<Section> GetCreatedBy(int employeeIdentifier);
+        IEnumerable<Section> GetModifiedBy(int employeeIdentifier);
     }
 }

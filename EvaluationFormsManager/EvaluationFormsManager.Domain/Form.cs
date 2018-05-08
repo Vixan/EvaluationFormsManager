@@ -17,7 +17,5 @@ namespace EvaluationFormsManager.Domain
 
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
-
-        public bool IsCompleted { get; set; }
     }
 }
