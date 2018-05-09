@@ -34,7 +34,7 @@ namespace EvaluationFormsManager.Core
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
 
-            return formRepository.GetAVailable();
+            return formRepository.GetAvailable();
         }
 
         public IEnumerable<Form> GetAllForms()

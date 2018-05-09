@@ -8,7 +8,7 @@ namespace EvaluationFormsManager.Persistence
     {
         Form GetByName(string formName);
 
-        IEnumerable<Form> GetAVailable();
+        IEnumerable<Form> GetAvailable();
         IEnumerable<Form> GetUnavailable();
 
         IEnumerable<Form> GetByCreatedDate(DateTime createdDate);
