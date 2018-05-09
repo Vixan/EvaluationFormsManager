@@ -29,7 +29,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Doma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.WebApi", "EvaluationFormsManager.WebApi\EvaluationFormsManager.WebApi.csproj", "{73B49B38-38C4-4944-B564-C5F0C4032DDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvaluationFormsManager.CommonAbstractions", "EvaluationFormsManager.CommonAbstractions\EvaluationFormsManager.CommonAbstractions.csproj", "{008E8C59-23C3-4573-B1B2-E970A7BCAE52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.CommonAbstractions", "EvaluationFormsManager.CommonAbstractions\EvaluationFormsManager.CommonAbstractions.csproj", "{008E8C59-23C3-4573-B1B2-E970A7BCAE52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EvaluationFormsManager.External", "EvaluationFormsManager.External", "{7565EE40-D194-47F6-AB64-3859C94D1FA7}"
+	ProjectSection(SolutionItems) = preProject
+		EvaluationFormsManager.IdentityServer\IdentityServer.Domain.dll = EvaluationFormsManager.IdentityServer\IdentityServer.Domain.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

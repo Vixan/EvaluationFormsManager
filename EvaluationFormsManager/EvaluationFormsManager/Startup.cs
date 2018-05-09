@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EvaluationFormsManager.Persistence;
+using EvaluationFormsManager.Persistence.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +19,11 @@ namespace EvaluationFormsManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add persistance
+            services.AddScoped<IPersistenceContext, PersistanceContext>();
+            var dataService = services.BuildServiceProvider().GetService<IPersistenceContext>();
+            dataService.InitializeContext(services, Configuration);
+
             services.AddMvc();
         }
 
