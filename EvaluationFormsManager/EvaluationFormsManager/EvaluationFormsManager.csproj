@@ -12,4 +12,9 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EvaluationFormsManager.Persistence.EF\EvaluationFormsManager.Persistence.EF.csproj" />
+    <ProjectReference Include="..\EvaluationFormsManager.Persistence\EvaluationFormsManager.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>
