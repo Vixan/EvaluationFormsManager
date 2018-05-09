@@ -26,37 +26,37 @@ namespace EvaluationFormsManager.Persistence.Memory
 
         public IEnumerable<Form> GetAVailable()
         {
-            return forms.FindAll(evaluation => evaluation.Status == true);
+            return forms.FindAll(form => form.Status == true);
         }
 
         public IEnumerable<Form> GetByCreatedDate(DateTime createdDate)
         {
-            return forms.FindAll(evaluation => evaluation.CreatedDate == createdDate);
+            return forms.FindAll(form => form.CreatedDate == createdDate);
         }
 
         public Form GetById(int identifier)
         {
-            return forms.Find(evaluation => evaluation.Id == identifier);
+            return forms.Find(form => form.Id == identifier);
         }
 
         public IEnumerable<Form> GetByModifiedDate(DateTime modifiedDate)
         {
-            return forms.FindAll(evaluation => evaluation.ModifiedDate == modifiedDate);
+            return forms.FindAll(form => form.ModifiedDate == modifiedDate);
         }
 
-        public Form GetByName(string evaluationName)
+        public Form GetByName(string formName)
         {
-            return forms.Find(evaluation => evaluation.Name == evaluationName);
+            return forms.Find(form => form.Name == formName);
         }
 
         public IEnumerable<Form> GetCreatedBy(int employeeIdentifier)
         {
-            return forms.FindAll(evaluation => evaluation.CreatedBy == employeeIdentifier);
+            return forms.FindAll(form => form.CreatedBy == employeeIdentifier);
         }
 
         public IEnumerable<Form> GetModifiedBy(int employeeIdentifier)
         {
-            return forms.FindAll(evaluation => evaluation.ModifiedBy == employeeIdentifier);
+            return forms.FindAll(form => form.ModifiedBy == employeeIdentifier);
         }
 
         public Section GetSection(int formIdentifier, int sectionIdentifier)
@@ -86,7 +86,7 @@ namespace EvaluationFormsManager.Persistence.Memory
 
         public IEnumerable<Form> GetUnavailable()
         {
-            return forms.FindAll(evaluation => evaluation.Status == false);
+            return forms.FindAll(form => form.Status == false);
         }
 
         public void Save()
