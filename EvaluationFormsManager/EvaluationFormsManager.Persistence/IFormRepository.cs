@@ -6,7 +6,7 @@ namespace EvaluationFormsManager.Persistence
 {
     public interface IFormRepository : IRepository<Form>
     {
-        Form GetByName(string evaluationName);
+        Form GetByName(string formName);
 
         IEnumerable<Form> GetAVailable();
         IEnumerable<Form> GetUnavailable();

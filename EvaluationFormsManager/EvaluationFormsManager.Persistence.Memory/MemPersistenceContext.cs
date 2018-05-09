@@ -142,9 +142,7 @@ namespace EvaluationFormsManager.Persistence.Memory
                     Status = true
                 }
             };
-
-            criteria.ForEach(criterion => criteriaRepository.Add(criterion));
-            sections.ForEach(section => sectionRepository.Add(section));
+            
             forms.ForEach(form => formRepository.Add(form));
         }
     }
