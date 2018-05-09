@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Pers
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Core", "EvaluationFormsManager.Core\EvaluationFormsManager.Core.csproj", "{03EE9AC5-7123-4210-B074-B6B982959086}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Shared", "EvaluationFormsManager.Shared\EvaluationFormsManager.Shared.csproj", "{EEB5101A-312F-4352-AFCD-9EE19F87AE2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Core.Shared", "EvaluationFormsManager.Shared\EvaluationFormsManager.Core.Shared.csproj", "{EEB5101A-312F-4352-AFCD-9EE19F87AE2C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Domain", "EvaluationFormsManager.Domain\EvaluationFormsManager.Domain.csproj", "{AF2A429A-6CED-4D05-83B7-2CF3AC0D51C9}"
 EndProject

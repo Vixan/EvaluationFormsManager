@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EvaluationFormsManager.Persistence\EvaluationFormsManager.Persistence.csproj" />
-    <ProjectReference Include="..\EvaluationFormsManager.Shared\EvaluationFormsManager.Shared.csproj" />
+    <ProjectReference Include="..\EvaluationFormsManager.Shared\EvaluationFormsManager.Core.Shared.csproj" />
   </ItemGroup>
 
 </Project>
