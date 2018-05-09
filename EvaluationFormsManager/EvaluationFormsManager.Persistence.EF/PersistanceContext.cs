@@ -29,7 +29,7 @@ namespace EvaluationFormsManager.Persistence.EF
         {
             services.AddDbContext<DatabaseContext>(options =>
               options.UseSqlServer(configuration.GetConnectionString("DataConnection"),
-              b => b.MigrationsAssembly("VirtualClassroom.Persistence.EF")));
+              b => b.MigrationsAssembly("EvaluationFormsManager.Persistence.EF")));
 
             InitializeDbContext(services.BuildServiceProvider());
         }

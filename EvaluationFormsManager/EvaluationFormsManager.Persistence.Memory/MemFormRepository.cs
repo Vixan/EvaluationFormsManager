@@ -24,7 +24,7 @@ namespace EvaluationFormsManager.Persistence.Memory
             return forms;
         }
 
-        public IEnumerable<Form> GetAVailable()
+        public IEnumerable<Form> GetAvailable()
         {
             return forms.FindAll(form => form.Status == true);
         }

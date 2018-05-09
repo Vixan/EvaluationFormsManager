@@ -1,96 +1,118 @@
 ﻿using EvaluationFormsManager.Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EvaluationFormsManager.Persistence.EF
 {
-    class FormRepository : IFormRepository
+    class FormRepository : Repository<Form>, IFormRepository
     {
-        private readonly DatabaseContext databaseContext = null; 
-
-        public FormRepository(DatabaseContext databaseContext)
+        public FormRepository(DatabaseContext context)
         {
-            this.databaseContext = databaseContext;
+            databaseContext = context;
         }
 
-        public void Add(Form entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Form entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Form> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Form> GetAVailable()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Form> GetByCreatedDate(DateTime createdDate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Form GetById(int identifier)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Form> GetByModifiedDate(DateTime modifiedDate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Form GetByName(string formName)
-        {
-            throw new NotImplementedException();
-        }
+        #region getByUser
 
         public IEnumerable<Form> GetCreatedBy(int employeeIdentifier)
         {
-            throw new NotImplementedException();
+            IEnumerable<Form> formsCreatedBy = databaseContext.Forms.Where(form => form.CreatedBy == employeeIdentifier).ToList();
+
+            return formsCreatedBy;
         }
 
         public IEnumerable<Form> GetModifiedBy(int employeeIdentifier)
         {
-            throw new NotImplementedException();
+            IEnumerable<Form> formsModifiedBy = databaseContext.Forms.Where(form => form.ModifiedBy == employeeIdentifier).ToList();
+
+            return formsModifiedBy;
         }
 
-        public Section GetSection(int formIdentifier, int sectionIdentifier)
+        #endregion
+
+        #region getByData
+
+        public Form GetByName(string formName)
         {
-            throw new NotImplementedException();
+            Form formByName = databaseContext.Forms.Where(form => form.Name == formName).FirstOrDefault();
+
+            return formByName;
         }
 
-        public IEnumerable<Criteria> GetSectionCriteria(int formIdentifier, int sectionIdentifier)
+        public IEnumerable<Form> GetAvailable()
         {
-            throw new NotImplementedException();
-        }
+            IEnumerable<Form> availableForms = databaseContext.Forms.Where(form => form.Status).ToList();
 
-        public Criteria GetSectionCriterion(int formIdentifier, int sectionIdentifier, int criterionIdentifier)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Section> GetSectionsByEvaluationScale(int formIdentifier, int evaluationScaleIdentifier)
-        {
-            throw new NotImplementedException();
+            return availableForms;
         }
 
         public IEnumerable<Form> GetUnavailable()
         {
-            throw new NotImplementedException();
+            IEnumerable<Form> unavailableForms = databaseContext.Forms.Where(form => !form.Status).ToList();
+
+            return unavailableForms;
         }
 
-        public void Save()
+        public IEnumerable<Form> GetByCreatedDate(DateTime createdDate)
         {
-            throw new NotImplementedException();
+            IEnumerable<Form> formsByCreatedDate = databaseContext.Forms.Where(form => form.CreatedDate == createdDate).ToList();
+
+            return formsByCreatedDate;
         }
+
+        public IEnumerable<Form> GetByModifiedDate(DateTime modifiedDate)
+        {
+            IEnumerable<Form> formsByModifiedData = databaseContext.Forms.Where(form => form.ModifiedDate == modifiedDate).ToList();
+
+            return formsByModifiedData;
+        }
+
+        #endregion
+
+        #region getData
+
+        public Section GetSection(int formIdentifier, int sectionIdentifier)
+        {
+            Form form = databaseContext.Forms.Find(formIdentifier);
+            Section formSection = form.Sections.ToList().Find(section => section.Id == sectionIdentifier);
+
+            return formSection;
+        }
+
+        public IEnumerable<Criteria> GetSectionCriteria(int formIdentifier, int sectionIdentifier)
+        {
+            Form form = databaseContext.Forms.Find(formIdentifier);
+            Section formSection = form.Sections.ToList().Find(section => section.Id == sectionIdentifier);
+            IEnumerable<Criteria> sectionCriteria = formSection.Criteria;
+
+            return sectionCriteria;
+        }
+
+        public Criteria GetSectionCriterion(int formIdentifier, int sectionIdentifier, int criterionIdentifier)
+        {
+            Form form = databaseContext.Forms.Find(formIdentifier);
+            Section formSection = form.Sections.ToList().Find(section => section.Id == sectionIdentifier);
+            Criteria sectionCriterion = formSection.Criteria.ToList().Find(criterion => criterion.Id == criterionIdentifier);
+
+            return sectionCriterion;
+        }
+
+        public IEnumerable<Section> GetSectionsByEvaluationScale(int formIdentifier, int evaluationScaleIdentifier)
+        {
+            Form form = databaseContext.Forms.Find(formIdentifier);
+            List<Section> formSections = new List<Section>();
+
+            foreach (var section in form.Sections)
+            {
+                if (section.EvaluationScale.Id == evaluationScaleIdentifier)
+                {
+                    formSections.Add(section);
+                }
+            }
+
+            return formSections;
+        }
+
+        #endregion
     }
 }
