@@ -1,5 +1,7 @@
-﻿using EvaluationFormsManager.Persistence;
+﻿using EvaluationFormsManager.Core;
+using EvaluationFormsManager.Persistence;
 using EvaluationFormsManager.Persistence.EF;
+using EvaluationFormsManager.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +25,9 @@ namespace EvaluationFormsManager
             services.AddScoped<IPersistenceContext, PersistanceContext>();
             var dataService = services.BuildServiceProvider().GetService<IPersistenceContext>();
             dataService.InitializeContext(services, Configuration);
+
+            // Add business
+            services.AddScoped<IFormService, FormService>();
 
             services.AddMvc();
         }

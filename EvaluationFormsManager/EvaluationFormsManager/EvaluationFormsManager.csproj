@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,8 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EvaluationFormsManager.Core\EvaluationFormsManager.Core.csproj" />
     <ProjectReference Include="..\EvaluationFormsManager.Persistence.EF\EvaluationFormsManager.Persistence.EF.csproj" />
     <ProjectReference Include="..\EvaluationFormsManager.Persistence\EvaluationFormsManager.Persistence.csproj" />
+    <ProjectReference Include="..\EvaluationFormsManager.Shared\EvaluationFormsManager.Core.Shared.csproj" />
   </ItemGroup>
 
 </Project>

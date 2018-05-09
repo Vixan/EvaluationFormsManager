@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EvaluationFormsManager.Persistence.EF
 {
-    class DatabaseContext : DbContext
+    public class DatabaseContext : DbContext
     {
         public DatabaseContext() { }
 
@@ -12,6 +12,6 @@ namespace EvaluationFormsManager.Persistence.EF
         {
         }
 
-        public DbSet<Form> Forms { get; set; }
+        public DbSet<EvaluationFormsManager.Domain.Form> Forms { get; set; }
     }
 }
