@@ -1,5 +1,4 @@
 ﻿using EvaluationFormsManager.Domain;
-using IdentityServer.Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -23,23 +22,6 @@ namespace EvaluationFormsManager.Persistence.Memory
 
         public void InitializeData(IServiceProvider serviceProvider)
         {
-            List<Employee> employees = new List<Employee>
-            {
-                new Employee
-                {
-                    Id = 1,
-                    Active = true,
-                    Name = "John Doe",
-                    Username = "JohnnyD"
-                },
-                new Employee
-                {
-                    Id = 2,
-                    Active = true,
-                    Name = "Brass Len",
-                    Username = "LennyBrass"
-                }
-            };
             List<Importance> importances = new List<Importance>
             {
                 new Importance
@@ -107,8 +89,8 @@ namespace EvaluationFormsManager.Persistence.Memory
                 {
                     Id = 1,
                     Name = "Naming stuff",
-                    CreatedBy = employees.Find(employee => employee.Name == "John Doe").Id,
-                    ModifiedBy = employees.Find(employee => employee.Name == "John Doe").Id,
+                    CreatedBy = 1,
+                    ModifiedBy = 1,
                     ModifiedDate = new DateTime(2017, 4, 21)
                 }
             };
@@ -119,8 +101,8 @@ namespace EvaluationFormsManager.Persistence.Memory
                     Id = 1,
                     Name = "Software Engineering",
                     Description = "Cu ipsum oratio eum, ne quem fierent eum, meis mutat in vel. Te eos equidem necessitatibus, vim quem vidit errem ut.",
-                    CreatedBy = employees.Find(employee => employee.Name == "John Doe").Id,
-                    ModifiedBy = employees.Find(employee => employee.Name == "John Doe").Id,
+                    CreatedBy = 1,
+                    ModifiedBy = 1,
                     ModifiedDate = new DateTime(2017, 5, 28),
                     EvaluationScale = evaluationScales.Find(scale => scale.Name == "Caesar Scale"),
                     Criteria = criteria.FindAll(crit => crit.Name == "Naming stuff")
@@ -133,8 +115,8 @@ namespace EvaluationFormsManager.Persistence.Memory
                     Id = 1,
                     Name = "Core Technical .NET",
                     Description = "Lorem ipsum dolor sit amet, cum at vide detraxit, solum audire pro eu, in usu disputando dissentiet. Ad duo vide nostro, eos iusto legere officiis te, cum cu putant deleniti comprehensam.",
-                    CreatedBy = employees.Find(employee => employee.Name == "John Doe").Id,
-                    ModifiedBy = employees.Find(employee => employee.Name == "John Doe").Id,
+                    CreatedBy = 1,
+                    ModifiedBy = 1,
                     CreatedDate = new DateTime(2017, 5, 27),
                     ModifiedDate = new DateTime(2017, 5, 28),
                     Importance = importances.Find(importance => importance.Level == 3),

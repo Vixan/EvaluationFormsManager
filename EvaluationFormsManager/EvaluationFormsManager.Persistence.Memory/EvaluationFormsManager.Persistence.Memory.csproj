@@ -10,9 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="IdentityServer.Domain">
-      <HintPath>..\EvaluationFormsManager.External\IdentityServer.Domain.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
       <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.configuration.abstractions\2.0.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
     </Reference>

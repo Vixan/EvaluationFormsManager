@@ -1,52 +1,52 @@
-﻿using System;
+﻿using EvaluationFormsManager.Domain;
+using EvaluationFormsManager.Models;
+using EvaluationFormsManager.Shared;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using EvaluationFormsManager.Domain;
-using EvaluationFormsManager.Persistence.EF;
 
 namespace EvaluationFormsManager.Controllers
 {
     public class FormsController : Controller
     {
-        private readonly DatabaseContext _context;
+        private readonly IFormService formService;
 
-        public FormsController(DatabaseContext context)
+        public FormsController(IFormService formService)
         {
-            _context = context;
+            this.formService = formService;
         }
 
         // GET: Forms
         public ActionResult Index()
         {
-            return View();
+            const int DEFAULT_USER_ID = 1;
+            List<Form> forms = formService.GetAllFormsCreatedBy(DEFAULT_USER_ID).ToList();
+            List<EmployeeFormVM> employeeForms = new List<EmployeeFormVM>();
+
+            forms.ForEach(form => employeeForms.Add(new EmployeeFormVM
+            {
+                Id = form.Id,
+                Name = form.Name,
+                Description = form.Description,
+                ImportanceLevel = form.Importance.Level,
+                Status = form.Status,
+                CreatedDate = form.CreatedDate,
+                ModifiedDate = form.ModifiedDate
+            }));
+
+            return View(employeeForms);
         }
 
         // GET: Forms/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var form = await _context.Forms
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (form == null)
-            {
-                return NotFound();
-            }
-
-            return View(form);
+            return NotFound();
         }
 
         // GET: Forms/Create
         public IActionResult Create()
         {
-            return View();
+            return NotFound();
         }
 
         // POST: Forms/Create
@@ -54,31 +54,15 @@ namespace EvaluationFormsManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Status,CreatedBy,ModifiedBy,CreatedDate,ModifiedDate")] Form form)
+        public IActionResult Create([Bind("Id,Name,Description,Status,CreatedBy,ModifiedBy,CreatedDate,ModifiedDate")] Form form)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(form);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(form);
+            return NotFound(form);
         }
 
         // GET: Forms/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var form = await _context.Forms.SingleOrDefaultAsync(m => m.Id == id);
-            if (form == null)
-            {
-                return NotFound();
-            }
-            return View(form);
+            return NotFound();
         }
 
         // POST: Forms/Edit/5
@@ -86,68 +70,28 @@ namespace EvaluationFormsManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Status,CreatedBy,ModifiedBy,CreatedDate,ModifiedDate")] Form form)
+        public IActionResult Edit(int id, [Bind("Id,Name,Description,Status,CreatedBy,ModifiedBy,CreatedDate,ModifiedDate")] Form form)
         {
-            if (id != form.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(form);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FormExists(form.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(form);
+            return NotFound(form);
         }
 
         // GET: Forms/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var form = await _context.Forms
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (form == null)
-            {
-                return NotFound();
-            }
-
-            return View(form);
+            return NotFound();
         }
 
         // POST: Forms/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var form = await _context.Forms.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Forms.Remove(form);
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FormExists(int id)
         {
-            return _context.Forms.Any(e => e.Id == id);
+            return true;
         }
     }
 }

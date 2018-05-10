@@ -1,4 +1,5 @@
 ﻿using EvaluationFormsManager.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,10 @@ namespace EvaluationFormsManager.Persistence.EF
 
         public IEnumerable<Form> GetCreatedBy(int employeeIdentifier)
         {
-            IEnumerable<Form> formsCreatedBy = databaseContext.Forms.Where(form => form.CreatedBy == employeeIdentifier).ToList();
+            IEnumerable<Form> formsCreatedBy = databaseContext.Forms
+                .Where(form => form.CreatedBy == employeeIdentifier)
+                .Include(form => form.Importance)
+                .ToList();
 
             return formsCreatedBy;
         }

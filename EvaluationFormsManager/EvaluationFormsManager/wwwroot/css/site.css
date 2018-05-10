@@ -26,6 +26,37 @@
     margin: 15px;
 }
 
+/* Bootstrap custom label sizes */
+
+.label.label-sm {
+    padding: 0;
+}
+
+.label.label-md {
+    padding: .2em 1.5em .3em;
+}
+
+.label.label-lg {
+    padding: .2em 2em .3em;
+}
+
+.icon {
+    margin: 0 5px;
+}
+
+a:link{
+    text-decoration: none;
+}
+
+.icon.icon-lg {
+    font-size: 20px;
+}
+
+.table.forms-table tbody tr td i {
+    vertical-align: middle;
+    margin-top: -0.125em;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
