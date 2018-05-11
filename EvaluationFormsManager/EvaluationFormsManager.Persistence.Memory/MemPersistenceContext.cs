@@ -121,7 +121,11 @@ namespace EvaluationFormsManager.Persistence.Memory
                     ModifiedDate = new DateTime(2017, 5, 28),
                     Importance = importances.Find(importance => importance.Level == 3),
                     Sections = sections.FindAll(section => section.Name == "Software Engineering"),
-                    Status = true
+                    Status = new Status
+                    {
+                        Id = 1,
+                        Name = "Enabled"
+                    }
                 }
             };
             

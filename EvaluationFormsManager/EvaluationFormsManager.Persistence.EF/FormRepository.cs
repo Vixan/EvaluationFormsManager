@@ -20,6 +20,7 @@ namespace EvaluationFormsManager.Persistence.EF
             IEnumerable<Form> formsCreatedBy = databaseContext.Forms
                 .Where(form => form.CreatedBy == employeeIdentifier)
                 .Include(form => form.Importance)
+                .Include(form => form.Status)
                 .ToList();
 
             return formsCreatedBy;
@@ -45,14 +46,14 @@ namespace EvaluationFormsManager.Persistence.EF
 
         public IEnumerable<Form> GetAvailable()
         {
-            IEnumerable<Form> availableForms = databaseContext.Forms.Where(form => form.Status).ToList();
+            IEnumerable<Form> availableForms = databaseContext.Forms.Where(form => form.Status.Name == "Enabled").ToList();
 
             return availableForms;
         }
 
         public IEnumerable<Form> GetUnavailable()
         {
-            IEnumerable<Form> unavailableForms = databaseContext.Forms.Where(form => !form.Status).ToList();
+            IEnumerable<Form> unavailableForms = databaseContext.Forms.Where(form => form.Status.Name == "Disabled").ToList();
 
             return unavailableForms;
         }

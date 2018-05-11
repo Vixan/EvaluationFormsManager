@@ -1,10 +1,11 @@
-﻿using Microsoft.ApplicationInsights.AspNetCore;
+﻿using EvaluationFormsManager.Domain;
+using Microsoft.ApplicationInsights.AspNetCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace EvaluationFormsManager.Models
 {
-    public class EmployeeFormVM
+    public class FormBriefVM
     {
         [Display(Name = "Identifier")]
         [DataType(DataType.Text)]
@@ -24,7 +25,7 @@ namespace EvaluationFormsManager.Models
 
         [Display(Name = "Status")]
         [DataType(DataType.Text)]
-        public bool Status { get; set; }
+        public Status Status { get; set; }
 
         [Display(Name = "Created")]
         [DataType(DataType.DateTime)]

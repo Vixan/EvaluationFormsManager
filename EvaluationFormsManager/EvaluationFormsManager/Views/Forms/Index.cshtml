@@ -1,84 +1,91 @@
-﻿@model IEnumerable<EvaluationFormsManager.Models.EmployeeFormVM>
+﻿@model IEnumerable<EvaluationFormsManager.Models.FormBriefVM>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Forms</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table forms-table">
+            <thead class="page-header">
+                <tr class="active">
+                    <th class="col-md-2">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th class="col-md-1">
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th class="col-md-3">
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th class="col-md-2">
+                        @Html.DisplayNameFor(model => model.CreatedDate)
+                    </th>
+                    <th class="col-md-2">
+                        @Html.DisplayNameFor(model => model.ModifiedDate)
+                    </th>
+                    <th class="col-md-2">
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            <i class="glyphicon glyphicon-exclamation-sign icon icon-lg
+                               @(item.ImportanceLevel == 1 ? "text-info" :
+                                @item.ImportanceLevel == 2 ? "text-warning" :
+                                "text-danger")"></i>
+                            @item.Name
+                        </td>
+                        <td>
+                            @if (item.Status.Name == "Enabled")
+                            {
+                                <span class="label label-md label-success">Enabled</span>
+                            }
+                            else if (item.Status.Name == "Disabled")
+                            {
+                                <span class="label label-md label-default">Disabled</span>
+                            }
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            @item.CreatedDate.ToString("dd.MMM HH:mm tt")
+                        </td>
+                        <td>
+                            @item.ModifiedDate.ToString("dd.MMM HH:mm tt")
+                        </td>
+                        <td>
+                            <a asp-action="" class="text-success">
+                                <i class="glyphicon glyphicon-share icon icon-lg"></i>
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="text-info">
+                                <i class="glyphicon glyphicon-edit icon icon-lg"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger">
+                                <i class="glyphicon glyphicon-trash icon icon-lg"></i>
+                            </a>
+                            @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-<table class="table forms-table">
-    <thead class="page-header">
-        <tr class="active">
-            <th class="col-md-2">
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th class="col-md-1">
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th class="col-md-3">
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th class="col-md-2">
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th class="col-md-2">
-                @Html.DisplayNameFor(model => model.ModifiedDate)
-            </th>
-            <th class="col-md-2">
-                Actions
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <i class="glyphicon glyphicon-exclamation-sign icon icon-lg
-                       @(item.ImportanceLevel == 1 ? "text-info" :
-                        @item.ImportanceLevel == 2 ? "text-warning" :
-                        "text-danger")"></i>
-                    @item.Name
-                </td>
-                <td>
-                    @if (item.Status == true)
-                    {
-                        <span class="label label-md label-success">Enabled</span>
-                    }
-                    else
-                    {
-                        <span class="label label-md label-danger">Disabled</span>
-                    }
-                </td>
-                <td>
-                    @item.Description
-                </td>
-                <td>
-                    @item.CreatedDate.ToString("dd.MMM HH:mm tt")
-                </td>
-                <td>
-                    @item.ModifiedDate.ToString("dd.MMM HH:mm tt")
-                </td>
-                <td>
-                    <a asp-action="" asp-route-id="@item.Id" class="text-success">
-                        <i class="glyphicon glyphicon-share icon icon-lg"></i>
-                    </a>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="text-info">
-                        <i class="glyphicon glyphicon-edit icon icon-lg"></i>
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="text-danger">
-                        <i class="glyphicon glyphicon-trash icon icon-lg"></i>
-                    </a>
-                    @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<p class="text-center">
-    <a asp-action="Create" class="btn btn-success">
-        <i class="glyphicon glyphicon-plus"></i>
-        Add new template
-    </a>
-</p>
+        <p class="text-center">
+            <a asp-action="Create" class="btn btn-success">
+                <i class="glyphicon glyphicon-plus"></i>
+                Add new template
+            </a>
+        </p>
+    </div>
+</div>

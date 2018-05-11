@@ -21,9 +21,9 @@ namespace EvaluationFormsManager.Controllers
         {
             const int DEFAULT_USER_ID = 1;
             List<Form> forms = formService.GetAllFormsCreatedBy(DEFAULT_USER_ID).ToList();
-            List<EmployeeFormVM> employeeForms = new List<EmployeeFormVM>();
+            List<FormBriefVM> employeeForms = new List<FormBriefVM>();
 
-            forms.ForEach(form => employeeForms.Add(new EmployeeFormVM
+            forms.ForEach(form => employeeForms.Add(new FormBriefVM
             {
                 Id = form.Id,
                 Name = form.Name,

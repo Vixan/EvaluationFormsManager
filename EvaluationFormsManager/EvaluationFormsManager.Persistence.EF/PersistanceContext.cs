@@ -127,7 +127,25 @@ namespace EvaluationFormsManager.Persistence.EF
                     ModifiedDate = new DateTime(2017, 5, 28),
                     Importance = importances.Find(importance => importance.Level == 3),
                     Sections = sections.FindAll(section => section.Name == "Software Engineering"),
-                    Status = true
+                    Status = new Status
+                    {
+                        Name = "Enabled"
+                    }
+                },
+                 new Form
+                {
+                    Name = "Team Lead Evaluation",
+                    Description = "Lorem ipsum dolor sit amet, cum at vide detraxit, solum audire pro eu, in usu disputando dissentiet. Ad duo vide nostro, eos iusto legere officiis te, cum cu putant deleniti comprehensam.",
+                    CreatedBy = 1,
+                    ModifiedBy = 1,
+                    CreatedDate = new DateTime(2018, 1, 10),
+                    ModifiedDate = new DateTime(2018, 1, 10),
+                    Importance = importances.Find(importance => importance.Level == 1),
+                    Sections = sections.FindAll(section => section.Name == "Software Engineering"),
+                    Status = new Status
+                    {
+                        Name = "Disabled"
+                    }
                 }
             };
             #endregion

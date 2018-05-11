@@ -26,7 +26,7 @@ namespace EvaluationFormsManager.Persistence.Memory
 
         public IEnumerable<Form> GetAvailable()
         {
-            return forms.FindAll(form => form.Status == true);
+            return forms.FindAll(form => form.Status.Name == "Enabled");
         }
 
         public IEnumerable<Form> GetByCreatedDate(DateTime createdDate)
@@ -86,7 +86,7 @@ namespace EvaluationFormsManager.Persistence.Memory
 
         public IEnumerable<Form> GetUnavailable()
         {
-            return forms.FindAll(form => form.Status == false);
+            return forms.FindAll(form => form.Status.Name == "Disabled");
         }
 
         public void Save()
