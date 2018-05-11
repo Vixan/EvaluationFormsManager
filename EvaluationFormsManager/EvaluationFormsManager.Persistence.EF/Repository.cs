@@ -16,12 +16,12 @@ namespace EvaluationFormsManager.Persistence.EF
             databaseContext.Set<T>().Remove(entity);
         }
 
-        public IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             return databaseContext.Set<T>();
         }
 
-        public T GetById(int identifier)
+        public virtual T GetById(int identifier)
         {
             return databaseContext.Set<T>().Find(identifier);
         }

@@ -2,6 +2,7 @@
 using EvaluationFormsManager.Models;
 using EvaluationFormsManager.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +12,9 @@ namespace EvaluationFormsManager.Controllers
     {
         private readonly IFormService formService;
 
+        // TODO: Remove DEFAULT_USER_ID
+        private const int DEFAULT_USER_ID = 1;
+
         public FormsController(IFormService formService)
         {
             this.formService = formService;
@@ -19,7 +23,6 @@ namespace EvaluationFormsManager.Controllers
         // GET: Forms
         public ActionResult Index()
         {
-            const int DEFAULT_USER_ID = 1;
             List<Form> forms = formService.GetAllFormsCreatedBy(DEFAULT_USER_ID).ToList();
             List<FormBriefVM> employeeForms = new List<FormBriefVM>();
 
@@ -60,9 +63,45 @@ namespace EvaluationFormsManager.Controllers
         }
 
         // GET: Forms/Edit/5
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            return NotFound();
+            Form form = formService.GetForm(id);
+            List<Status> statuses = formService.GetAllStatuses().ToList();
+            List<Importance> importances = formService.GetAllImportances().ToList();
+
+            List<SelectListItem> statusSelectList = new List<SelectListItem>();
+            List<SelectListItem> importanceSelectList = new List<SelectListItem>();
+
+            if (form == null)
+            {
+                return NotFound();
+            }
+
+            statuses.ForEach(status => statusSelectList.Add(new SelectListItem
+            {
+                Value = status.Id.ToString(),
+                Text = status.Name
+            }));
+
+            importances.ForEach(importance => importanceSelectList.Add(new SelectListItem
+            {
+                Value = importance.Id.ToString(),
+                Text = importance.Name
+            }));
+
+            FormEditVM formEdit = new FormEditVM
+            {
+                Id = form.Id,
+                Name = form.Name,
+                Description = form.Description,
+                StatusId = form.Status.Id,
+                ImportanceId = form.Importance.Id,
+                Sections = form.Sections,
+                StatusList = statusSelectList,
+                ImportanceList = importanceSelectList
+            };
+
+            return View(formEdit);
         }
 
         // POST: Forms/Edit/5

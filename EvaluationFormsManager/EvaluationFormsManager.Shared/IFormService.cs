@@ -26,5 +26,8 @@ namespace EvaluationFormsManager.Shared
         Section GetFormSection(int formIdentifier, int sectionIdentifier);
         IEnumerable<Criteria> GetAllFormSectionCriteria(int formIdentifier, int sectionIdentifier);
         Criteria GetFormSectionCriterion(int formIdentifier, int sectionIdentifier, int criterionIdentifier);
+
+        IEnumerable<Status> GetAllStatuses();
+        IEnumerable<Importance> GetAllImportances();
     }
 }

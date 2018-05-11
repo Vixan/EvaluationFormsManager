@@ -1,4 +1,5 @@
 ﻿using EvaluationFormsManager.Domain;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,15 +24,21 @@ namespace EvaluationFormsManager.Models
         [DataType(DataType.Text)]
         public string Description { get; set; }
 
-        [Display(Name = "Importance Level")]
+        [Display(Name = "Importance")]
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Please specify the form importance")]
-        public int ImportanceLevel { get; set; }
+        public int ImportanceId { get; set; }
+
+        public IEnumerable<SelectListItem> ImportanceList { get; set; }
+        //public IEnumerable<Importance> ImportanceList { get; set; }
 
         [Display(Name = "Status")]
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Please provide the form status")]
-        public Status Status { get; set; }
+        public int StatusId { get; set; }
+
+        public IEnumerable<SelectListItem> StatusList { get; set; }
+        //public IEnumerable<Status> StatusList { get; set; }
 
         [Display(Name = "Sections")]
         public IEnumerable<Section> Sections { get; set; }

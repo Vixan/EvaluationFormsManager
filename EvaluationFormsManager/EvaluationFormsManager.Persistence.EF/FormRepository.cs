@@ -13,6 +13,28 @@ namespace EvaluationFormsManager.Persistence.EF
             databaseContext = context;
         }
 
+        public override IEnumerable<Form> GetAll()
+        {
+            IEnumerable<Form> forms = databaseContext.Forms
+                .Include(form => form.Status)
+                .Include(form => form.Importance)
+                .Include(form => form.Sections);
+
+            return forms;
+        }
+
+        public override Form GetById(int identifier)
+        {
+            Form foundForm = databaseContext.Forms
+                .Where(form => form.Id == identifier)
+                .Include(form => form.Status)
+                .Include(form => form.Importance)
+                .Include(form => form.Sections)
+                .FirstOrDefault();
+
+            return foundForm;
+        }
+
         #region getByUser
 
         public IEnumerable<Form> GetCreatedBy(int employeeIdentifier)

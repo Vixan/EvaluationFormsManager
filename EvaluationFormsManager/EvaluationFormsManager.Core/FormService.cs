@@ -86,6 +86,24 @@ namespace EvaluationFormsManager.Core
             return formRepository.GetModifiedBy(employeeIdentifier);
         }
 
+        public IEnumerable<Importance> GetAllImportances()
+        {
+            IFormRepository formRepository = persistanceContext.GetFormRepository();
+            IEnumerable<Form> forms = formRepository.GetAll();
+            IEnumerable<Importance> importances = forms.ToList().Select(form => form.Importance);
+
+            return importances;
+        }
+
+        public IEnumerable<Status> GetAllStatuses()
+        {
+            IFormRepository formRepository = persistanceContext.GetFormRepository();
+            IEnumerable<Form> forms = formRepository.GetAll();
+            IEnumerable<Status> statuses = forms.ToList().Select(form => form.Status);
+
+            return statuses;
+        }
+
         public IEnumerable<Form> GetAllUnavailableForms()
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
