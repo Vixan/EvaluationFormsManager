@@ -89,8 +89,7 @@ namespace EvaluationFormsManager.Core
         public IEnumerable<Importance> GetAllImportances()
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
-            IEnumerable<Form> forms = formRepository.GetAll();
-            IEnumerable<Importance> importances = forms.ToList().Select(form => form.Importance);
+            IEnumerable<Importance> importances = formRepository.GetImportances();
 
             return importances;
         }
@@ -98,8 +97,7 @@ namespace EvaluationFormsManager.Core
         public IEnumerable<Status> GetAllStatuses()
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
-            IEnumerable<Form> forms = formRepository.GetAll();
-            IEnumerable<Status> statuses = forms.ToList().Select(form => form.Status);
+            IEnumerable<Status> statuses = formRepository.GetStatuses();
 
             return statuses;
         }
@@ -138,7 +136,14 @@ namespace EvaluationFormsManager.Core
             IEnumerable<Form> forms = formRepository.GetAll();
 
             Form formToUpdate = forms.Where(searchedForm => searchedForm.Id == form.Id).FirstOrDefault();
-            formToUpdate = form;
+            formToUpdate.Name = form.Name;
+            formToUpdate.Description = form.Description;
+            formToUpdate.Importance = form.Importance;
+            formToUpdate.Status = form.Status;
+            formToUpdate.ModifiedDate = form.ModifiedDate;
+            formToUpdate.ModifiedBy = form.ModifiedBy;
+
+            formRepository.Save();
         }
     }
 }

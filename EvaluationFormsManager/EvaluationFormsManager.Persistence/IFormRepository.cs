@@ -21,5 +21,8 @@ namespace EvaluationFormsManager.Persistence
         Section GetSection(int formIdentifier, int sectionIdentifier);
         IEnumerable<Criteria> GetSectionCriteria(int formIdentifier, int sectionIdentifier);
         Criteria GetSectionCriterion(int formIdentifier, int sectionIdentifier, int criterionIdentifier);
+
+        IEnumerable<Importance> GetImportances();
+        IEnumerable<Status> GetStatuses();
     }
 }

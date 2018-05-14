@@ -10,7 +10,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Edit">
+        <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <label asp-for="ImportanceId" class="control-label"></label>
-                        <select class="form-control selectpicker importance">
+                        <select asp-for="ImportanceId" class="form-control selectpicker importance">
                             @{
                                 counter = 0;
                                 foreach (var importance in Model.ImportanceList)
@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-md-3 status">
                         <label asp-for="StatusId" class="control-label"></label>
-                        <select class="form-control selectpicker status">
+                        <select asp-for="StatusId" class="form-control selectpicker status">
                             @{
                                 counter = 0;
                                 foreach (var status in Model.StatusList)

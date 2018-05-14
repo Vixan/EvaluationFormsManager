@@ -13,5 +13,7 @@ namespace EvaluationFormsManager.Persistence.EF
         }
 
         public DbSet<EvaluationFormsManager.Domain.Form> Forms { get; set; }
+        public DbSet<EvaluationFormsManager.Domain.Importance> Importances { get; set; }
+        public DbSet<EvaluationFormsManager.Domain.Status> Statuses { get; set; }
     }
 }

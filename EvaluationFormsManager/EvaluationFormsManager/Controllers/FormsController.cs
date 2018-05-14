@@ -3,6 +3,7 @@ using EvaluationFormsManager.Models;
 using EvaluationFormsManager.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -63,6 +64,7 @@ namespace EvaluationFormsManager.Controllers
         }
 
         // GET: Forms/Edit/5
+        [Route("Form/{id}/Edit", Name = "FormEdit")]
         public IActionResult Edit(int id)
         {
             Form form = formService.GetForm(id);
@@ -104,12 +106,30 @@ namespace EvaluationFormsManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Name,Description,Status,CreatedBy,ModifiedBy,CreatedDate,ModifiedDate")] Form form)
+        [Route("Form/{id}/Edit", Name = "FormEdit")]
+        public IActionResult Edit(int id, FormEditVM form)
         {
-            return NotFound(form);
+            List<Status> statuses = formService.GetAllStatuses().ToList();
+            List<Importance> importances = formService.GetAllImportances().ToList();
+
+            Form editedForm = new Form
+            {
+                Id = form.Id,
+                Name = form.Name,
+                Description = form.Description,
+                Importance = importances.Find(importance => importance.Id == form.ImportanceId),
+                Status = statuses.Find(status => status.Id == form.StatusId),
+                ModifiedDate = DateTime.Now,
+                ModifiedBy = DEFAULT_USER_ID
+            };
+
+            formService.UpdateForm(editedForm);
+
+            return RedirectToAction("Index");
         }
 
         // GET: Forms/Delete/5
+        [Route("Form/{id}/Delete", Name = "FormDelete")]
         public IActionResult Delete(int? id)
         {
             return NotFound();

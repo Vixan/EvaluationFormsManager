@@ -140,6 +140,16 @@ namespace EvaluationFormsManager.Persistence.EF
             return formSections;
         }
 
+        public IEnumerable<Importance> GetImportances()
+        {
+            return databaseContext.Importances;
+        }
+
+        public IEnumerable<Status> GetStatuses()
+        {
+            return databaseContext.Statuses;
+        }
+
         #endregion
     }
 }

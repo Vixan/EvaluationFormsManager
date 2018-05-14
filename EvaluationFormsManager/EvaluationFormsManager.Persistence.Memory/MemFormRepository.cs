@@ -54,6 +54,11 @@ namespace EvaluationFormsManager.Persistence.Memory
             return forms.FindAll(form => form.CreatedBy == employeeIdentifier);
         }
 
+        public IEnumerable<Importance> GetImportances()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Form> GetModifiedBy(int employeeIdentifier)
         {
             return forms.FindAll(form => form.ModifiedBy == employeeIdentifier);
@@ -82,6 +87,11 @@ namespace EvaluationFormsManager.Persistence.Memory
         {
             return forms.Find(form => form.Id == formIdentifier)
                 .Sections.Where(section => section.EvaluationScale.Id == evaluationScaleIdentifier);
+        }
+
+        public IEnumerable<Status> GetStatuses()
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Form> GetUnavailable()
