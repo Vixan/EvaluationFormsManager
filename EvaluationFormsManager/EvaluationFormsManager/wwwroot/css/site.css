@@ -26,6 +26,14 @@
     margin: 15px;
 }
 
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
 /* Bootstrap custom label sizes */
 
 .label.label-sm {
@@ -44,7 +52,7 @@
     margin: 0 5px;
 }
 
-a:link{
+a:link {
     text-decoration: none;
 }
 
@@ -57,10 +65,10 @@ a:link{
     margin-top: -0.125em;
 }
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
+.textarea.textarea--vertical {
+    resize: vertical;
+}
+
+.btn.btn--submit {
+    margin-right: 10px;
 }

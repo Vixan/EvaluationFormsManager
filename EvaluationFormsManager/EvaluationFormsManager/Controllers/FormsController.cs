@@ -69,25 +69,10 @@ namespace EvaluationFormsManager.Controllers
             List<Status> statuses = formService.GetAllStatuses().ToList();
             List<Importance> importances = formService.GetAllImportances().ToList();
 
-            List<SelectListItem> statusSelectList = new List<SelectListItem>();
-            List<SelectListItem> importanceSelectList = new List<SelectListItem>();
-
             if (form == null)
             {
                 return NotFound();
             }
-
-            statuses.ForEach(status => statusSelectList.Add(new SelectListItem
-            {
-                Value = status.Id.ToString(),
-                Text = status.Name
-            }));
-
-            importances.ForEach(importance => importanceSelectList.Add(new SelectListItem
-            {
-                Value = importance.Id.ToString(),
-                Text = importance.Name
-            }));
 
             FormEditVM formEdit = new FormEditVM
             {
@@ -97,8 +82,18 @@ namespace EvaluationFormsManager.Controllers
                 StatusId = form.Status.Id,
                 ImportanceId = form.Importance.Id,
                 Sections = form.Sections,
-                StatusList = statusSelectList,
-                ImportanceList = importanceSelectList
+                StatusList = statuses,
+                ImportanceList = importances,
+                ImportanceColors = new List<string>
+                {
+                    "text-danger",
+                    "text-info"
+                },
+                StatusColors = new List<string>
+                {
+                    "text-success",
+                    "text-default"
+                }
             };
 
             return View(formEdit);
