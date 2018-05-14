@@ -30,6 +30,14 @@ namespace EvaluationFormsManager.Core
             formRepository.Delete(form);
         }
 
+        public void DeleteFormSection(int formIdentifier, Section section)
+        {
+            IFormRepository formRepository = persistanceContext.GetFormRepository();
+            Form form = formRepository.GetById(formIdentifier);
+
+            form.Sections.Remove(section);
+        }
+
         public IEnumerable<Form> GetAllAVailableForms()
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();

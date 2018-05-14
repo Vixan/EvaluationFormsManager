@@ -11,9 +11,10 @@ using System;
 namespace EvaluationFormsManager.Persistence.EF.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20180514100054_AddSectionsAndCriteria")]
+    partial class AddSectionsAndCriteria
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +54,7 @@ namespace EvaluationFormsManager.Persistence.EF.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EvaluationScales");
+                    b.ToTable("EvaluationScale");
                 });
 
             modelBuilder.Entity("EvaluationFormsManager.Domain.EvaluationScaleOption", b =>
@@ -73,7 +74,7 @@ namespace EvaluationFormsManager.Persistence.EF.Migrations
 
                     b.HasIndex("EvaluationScaleId");
 
-                    b.ToTable("EvaluationScaleOptions");
+                    b.ToTable("EvaluationScaleOption");
                 });
 
             modelBuilder.Entity("EvaluationFormsManager.Domain.Form", b =>
@@ -145,7 +146,7 @@ namespace EvaluationFormsManager.Persistence.EF.Migrations
 
                     b.HasIndex("FormId");
 
-                    b.ToTable("Sections");
+                    b.ToTable("Section");
                 });
 
             modelBuilder.Entity("EvaluationFormsManager.Domain.Status", b =>

@@ -24,5 +24,6 @@ namespace EvaluationFormsManager.Persistence
 
         IEnumerable<Importance> GetImportances();
         IEnumerable<Status> GetStatuses();
+        IEnumerable<Section> GetSections();
     }
 }

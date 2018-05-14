@@ -13,6 +13,8 @@ namespace EvaluationFormsManager.Shared
         void DeleteForm(Form form);
         void UpdateForm(Form form);
 
+        void DeleteFormSection(int formIdentifier, Section section);
+
         IEnumerable<Form> GetAllAVailableForms();
         IEnumerable<Form> GetAllUnavailableForms();
 

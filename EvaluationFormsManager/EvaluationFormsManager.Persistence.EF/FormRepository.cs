@@ -150,6 +150,11 @@ namespace EvaluationFormsManager.Persistence.EF
             return databaseContext.Statuses;
         }
 
+        public IEnumerable<Section> GetSections()
+        {
+            return databaseContext.Sections;
+        }
+
         #endregion
     }
 }
