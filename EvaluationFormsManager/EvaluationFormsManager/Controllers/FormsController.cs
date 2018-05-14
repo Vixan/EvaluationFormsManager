@@ -48,9 +48,30 @@ namespace EvaluationFormsManager.Controllers
         }
 
         // GET: Forms/Create
+        [Route("Form/Create", Name = "Create")]
         public IActionResult Create()
         {
-            return NotFound();
+            List<Status> statuses = formService.GetAllStatuses().ToList();
+            List<Importance> importances = formService.GetAllImportances().ToList();
+
+            FormCreateVM formCreate = new FormCreateVM
+            {
+                ImportanceList = importances,
+                StatusList = statuses,
+                ImportanceColors = new List<string>
+                {
+                    "text-danger",
+                    "text-info"
+                },
+                StatusColors = new List<string>
+                {
+                    "text-success",
+                    "text-default"
+                },
+                Sections = new List<Section>()
+            };
+
+            return View(formCreate);
         }
 
         // POST: Forms/Create

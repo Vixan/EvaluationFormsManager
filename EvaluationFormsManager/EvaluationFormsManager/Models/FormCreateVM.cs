@@ -4,13 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EvaluationFormsManager.Models
 {
-    public class FormEditVM
+    public class FormCreateVM
     {
-        [Display(Name = "Identifier")]
-        [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Please provide the form identifier")]
-        public int Id { get; set; }
-
         [Display(Name = "Name")]
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Please provide the form name")]
