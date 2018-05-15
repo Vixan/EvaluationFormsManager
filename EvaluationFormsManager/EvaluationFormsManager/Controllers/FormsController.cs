@@ -2,7 +2,6 @@
 using EvaluationFormsManager.Models;
 using EvaluationFormsManager.Shared;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +47,7 @@ namespace EvaluationFormsManager.Controllers
         }
 
         // GET: Forms/Create
-        [Route("Form/Create", Name = "Create")]
+        [Route("Form/Create", Name = "FormCreate")]
         public IActionResult Create()
         {
             List<Status> statuses = formService.GetAllStatuses().ToList();
@@ -79,9 +78,27 @@ namespace EvaluationFormsManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Name,Description,Status,CreatedBy,ModifiedBy,CreatedDate,ModifiedDate")] Form form)
+        [Route("Form/Create", Name = "FormCreate")]
+        public IActionResult Create(FormCreateVM form)
         {
-            return NotFound(form);
+            List<Status> statuses = formService.GetAllStatuses().ToList();
+            List<Importance> importances = formService.GetAllImportances().ToList();
+
+            Form createdForm = new Form
+            {
+                Name = form.Name,
+                Description = form.Description,
+                Importance = importances.Find(importance => importance.Id == form.ImportanceId),
+                Status = statuses.Find(status => status.Id == form.StatusId),
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                CreatedBy = DEFAULT_USER_ID,
+                ModifiedBy = DEFAULT_USER_ID
+            };
+
+            formService.AddForm(createdForm);
+
+            return RedirectToAction("Index");
         }
 
         // GET: Forms/Edit/5
@@ -151,14 +168,18 @@ namespace EvaluationFormsManager.Controllers
 
         // GET: Forms/Delete/5
         [Route("Form/{id}/Delete", Name = "FormDelete")]
-        public IActionResult Delete(int? id)
+        public IActionResult Delete(int id)
         {
-            return NotFound();
+            Form formToDelete = formService.GetForm(id);
+            formService.DeleteForm(formToDelete);
+
+            return RedirectToAction("Index");
         }
 
         // POST: Forms/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Form/{id}/Delete", Name = "FormDelete")]
         public IActionResult DeleteConfirmed(int id)
         {
             return RedirectToAction(nameof(Index));

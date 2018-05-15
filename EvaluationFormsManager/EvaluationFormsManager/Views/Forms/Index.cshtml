@@ -1,8 +1,10 @@
-﻿@model IEnumerable<EvaluationFormsManager.Models.FormBriefVM>
+﻿@model IEnumerable<FormBriefVM>
 
 @{
     ViewData["Title"] = "Index";
 }
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 
 <h2>Forms</h2>
 
@@ -68,10 +70,9 @@
                             <a asp-route="FormEdit" asp-route-id="@item.Id" class="text-info">
                                 <i class="glyphicon glyphicon-edit icon icon-lg"></i>
                             </a>
-                            <a asp-route="FormDelete" asp-route-id="@item.Id" class="text-danger">
+                            <a asp-route="FormDelete" asp-route-id="@item.Id" class="text-danger confirm-delete" onclick="return confirm('Are you sure ?');">
                                 <i class="glyphicon glyphicon-trash icon icon-lg"></i>
                             </a>
-                            @*<a asp-action="Details" asp-route-id="@item.Id">Details</a>*@
                         </td>
                     </tr>
                 }
