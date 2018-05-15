@@ -9,7 +9,7 @@ namespace EvaluationFormsManager.Domain
         public string Name { get; set; }
         public string Description { get; set; }
         public virtual Importance Importance { get; set; }
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
         public virtual ICollection<Section> Sections { get; set; }
 
         public int CreatedBy { get; set; }

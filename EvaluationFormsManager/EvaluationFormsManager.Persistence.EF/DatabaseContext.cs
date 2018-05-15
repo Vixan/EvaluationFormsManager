@@ -1,5 +1,4 @@
-﻿using EvaluationFormsManager.Domain;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace EvaluationFormsManager.Persistence.EF
 {
@@ -10,6 +9,11 @@ namespace EvaluationFormsManager.Persistence.EF
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)
         {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
         }
 
         public DbSet<EvaluationFormsManager.Domain.Form> Forms { get; set; }
