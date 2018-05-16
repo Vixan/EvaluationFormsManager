@@ -53,7 +53,7 @@ namespace EvaluationFormsManager.Controllers
             List<Status> statuses = formService.GetAllStatuses().ToList();
             List<Importance> importances = formService.GetAllImportances().ToList();
 
-            FormCreateVM formCreate = new FormCreateVM
+            FormEditVM formCreate = new FormEditVM
             {
                 ImportanceList = importances,
                 StatusList = statuses,
@@ -79,7 +79,7 @@ namespace EvaluationFormsManager.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Form/Create", Name = "FormCreate")]
-        public IActionResult Create(FormCreateVM form)
+        public IActionResult Create(FormEditVM form)
         {
             List<Status> statuses = formService.GetAllStatuses().ToList();
             List<Importance> importances = formService.GetAllImportances().ToList();

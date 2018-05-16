@@ -2,8 +2,6 @@
 
 @{
     ViewData["Title"] = "Edit";
-
-    int counter = 0;
 }
 
 <h2>Edit Form</h2>
@@ -13,108 +11,9 @@
         <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-3">
-                        <label asp-for="ImportanceId" class="control-label"></label>
-                        <select asp-for="ImportanceId" class="form-control selectpicker importance">
-                            @{
-                                counter = 0;
-                                foreach (var importance in Model.ImportanceList)
-                                {
-                                    if (counter > Model.ImportanceColors.Count)
-                                    {
-                                        counter = 0;
-                                    }
-                                    <option selected="@(importance.Id == Model.ImportanceId ? "selected" : null)"
-                                            value="@importance.Id"
-                                            data-content="<i class='glyphicon glyphicon-exclamation-sign @(Model.ImportanceColors.ElementAt(counter++))'></i> @importance.Name">
-                                        @importance.Name
-                                    </option>
-                                }
-                            }
-                        </select>
-                    </div>
-                    <div class="col-md-3 status">
-                        <label asp-for="StatusId" class="control-label"></label>
-                        <select asp-for="StatusId" class="form-control selectpicker status">
-                            @{
-                                counter = 0;
-                                foreach (var status in Model.StatusList)
-                                {
-                                    if (counter > Model.StatusColors.Count)
-                                    {
-                                        counter = 0;
-                                    }
-                                    <option selected="@(status.Id == Model.StatusId ? "selected" : null)"
-                                            value="@status.Id"
-                                            data-content="<i class='glyphicon glyphicon-stop @(Model.StatusColors.ElementAt(counter++))'></i> @status.Name">
-                                        @status.Name
-                                    </option>
-                                }
-                            }
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control textarea textarea--vertical" rows="4"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <label asp-for="Sections" class="control-label"></label>
-                    </div>
-                    <div>
-                        <table class="table">
-                            <thead class="page-header">
-                                <tr class="active">
-                                    <th class="text-center">#</th>
-                                    <th>Name</th>
-                                    <th>ModifiedBy</th>
-                                    <th>ModifiedDate</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    counter = 1;
-                                    foreach (var formSection in Model.Sections)
-                                    {
-                                        <tr>
-                                            <td class="text-center">@(counter++)</td>
-                                            <td>@formSection.Name</td>
-                                            <td>@formSection.ModifiedBy</td>
-                                            <td>@formSection.ModifiedDate.ToString("dd.MMM HH:mm tt")</td>
-                                            <td>
-                                                <a asp-route="EditSection" asp-route-id="@formSection.Id" class="text-info">
-                                                    <i class="glyphicon glyphicon-edit icon icon-lg"></i>
-                                                </a>
-                                                <a asp-route="DeleteSection" asp-route-id="@formSection.Id" class="text-danger">
-                                                    <i class="glyphicon glyphicon-trash icon icon-lg"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                        <div class="panel-body text-center">
-                            <a asp-action="CreateSection" class="btn btn-success">
-                                <i class="glyphicon glyphicon-plus"></i>
-                                Add Section
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+           @await Html.PartialAsync("_FormEditPartial", Model)
+
             <div class="form-group text-right">
                 <input type="submit" value="Save Template" class="btn btn-primary btn--submit" />
                 <a asp-action="Index" class="btn btn-default">Cancel</a>
