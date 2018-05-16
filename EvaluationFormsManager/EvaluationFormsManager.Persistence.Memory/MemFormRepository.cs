@@ -83,6 +83,11 @@ namespace EvaluationFormsManager.Persistence.Memory
                 .Criteria.Where(criterion => criterion.Id == criterionIdentifier).FirstOrDefault();
         }
 
+        public IEnumerable<Section> GetSections()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Section> GetSectionsByEvaluationScale(int formIdentifier, int evaluationScaleIdentifier)
         {
             return forms.Find(form => form.Id == formIdentifier)

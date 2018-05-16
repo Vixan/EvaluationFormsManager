@@ -6,12 +6,12 @@ namespace EvaluationFormsManager.Persistence.EF
     {
         protected DatabaseContext databaseContext = null;
 
-        public void Add(T entity)
+        public virtual void Add(T entity)
         {
             databaseContext.Set<T>().Add(entity);
         }
 
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             databaseContext.Set<T>().Remove(entity);
         }
@@ -26,7 +26,7 @@ namespace EvaluationFormsManager.Persistence.EF
             return databaseContext.Set<T>().Find(identifier);
         }
 
-        public void Save()
+        public virtual void Save()
         {
             databaseContext.SaveChanges();
         }

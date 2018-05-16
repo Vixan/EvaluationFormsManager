@@ -2,6 +2,7 @@
 using EvaluationFormsManager.Models;
 using EvaluationFormsManager.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -183,6 +184,37 @@ namespace EvaluationFormsManager.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [Route("Forms/{formId}/Sections/Create")]
+        public IActionResult CreateSection(int formId)
+        {
+            CreateSectionVM model = new CreateSectionVM()
+            {
+                UserId = DEFAULT_USER_ID,
+                Criteria = new List<Criteria>()
+            };
+
+            List<Importance> importances = formService.GetAllImportances().ToList();
+            List<SelectListItem> importanceSelectList = new List<SelectListItem>();
+            importances.ForEach(importance => importanceSelectList.Add(new SelectListItem
+            {
+                Value = importance.Id.ToString(),
+                Text = importance.Name
+            }));
+            model.ImportanceList = importanceSelectList;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("Forms/{formId}/Sections/Create")]
+        public IActionResult CreateSection(int formId, CreateSectionVM sectionModel)
+        {
+
+
+            return NotFound();
         }
 
         private bool FormExists(int id)
