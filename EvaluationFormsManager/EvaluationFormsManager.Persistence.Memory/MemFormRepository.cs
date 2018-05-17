@@ -91,7 +91,7 @@ namespace EvaluationFormsManager.Persistence.Memory
         public IEnumerable<Section> GetSectionsByEvaluationScale(int formIdentifier, int evaluationScaleIdentifier)
         {
             return forms.Find(form => form.Id == formIdentifier)
-                .Sections.Where(section => section.EvaluationScale.Id == evaluationScaleIdentifier);
+                .Sections.Where(section => (int)section.EvaluationScale == evaluationScaleIdentifier);
         }
 
         public IEnumerable<Status> GetStatuses()

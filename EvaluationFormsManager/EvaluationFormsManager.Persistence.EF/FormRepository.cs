@@ -22,7 +22,8 @@ namespace EvaluationFormsManager.Persistence.EF
         public override Form GetById(int identifier)
         {
             Form foundForm = databaseContext.Forms
-                .FirstOrDefault();
+                .ToList()
+                .Find(form => form.Id == identifier);
 
             return foundForm;
         }
@@ -156,7 +157,7 @@ namespace EvaluationFormsManager.Persistence.EF
 
             foreach (var section in form.Sections)
             {
-                if (section.EvaluationScale.Id == evaluationScaleIdentifier)
+                if ((int)section.EvaluationScale == evaluationScaleIdentifier)
                 {
                     formSections.Add(section);
                 }

@@ -62,36 +62,6 @@ namespace EvaluationFormsManager.Persistence.EF
                     Level = 4
                 }
             };
-            List<EvaluationScaleOption> evaluationScaleOptions = new List<EvaluationScaleOption>
-            {
-                new EvaluationScaleOption
-                {
-                    Name = "Like",
-                    Description = "Caesar says yes.",
-                    Value = 1
-                },
-                new EvaluationScaleOption
-                {
-                    Name = "So-so",
-                    Description = "Caesar says nothing.",
-                    Value = 2
-                },
-                new EvaluationScaleOption
-                {
-                    Name = "Dislike",
-                    Description = "You're dead.",
-                    Value = 3
-                }
-            };
-            List<EvaluationScale> evaluationScales = new List<EvaluationScale>
-            {
-                new EvaluationScale
-                {
-                    Name = "Caesar Scale",
-                    Description = " Cu mel veri brute voluptua, ex dicit definitionem signiferumque eam.",
-                    EvaluationScaleOptions = evaluationScaleOptions
-                }
-            };
             List<Criteria> criteria = new List<Criteria>
             {
                 new Criteria
@@ -111,7 +81,7 @@ namespace EvaluationFormsManager.Persistence.EF
                     CreatedBy = 1,
                     ModifiedBy = 1,
                     ModifiedDate = new DateTime(2017, 5, 28),
-                    EvaluationScale = evaluationScales.Find(scale => scale.Name == "Caesar Scale"),
+                    EvaluationScale = EvaluationScale.Agreement,
                     Criteria = criteria.FindAll(crit => crit.Name == "Naming stuff")
                 }
             };

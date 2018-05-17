@@ -1,11 +1,14 @@
 ﻿using EvaluationFormsManager.Domain;
+using EvaluationFormsManager.Extensions;
 using EvaluationFormsManager.Models;
 using EvaluationFormsManager.Shared;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 
 namespace EvaluationFormsManager.Controllers
 {
@@ -71,6 +74,8 @@ namespace EvaluationFormsManager.Controllers
                 Sections = new List<Section>()
             };
 
+            HttpContext.Session.SetObjectAsJson("Form", formCreate);
+
             return View(formCreate);
         }
 
@@ -85,8 +90,9 @@ namespace EvaluationFormsManager.Controllers
             List<Status> statuses = formService.GetAllStatuses().ToList();
             List<Importance> importances = formService.GetAllImportances().ToList();
 
-            Form createdForm = new Form
-            {
+            Form createdForm = HttpContext.Session.GetObjectFromJson<Form>("Form");
+
+            createdForm = new Form {
                 Name = form.Name,
                 Description = form.Description,
                 Importance = importances.Find(importance => importance.Id == form.ImportanceId),

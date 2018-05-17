@@ -30,6 +30,13 @@ namespace EvaluationFormsManager
             services.AddScoped<IFormService, FormService>();
 
             services.AddMvc();
+
+            // Adds a default in-memory implementation of IDistributedCache
+            services.AddDistributedMemoryCache(); 
+            services.AddSession(sessionOptions => 
+            {
+                sessionOptions.Cookie.Name = "EvaluationFormsManager.Session";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +53,9 @@ namespace EvaluationFormsManager
             }
 
             app.UseStaticFiles();
+
+            // IMPORTANT: This session call MUST go before UseMvc()
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
