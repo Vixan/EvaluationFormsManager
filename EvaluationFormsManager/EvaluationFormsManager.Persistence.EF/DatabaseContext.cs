@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
+using EvaluationFormsManager.Domain;
 namespace EvaluationFormsManager.Persistence.EF
 {
     public class DatabaseContext : DbContext
@@ -16,12 +16,10 @@ namespace EvaluationFormsManager.Persistence.EF
             optionsBuilder.UseLazyLoadingProxies();
         }
 
-        public DbSet<EvaluationFormsManager.Domain.Form> Forms { get; set; }
-        public DbSet<EvaluationFormsManager.Domain.Importance> Importances { get; set; }
-        public DbSet<EvaluationFormsManager.Domain.Status> Statuses { get; set; }
-        public DbSet<EvaluationFormsManager.Domain.Section> Sections { get; set; }
-        public DbSet<EvaluationFormsManager.Domain.Criteria> Criteria { get; set; }
-        public DbSet<EvaluationFormsManager.Domain.EvaluationScale> EvaluationScales { get; set; }
-        public DbSet<EvaluationFormsManager.Domain.EvaluationScaleOption> EvaluationScaleOptions { get; set; }
+        public DbSet<Form> Forms { get; set; }
+        public DbSet<Importance> Importances { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+        public DbSet<Section> Sections { get; set; }
+        public DbSet<Criteria> Criteria { get; set; }
     }
 }

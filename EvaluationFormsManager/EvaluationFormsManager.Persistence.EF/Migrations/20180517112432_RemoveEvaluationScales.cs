@@ -1,62 +1,38 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace EvaluationFormsManager.Persistence.EF.Migrations
 {
-    public partial class DataContext : Migration
+    public partial class RemoveEvaluationScales : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "EvaluationScale",
+                name: "Importances",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EvaluationScale", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Importance",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Level = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Importance", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EvaluationScaleOption",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    EvaluationScaleId = table.Column<int>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    Value = table.Column<int>(nullable: false)
+                    Level = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EvaluationScaleOption", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EvaluationScaleOption_EvaluationScale_EvaluationScaleId",
-                        column: x => x.EvaluationScaleId,
-                        principalTable: "EvaluationScale",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                    table.PrimaryKey("PK_Importances", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Statuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Statuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,51 +41,51 @@ namespace EvaluationFormsManager.Persistence.EF.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedBy = table.Column<int>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     ImportanceId = table.Column<int>(nullable: true),
+                    StatusId = table.Column<int>(nullable: true),
+                    CreatedBy = table.Column<int>(nullable: false),
                     ModifiedBy = table.Column<int>(nullable: false),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Status = table.Column<bool>(nullable: false)
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    ModifiedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Forms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Forms_Importance_ImportanceId",
+                        name: "FK_Forms_Importances_ImportanceId",
                         column: x => x.ImportanceId,
-                        principalTable: "Importance",
+                        principalTable: "Importances",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Forms_Statuses_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "Statuses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Section",
+                name: "Sections",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    EvaluationScaleId = table.Column<int>(nullable: true),
-                    FormId = table.Column<int>(nullable: true),
-                    ModifiedBy = table.Column<int>(nullable: false),
+                    EvaluationScale = table.Column<int>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    CreatedBy = table.Column<int>(nullable: false),
+                    ModifiedBy = table.Column<int>(nullable: false),
+                    FormId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Section", x => x.Id);
+                    table.PrimaryKey("PK_Sections", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Section_EvaluationScale_EvaluationScaleId",
-                        column: x => x.EvaluationScaleId,
-                        principalTable: "EvaluationScale",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Section_Forms_FormId",
+                        name: "FK_Sections_Forms_FormId",
                         column: x => x.FormId,
                         principalTable: "Forms",
                         principalColumn: "Id",
@@ -122,19 +98,19 @@ namespace EvaluationFormsManager.Persistence.EF.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
                     CreatedBy = table.Column<int>(nullable: false),
                     ModifiedBy = table.Column<int>(nullable: false),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
                     SectionId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Criteria", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Criteria_Section_SectionId",
+                        name: "FK_Criteria_Sections_SectionId",
                         column: x => x.SectionId,
-                        principalTable: "Section",
+                        principalTable: "Sections",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -145,23 +121,18 @@ namespace EvaluationFormsManager.Persistence.EF.Migrations
                 column: "SectionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EvaluationScaleOption_EvaluationScaleId",
-                table: "EvaluationScaleOption",
-                column: "EvaluationScaleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Forms_ImportanceId",
                 table: "Forms",
                 column: "ImportanceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Section_EvaluationScaleId",
-                table: "Section",
-                column: "EvaluationScaleId");
+                name: "IX_Forms_StatusId",
+                table: "Forms",
+                column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Section_FormId",
-                table: "Section",
+                name: "IX_Sections_FormId",
+                table: "Sections",
                 column: "FormId");
         }
 
@@ -171,19 +142,16 @@ namespace EvaluationFormsManager.Persistence.EF.Migrations
                 name: "Criteria");
 
             migrationBuilder.DropTable(
-                name: "EvaluationScaleOption");
-
-            migrationBuilder.DropTable(
-                name: "Section");
-
-            migrationBuilder.DropTable(
-                name: "EvaluationScale");
+                name: "Sections");
 
             migrationBuilder.DropTable(
                 name: "Forms");
 
             migrationBuilder.DropTable(
-                name: "Importance");
+                name: "Importances");
+
+            migrationBuilder.DropTable(
+                name: "Statuses");
         }
     }
 }
