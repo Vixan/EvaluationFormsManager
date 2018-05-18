@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "CreateSection";
-    int counter = 1;
 }
 
 <h2>Create Section</h2>
@@ -51,21 +50,19 @@
                             @foreach (var criterion in Model.Criteria)
                             {
                                 <tr>
-                                    <td>@counter</td>
-                                    <td>@criterion.Name</td>
+                                    <td></td>
+                                    <td class="criterion-name">@criterion.Name</td>
                                     <td>@criterion.ModifiedBy</td>
                                     <td>@criterion.ModifiedDate</td>
                                     <td>
-                                        <a asp-action="" asp-route-id="@criterion.Id" class="text-info">
+                                        <a asp-action="" asp-route-id="" class="text-info">
                                             <i class="glyphicon glyphicon-edit icon icon-lg"></i>
                                         </a>
-                                        <a asp-action="" asp-route-id="@criterion.Id" class="text-danger">
+                                        <a asp-action="" asp-route-id="" class="text-danger">
                                             <i class="glyphicon glyphicon-trash icon icon-lg"></i>
                                         </a>
                                     </td>
                                 </tr>
-
-                                counter++;
                             }
                     </tbody>
                 </table>
@@ -82,6 +79,7 @@
 
         </form>
 
+        @await Html.PartialAsync("_Criteria")
         
     </div>
 </div>
@@ -93,29 +91,106 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
     <script type="text/javascript">
-        $(function () {
-            $('#addCriterion').click(function () {
-                @{
-                    //var newCriterion = Model.CreateCriteria();
-                }
+
+        function createCriteria(criterionJson) {
+            $('#criteriaTableBody').html("");
+            let criterionObjects = JSON.parse(criterionJson);
+
+            for (let iterator = 0; iterator < criterionObjects.length; iterator++) {
                 const newCriterion = $(
                     `<tr>
-                       <td>counter</td>
-                        <td>newCriterion.Name</td>
-                        <td>newCriterion.ModifiedBy</td>
-                        <td>newCriterion.ModifiedDate</td>
+                        <td>${iterator + 1}</td >
+                        <td class="criterion-name">${criterionObjects[iterator].Name}</td >
+                        <td>${criterionObjects[iterator].ModifiedBy}</td>
+                        <td>${criterionObjects[iterator].ModifiedDate}</td>
                         <td>
-                            <a href="Url.Action("Index","Home")" class="text-info">
+                            <a href="#" onclick="enterEditMode(event, ${iterator})" class="text-info"  data-toggle="modal" data-target="#myModal">
                                 <i class="glyphicon glyphicon-edit icon icon-lg"></i>
                             </a>
-                            <a href="" class="text-danger">
+                            <a href="#" onclick="deleteCriterion(event, ${iterator})" class="text-danger">
                                 <i class="glyphicon glyphicon-trash icon icon-lg"></i>
                             </a>
                         </td>
                     </tr>`);
 
-                //$('#criteriaTableBody').append(newCriterion);
+                $('#criteriaTableBody').append(newCriterion);
+            }
+        }
+
+        function clearModalForm() {
+            $('#modalTitle').html('');
+            $('#criterionName').val('');
+        }
+
+        function deleteCriterion(event, index) {
+            event.preventDefault();
+
+            $.post('/Forms/DeleteCriteria', { index: index }, function (criterionJson) {
+
+                if (criterionJson != "") {
+                    createCriteria(criterionJson);
+                }
             });
+        }
+
+        function enterEditMode(event, index) {
+            event.preventDefault();
+            $('#modalTitle').html("Edit Criterion");
+            $('#myModal').data("index", index);
+
+            const name = $(`#criteriaTableBody tr:eq(${index}) td.criterion-name`).html();
+            $('#criterionName').val(name);
+        }
+
+        function createCriterion() {
+            console.log("create");
+
+            let data = $('#criterionName').val();
+
+            $.post('/Forms/CreateCriteria', { name: data }, function (criterionJson) {
+                if (criterionJson != "") {
+                    createCriteria(criterionJson);
+                }
+
+                clearModalForm();
+            });
+
+        }
+
+        function editCriterion() {
+            console.log("edit");
+
+            let data = $('#criterionName').val();
+            let index = $('#myModal').data("index");
+
+            $.post('/Forms/EditCriteria', { index: index, name: data }, function (criterionJson) {
+                if (criterionJson != "") {
+                    createCriteria(criterionJson);
+                }
+
+                clearModalForm();
+            });
+        }
+
+        $(function () {
+
+            $('#addCriterion').click(function () {
+                $('#modalTitle').html("Create Criterion");
+            });
+
+            $('#modalClose').click(function () {
+                clearModalForm();
+            });
+
+            $('#saveCriterion').click(function () {
+                let mode = $('#modalTitle').html();
+
+                if (mode == "Create Criterion")
+                    createCriterion();
+                else
+                    editCriterion();
+            });
+
         })
     </script>
 }

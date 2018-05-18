@@ -5,6 +5,7 @@ using EvaluationFormsManager.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace EvaluationFormsManager.Controllers
     public class FormsController : Controller
     {
         private readonly IFormService formService;
+        private static List<Criteria> formCriteria = new List<Criteria>();
 
         // TODO: Remove DEFAULT_USER_ID
         private const int DEFAULT_USER_ID = 1;
@@ -221,6 +223,52 @@ namespace EvaluationFormsManager.Controllers
 
 
             return NotFound();
+        }
+
+        [HttpPost]
+        [Route("Forms/CreateCriteria")]
+        public string CreateCriteria(string name)
+        {
+            if (name == null)
+                return "";
+
+            Criteria criteria = new Criteria()
+            {
+                Name = name,
+                CreatedBy = DEFAULT_USER_ID,
+                ModifiedBy = DEFAULT_USER_ID,
+                ModifiedDate = DateTime.Now
+            };
+
+            formCriteria.Add(criteria);
+
+            return JsonConvert.SerializeObject(formCriteria);
+        }
+
+        [HttpPost]
+        [Route("Forms/DeleteCriteria")]
+        public string DeleteCriteria(int index)
+        {
+            if (index < formCriteria.Count && index >= 0)
+            {
+                    formCriteria.RemoveAt(index);
+            }
+
+            return JsonConvert.SerializeObject(formCriteria);
+        }
+
+        [HttpPost]
+        [Route("Forms/EditCriteria")]
+        public string EditCriteria(int index, string name)
+        {
+            if (index < formCriteria.Count && index >= 0)
+            {
+                formCriteria[index].Name = name;
+                formCriteria[index].ModifiedBy = DEFAULT_USER_ID;
+                formCriteria[index].ModifiedDate = DateTime.Now;
+            }
+
+            return JsonConvert.SerializeObject(formCriteria);
         }
 
         private bool FormExists(int id)

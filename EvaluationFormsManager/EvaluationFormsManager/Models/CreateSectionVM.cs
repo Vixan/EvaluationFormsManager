@@ -30,21 +30,5 @@ namespace EvaluationFormsManager.Models
         public int ImportanceId { get; set; }
 
         public IEnumerable<SelectListItem> ImportanceList { get; set; }
-
-
-        public Criteria CreateCriteria()
-        {
-            Criteria newCriteria = new Criteria()
-            {
-                Name = "Enter name here",
-                CreatedBy = UserId,
-                ModifiedBy = UserId,
-                ModifiedDate = DateTime.Now
-            };
-
-            Criteria.Add(newCriteria);
-
-            return newCriteria;
-        }
     }
 }
