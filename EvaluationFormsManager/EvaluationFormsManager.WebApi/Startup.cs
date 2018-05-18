@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EvaluationFormsManager.Core;
+using EvaluationFormsManager.Persistence;
+using EvaluationFormsManager.Persistence.EF;
+using EvaluationFormsManager.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace EvaluationFormsManager.WebApi
 {
@@ -23,7 +22,17 @@ namespace EvaluationFormsManager.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            // Add persistance
+            services.AddScoped<IPersistenceContext, PersistanceContext>();
+            var dataService = services.BuildServiceProvider().GetService<IPersistenceContext>();
+            dataService.InitializeContext(services, Configuration);
+
+            // Add business
+            services.AddScoped<IFormService, FormService>();
+
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
