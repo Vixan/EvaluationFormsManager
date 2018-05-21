@@ -1,5 +1,4 @@
 ﻿using AuthenticationService.Abstractions;
-using System;
 
 namespace AuthenticationService
 {
@@ -7,7 +6,12 @@ namespace AuthenticationService
     {
         public string GetCurrentUserId()
         {
-            return "abcd";
+            return "1";
+        }
+
+        public bool IsUserAuthenticated()
+        {
+            return true;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace EvaluationFormsManager.WebApi.Middleware
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var arguments = context.ActionArguments;
-            var noUserProvidedResult = new JsonResult(new { status = 400, error = "No valid User Identifier provided." });
+            var noUserProvidedResult = new JsonResult(new { status = 400, error = "Invalid provided User Identifier." });
             const string userIdKey = "userId";
 
             if (!arguments.ContainsKey(userIdKey))

@@ -36,12 +36,27 @@ namespace EvaluationFormsManager.WebApi.Controllers
         {
             if (!int.TryParse(formId, out int internalFormId))
             {
-                return BadRequest(new { status = 400, error = "No valid Form Identifier provided." });
+                return BadRequest(new { status = 400, error = "Invalid provided Form Identifier." });
             }
 
             Form forms = formService.GetForm(internalFormId);
 
             return Ok(forms);
+        }
+
+        // POST: api/forms?userId=1
+        [HttpPost]
+        [ValidateUserId]
+        public IActionResult Post([FromQuery]string userId, [FromBody]Form formToCreate)
+        {
+            if (formToCreate == null)
+            {
+                return BadRequest(new { status = 400, error = "Invalid provided Form data object." });
+            }
+
+            formService.AddForm(formToCreate);
+
+            return Created(HttpContext.Request.Path, formToCreate);
         }
     }
 }
