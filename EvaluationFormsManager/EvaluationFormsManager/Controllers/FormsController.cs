@@ -27,7 +27,7 @@ namespace EvaluationFormsManager.Controllers
         // GET: Forms
         public ActionResult Index()
         {
-            List<Form> forms = formService.GetAllFormsCreatedBy(DEFAULT_USER_ID).ToList();
+            List<Form> forms = formService.GetAllForms().ToList();
             List<FormBriefVM> employeeForms = new List<FormBriefVM>();
 
             forms.ForEach(form => employeeForms.Add(new FormBriefVM

@@ -1,4 +1,5 @@
-﻿using EvaluationFormsManager.Domain;
+﻿using AuthenticationService.Abstractions;
+using EvaluationFormsManager.Domain;
 using EvaluationFormsManager.Persistence;
 using EvaluationFormsManager.Shared;
 using System;
@@ -10,16 +11,16 @@ namespace EvaluationFormsManager.Core
     public class FormService : IFormService
     {
         private readonly IPersistenceContext persistanceContext;
+        
 
         public FormService(IPersistenceContext persistanceContext)
         {
-            this.persistanceContext = persistanceContext;
+            this.persistanceContext = persistanceContext;            
         }
 
         public void AddForm(Form form)
         {
-            IFormRepository formRepository = persistanceContext.GetFormRepository();
-
+            IFormRepository formRepository = persistanceContext.GetFormRepository();            
             formRepository.Add(form);
             formRepository.Save();
         }
@@ -32,69 +33,11 @@ namespace EvaluationFormsManager.Core
             formRepository.Save();
         }
 
-        public void DeleteFormSection(int formIdentifier, Section section)
-        {
-            IFormRepository formRepository = persistanceContext.GetFormRepository();
-            Form form = formRepository.GetById(formIdentifier);
-
-            form.Sections.Remove(section);
-            formRepository.Save();
-        }
-
-        public IEnumerable<Form> GetAllAVailableForms()
-        {
-            IFormRepository formRepository = persistanceContext.GetFormRepository();
-
-            return formRepository.GetAvailable();
-        }
-
         public IEnumerable<Form> GetAllForms()
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
 
             return formRepository.GetAll();
-        }
-
-        public IEnumerable<Form> GetAllFormsByCreatedDate(DateTime createdDate)
-        {
-            IFormRepository formRepository = persistanceContext.GetFormRepository();
-
-            return formRepository.GetByCreatedDate(createdDate);
-        }
-
-        public IEnumerable<Form> GetAllFormsByModifiedDate(DateTime modifiedDate)
-        {
-            IFormRepository formRepository = persistanceContext.GetFormRepository();
-
-            return formRepository.GetByModifiedDate(modifiedDate);
-        }
-
-        public IEnumerable<Form> GetAllFormsCreatedBy(int employeeIdentifier)
-        {
-            IFormRepository formRepository = persistanceContext.GetFormRepository();
-
-            return formRepository.GetCreatedBy(employeeIdentifier);
-        }
-
-        public IEnumerable<Criteria> GetAllFormSectionCriteria(int formIdentifier, int sectionIdentifier)
-        {
-            IFormRepository formRepository = persistanceContext.GetFormRepository();
-
-            return formRepository.GetSectionCriteria(formIdentifier, sectionIdentifier);
-        }
-
-        public IEnumerable<Section> GetAllFormSectionsByEvaluationScale(int formIdentifier, int evaluationScaleIdentifier)
-        {
-            IFormRepository formRepository = persistanceContext.GetFormRepository();
-
-            return formRepository.GetSectionsByEvaluationScale(formIdentifier, evaluationScaleIdentifier);
-        }
-
-        public IEnumerable<Form> GetAllFormsModifiedBy(int employeeIdentifier)
-        {
-            IFormRepository formRepository = persistanceContext.GetFormRepository();
-
-            return formRepository.GetModifiedBy(employeeIdentifier);
         }
 
         public IEnumerable<Importance> GetAllImportances()
@@ -113,13 +56,6 @@ namespace EvaluationFormsManager.Core
             return statuses;
         }
 
-        public IEnumerable<Form> GetAllUnavailableForms()
-        {
-            IFormRepository formRepository = persistanceContext.GetFormRepository();
-
-            return formRepository.GetUnavailable();
-        }
-
         public Form GetForm(int formIdentifier)
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
@@ -127,18 +63,11 @@ namespace EvaluationFormsManager.Core
             return formRepository.GetById(formIdentifier);
         }
 
-        public Section GetFormSection(int formIdentifier, int sectionIdentifier)
+        public Section GetSection(int sectionIdentifier)
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
 
-            return formRepository.GetSection(formIdentifier, sectionIdentifier);
-        }
-
-        public Criteria GetFormSectionCriterion(int formIdentifier, int sectionIdentifier, int criterionIdentifier)
-        {
-            IFormRepository formRepository = persistanceContext.GetFormRepository();
-
-            return formRepository.GetSectionCriterion(formIdentifier, sectionIdentifier, criterionIdentifier);
+            return formRepository.GetSection(sectionIdentifier);
         }
 
         public void UpdateForm(Form form)
