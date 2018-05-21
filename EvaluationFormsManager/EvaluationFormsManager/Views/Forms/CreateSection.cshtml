@@ -36,39 +36,11 @@
                     <label asp-for="Criteria" class="control-label">Evaluation Criteria</label>
                 </div>
 
-                <table id="criteriaTable" class="table panel-body">
-                    <thead class="page-header">
-                        <tr class="active">
-                            <th class="col-md-1">#</th>
-                            <th class="col-md-5">Name</th>
-                            <th class="col-md-2">Modified By</th>
-                            <th class="col-md-2">Last Changed</th>
-                            <th class="col-md-2">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="criteriaTableBody">
-                            @foreach (var criterion in Model.Criteria)
-                            {
-                                <tr>
-                                    <td></td>
-                                    <td class="criterion-name">@criterion.Name</td>
-                                    <td>@criterion.ModifiedBy</td>
-                                    <td>@criterion.ModifiedDate</td>
-                                    <td>
-                                        <a asp-action="" asp-route-id="" class="text-info">
-                                            <i class="glyphicon glyphicon-edit icon icon-lg"></i>
-                                        </a>
-                                        <a asp-action="" asp-route-id="" class="text-danger">
-                                            <i class="glyphicon glyphicon-trash icon icon-lg"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                    </tbody>
-                </table>
+                <div id="jsGrid"></div>
 
                 <div class="panel-body text-center">
-                    <button id="addCriterion" type="button" class="btn btn-success glyphicon-plus" data-toggle="modal" data-target="#myModal"> Add Criterion</button>
+                    <button id="cancelAddCriterion" type="button" class="btn btn-default" style="display: none"> Cancel</button>
+                    <button id="addCriterion" type="button" class="btn btn-success" style="display: normal"><i class="glyphicon-plus"></i> Add Criterion</button>
                 </div>
             </div>
 
@@ -78,8 +50,6 @@
             </div>
 
         </form>
-
-        @await Html.PartialAsync("_Criteria")
         
     </div>
 </div>
@@ -90,107 +60,89 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+
     <script type="text/javascript">
-
-        function createCriteria(criterionJson) {
-            $('#criteriaTableBody').html("");
-            let criterionObjects = JSON.parse(criterionJson);
-
-            for (let iterator = 0; iterator < criterionObjects.length; iterator++) {
-                const newCriterion = $(
-                    `<tr>
-                        <td>${iterator + 1}</td >
-                        <td class="criterion-name">${criterionObjects[iterator].Name}</td >
-                        <td>${criterionObjects[iterator].ModifiedBy}</td>
-                        <td>${criterionObjects[iterator].ModifiedDate}</td>
-                        <td>
-                            <a href="#" onclick="enterEditMode(event, ${iterator})" class="text-info"  data-toggle="modal" data-target="#myModal">
-                                <i class="glyphicon glyphicon-edit icon icon-lg"></i>
-                            </a>
-                            <a href="#" onclick="deleteCriterion(event, ${iterator})" class="text-danger">
-                                <i class="glyphicon glyphicon-trash icon icon-lg"></i>
-                            </a>
-                        </td>
-                    </tr>`);
-
-                $('#criteriaTableBody').append(newCriterion);
-            }
-        }
-
-        function clearModalForm() {
-            $('#modalTitle').html('');
-            $('#criterionName').val('');
-        }
-
-        function deleteCriterion(event, index) {
-            event.preventDefault();
-
-            $.post('/Forms/DeleteCriteria', { index: index }, function (criterionJson) {
-
-                if (criterionJson != "") {
-                    createCriteria(criterionJson);
-                }
-            });
-        }
-
-        function enterEditMode(event, index) {
-            event.preventDefault();
-            $('#modalTitle').html("Edit Criterion");
-            $('#myModal').data("index", index);
-
-            const name = $(`#criteriaTableBody tr:eq(${index}) td.criterion-name`).html();
-            $('#criterionName').val(name);
-        }
-
-        function createCriterion() {
-            console.log("create");
-
-            let data = $('#criterionName').val();
-
-            $.post('/Forms/CreateCriteria', { name: data }, function (criterionJson) {
-                if (criterionJson != "") {
-                    createCriteria(criterionJson);
-                }
-
-                clearModalForm();
-            });
-
-        }
-
-        function editCriterion() {
-            console.log("edit");
-
-            let data = $('#criterionName').val();
-            let index = $('#myModal').data("index");
-
-            $.post('/Forms/EditCriteria', { index: index, name: data }, function (criterionJson) {
-                if (criterionJson != "") {
-                    createCriteria(criterionJson);
-                }
-
-                clearModalForm();
-            });
+        function close() {
+            console.log("here");
+            $('#jsGrid .jsgrid-grid-header .jsgrid-table .jsgrid-insert-row').css("display", "none");
         }
 
         $(function () {
 
+            $("#jsGrid").jsGrid({
+                width: "100%",
+
+                inserting: false,
+                editing: true,
+                sorting: true,
+                paging: false,
+
+                controller: {
+                    loadData: function (filter) {
+                        var data = $.Deferred();
+
+                        $.get("/Forms/Section/Criteria", function (response) {
+                            data.resolve(JSON.parse(response));
+                        });
+
+                        return data.promise();
+                    },
+
+                    insertItem: function (item) {
+                        $.post("/Forms/Section/Criteria/Create", { name: item.Name });
+
+                        $('#addCriterion').show();
+                        $('#cancelAddCriterion').hide();
+                        
+                        $("#jsGrid").jsGrid("loadData");
+                    },
+
+                    updateItem: function (item) {
+                        $.post("/Forms/Section/Criteria/Edit", { index: item.Index - 1, name: item.Name });
+                        
+                        $("#jsGrid").jsGrid("loadData");
+                    },
+
+                    deleteItem: function (item) {
+                        $.post("/Forms/Section/Criteria/Delete", { index: item.Index - 1 });
+                        
+                        $("#jsGrid").jsGrid("loadData");
+                    }
+                },
+
+                noDataContent: "No criteria!",
+                autoload: true,
+
+                fields: [
+                    { name: "Index", type: "number", width: 50, editing: false, align: "center", title: "#"},
+                    { name: "Name", type: "text", width: 200, validate: "required", title: "Name"},
+                    { name: "ModifiedBy", type: "number", editing: false, align: "center", title: "Modified By"},
+                    { name: "ModifiedDate", type: "text", editing: false, align: "center", title: "Last Modified"},
+                    { name: "Action", type: "control", inserting: false}
+                ]
+            });
+
             $('#addCriterion').click(function () {
-                $('#modalTitle').html("Create Criterion");
+                $('#jsGrid .jsgrid-grid-header .jsgrid-table .jsgrid-insert-row').css("display", "table-row");
+
+                for (let i = 0; i < 4; i++)
+                    if (i != 1)
+                        $('#jsGrid .jsgrid-grid-header .jsgrid-table .jsgrid-insert-row').find('td').eq(i).html("");
+
+                $('#cancelAddCriterion').show();
+                $('#addCriterion').hide();
             });
 
-            $('#modalClose').click(function () {
-                clearModalForm();
-            });
+            $('#cancelAddCriterion').click(function () {
+                $('#jsGrid .jsgrid-grid-header .jsgrid-table .jsgrid-insert-row').css("display", "none");
 
-            $('#saveCriterion').click(function () {
-                let mode = $('#modalTitle').html();
-
-                if (mode == "Create Criterion")
-                    createCriterion();
-                else
-                    editCriterion();
-            });
-
+                $('#addCriterion').show();
+                $('#cancelAddCriterion').hide();
+            })
         })
     </script>
 }

@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace EvaluationFormsManager.Models
+﻿namespace EvaluationFormsManager.Models
 {
     public class CriteriaVM
     {
-        [Required(ErrorMessage = "Name is required")]
-        [DataType(DataType.Text)]
+        public int Index { get; set; }
         public string Name { get; set; }
-
-        public string Action { get; set; }
+        public int ModifiedBy { get; set; }
+        public string ModifiedDate { get; set; }
     }
 }
