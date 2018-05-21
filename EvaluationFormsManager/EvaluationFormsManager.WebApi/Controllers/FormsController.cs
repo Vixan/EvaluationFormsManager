@@ -1,6 +1,10 @@
-﻿using EvaluationFormsManager.Shared;
+﻿using EvaluationFormsManager.Domain;
+using EvaluationFormsManager.Shared;
+using EvaluationFormsManager.WebApi.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EvaluationFormsManager.WebApi.Controllers
 {
@@ -15,39 +19,29 @@ namespace EvaluationFormsManager.WebApi.Controllers
             this.formService = formService ?? throw new ArgumentNullException(nameof(formService));
         }
 
-        // GET: api/forms?id=1
-        [HttpGet(Name = "GetAllForms")]
-        public JsonResult Get(string id)
+        // GET: api/forms?userId=1
+        [HttpGet]
+        [ValidateUserId]
+        public IActionResult Get([FromQuery]string userId)
         {
-            if (id == null)
-            {
-                return Json(new { status = 400, error = "No User identifier provided." });
-            }
+            List<Form> forms = formService.GetAllForms().ToList();
 
-            int userId = int.Parse(id);
-
-            return Json(formService.GetAllFormsCreatedBy(userId));
+            return Ok(forms);
         }
 
-        // GET: api/forms/5?id=1
-        [HttpGet("{formId}", Name = "GetForm")]
-        public JsonResult Get(int formId, string id)
+        // GET: api/forms/1?userId=1
+        [HttpGet("{formId}")]
+        [ValidateUserId]
+        public IActionResult Get([FromQuery]string userId, string formId)
         {
-            if (id == null)
+            if (!int.TryParse(formId, out int internalFormId))
             {
-                return Json(new { status = 400, error = "No User identifier provided." });
+                return BadRequest(new { status = 400, error = "No valid Form Identifier provided." });
             }
 
-            int userId = int.Parse(id);
+            Form forms = formService.GetForm(internalFormId);
 
-            var result = formService.GetForm(formId);
-
-            if (result == null)
-            {
-                return Json(new { status = 404, error = "Form not found." });
-            }
-
-            return Json(result);
+            return Ok(forms);
         }
     }
 }

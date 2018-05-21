@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{B64D4951-4B2F-4BC5-ADA6-1FB7057D9A69}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{03FD6E1A-0A31-4784-95D6-EC309E1800D6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Persistence.EF", "EvaluationFormsManager.Persistence.EF\EvaluationFormsManager.Persistence.EF.csproj", "{356E7882-6371-4C3D-9F44-754CE474C4BB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Persistence", "EvaluationFormsManager.Persistence\EvaluationFormsManager.Persistence.csproj", "{51B63405-1A66-4554-8CD1-C203BC8AA49A}"
@@ -35,6 +33,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EvaluationFormsManager.Exte
 	ProjectSection(SolutionItems) = preProject
 		EvaluationFormsManager.IdentityServer\IdentityServer.Domain.dll = EvaluationFormsManager.IdentityServer\IdentityServer.Domain.dll
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.AuthenticationService.Abstractions", "AuthenticationService.Abstractions\EvaluationFormsManager.AuthenticationService.Abstractions.csproj", "{B684CC8A-8A9D-4FC0-B01B-CDCC016C4907}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.AuthenticationService", "AuthenticationService\EvaluationFormsManager.AuthenticationService.csproj", "{073DC4BD-4258-4974-8BDB-C3AC153EB46C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +80,14 @@ Global
 		{008E8C59-23C3-4573-B1B2-E970A7BCAE52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{008E8C59-23C3-4573-B1B2-E970A7BCAE52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{008E8C59-23C3-4573-B1B2-E970A7BCAE52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B684CC8A-8A9D-4FC0-B01B-CDCC016C4907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B684CC8A-8A9D-4FC0-B01B-CDCC016C4907}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B684CC8A-8A9D-4FC0-B01B-CDCC016C4907}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B684CC8A-8A9D-4FC0-B01B-CDCC016C4907}.Release|Any CPU.Build.0 = Release|Any CPU
+		{073DC4BD-4258-4974-8BDB-C3AC153EB46C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{073DC4BD-4258-4974-8BDB-C3AC153EB46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{073DC4BD-4258-4974-8BDB-C3AC153EB46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{073DC4BD-4258-4974-8BDB-C3AC153EB46C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,8 +100,10 @@ Global
 		{03EE9AC5-7123-4210-B074-B6B982959086} = {00349E45-2AE1-42F9-9869-B8027047B8B9}
 		{EEB5101A-312F-4352-AFCD-9EE19F87AE2C} = {00349E45-2AE1-42F9-9869-B8027047B8B9}
 		{AF2A429A-6CED-4D05-83B7-2CF3AC0D51C9} = {B64D4951-4B2F-4BC5-ADA6-1FB7057D9A69}
-		{73B49B38-38C4-4944-B564-C5F0C4032DDA} = {03FD6E1A-0A31-4784-95D6-EC309E1800D6}
+		{73B49B38-38C4-4944-B564-C5F0C4032DDA} = {9969588E-739B-4B6B-A9EC-E8DD3590DAB0}
 		{008E8C59-23C3-4573-B1B2-E970A7BCAE52} = {B64D4951-4B2F-4BC5-ADA6-1FB7057D9A69}
+		{B684CC8A-8A9D-4FC0-B01B-CDCC016C4907} = {B64D4951-4B2F-4BC5-ADA6-1FB7057D9A69}
+		{073DC4BD-4258-4974-8BDB-C3AC153EB46C} = {B64D4951-4B2F-4BC5-ADA6-1FB7057D9A69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {65C4A75A-55B6-4EB4-8C75-C1CF936DC919}

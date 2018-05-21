@@ -30,7 +30,8 @@ namespace EvaluationFormsManager.WebApi
             // Add business
             services.AddScoped<IFormService, FormService>();
 
-            services.AddMvc().AddJsonOptions(options => {
+            services.AddMvc().AddJsonOptions(options =>
+            {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
         }
