@@ -225,12 +225,31 @@ namespace EvaluationFormsManager.Controllers
             return NotFound();
         }
 
+        [HttpGet]
+        [Route("Forms/Section/Criteria")]
+        public string GetCriteria()
+        {
+            List<CriteriaVM> criteriaModels = new List<CriteriaVM>();
+            for (int i = 0; i < formCriteria.Count; i++)
+            {
+                criteriaModels.Add(new CriteriaVM()
+                {
+                    Index = i + 1,
+                    Name = formCriteria[i].Name,
+                    ModifiedBy = formCriteria[i].ModifiedBy,
+                    ModifiedDate = DateTime.Now.ToString("dd MMM hh:mm tt")
+                });
+            }
+
+            return JsonConvert.SerializeObject(criteriaModels);
+        }
+
         [HttpPost]
-        [Route("Forms/CreateCriteria")]
-        public string CreateCriteria(string name)
+        [Route("Forms/Section/Criteria/Create")]
+        public bool CreateCriteria(string name)
         {
             if (name == null)
-                return "";
+                return false;
 
             Criteria criteria = new Criteria()
             {
@@ -241,34 +260,36 @@ namespace EvaluationFormsManager.Controllers
             };
 
             formCriteria.Add(criteria);
-
-            return JsonConvert.SerializeObject(formCriteria);
+            return true;
         }
 
         [HttpPost]
-        [Route("Forms/DeleteCriteria")]
-        public string DeleteCriteria(int index)
+        [Route("Forms/Section/Criteria/Delete")]
+        public bool DeleteCriteria(int index)
         {
             if (index < formCriteria.Count && index >= 0)
             {
-                    formCriteria.RemoveAt(index);
+                formCriteria.RemoveAt(index);
+                return true;
             }
 
-            return JsonConvert.SerializeObject(formCriteria);
+            return false;
         }
 
         [HttpPost]
-        [Route("Forms/EditCriteria")]
-        public string EditCriteria(int index, string name)
+        [Route("Forms/Section/Criteria/Edit")]
+        public bool EditCriteria(int index, string name)
         {
             if (index < formCriteria.Count && index >= 0)
             {
                 formCriteria[index].Name = name;
                 formCriteria[index].ModifiedBy = DEFAULT_USER_ID;
                 formCriteria[index].ModifiedDate = DateTime.Now;
+
+                return true;
             }
 
-            return JsonConvert.SerializeObject(formCriteria);
+            return false;
         }
 
         private bool FormExists(int id)
