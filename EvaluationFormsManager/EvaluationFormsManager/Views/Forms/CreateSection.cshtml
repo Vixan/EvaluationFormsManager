@@ -40,7 +40,7 @@
 
                 <div class="panel-body text-center">
                     <button id="cancelAddCriterion" type="button" class="btn btn-default" style="display: none"> Cancel</button>
-                    <button id="addCriterion" type="button" class="btn btn-success" style="display: normal"><i class="glyphicon-plus"></i> Add Criterion</button>
+                    <button id="addCriterion" type="button" class="btn btn-success" style="display: normal"><i class="glyphicon glyphicon-plus"></i> Add Criterion</button>
                 </div>
             </div>
 
@@ -93,24 +93,24 @@
                     },
 
                     insertItem: function (item) {
-                        $.post("/Forms/Section/Criteria/Create", { name: item.Name });
+                        $.post("/Forms/Section/Criteria/Create", { name: item.Name }).done(function () {
+                            $('#addCriterion').show();
+                            $('#cancelAddCriterion').hide();
 
-                        $('#addCriterion').show();
-                        $('#cancelAddCriterion').hide();
-                        
-                        $("#jsGrid").jsGrid("loadData");
+                            $("#jsGrid").jsGrid("loadData");
+                        });
                     },
 
                     updateItem: function (item) {
-                        $.post("/Forms/Section/Criteria/Edit", { index: item.Index - 1, name: item.Name });
-                        
-                        $("#jsGrid").jsGrid("loadData");
+                        $.post("/Forms/Section/Criteria/Edit", { index: item.Index - 1, name: item.Name }).done(function () {
+                            $("#jsGrid").jsGrid("loadData");
+                        });
                     },
 
                     deleteItem: function (item) {
-                        $.post("/Forms/Section/Criteria/Delete", { index: item.Index - 1 });
-                        
-                        $("#jsGrid").jsGrid("loadData");
+                        $.post("/Forms/Section/Criteria/Delete", { index: item.Index - 1 }).done(function () {
+                            $("#jsGrid").jsGrid("loadData");
+                        });
                     }
                 },
 
