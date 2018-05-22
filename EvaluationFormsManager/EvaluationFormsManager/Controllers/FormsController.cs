@@ -198,10 +198,17 @@ namespace EvaluationFormsManager.Controllers
         [Route("Forms/{formId}/Sections/Create")]
         public IActionResult CreateSection(int formId)
         {
+            Section section = new Section()
+            {
+                Criteria = new List<Criteria>()
+            };
+
             CreateSectionVM model = new CreateSectionVM()
             {
                 UserId = DEFAULT_USER_ID
             };
+
+            HttpContext.Session.SetObjectAsJson("Section", section);
 
             return View(model);
         }
@@ -210,23 +217,41 @@ namespace EvaluationFormsManager.Controllers
         [Route("Forms/{formId}/Sections/Create")]
         public IActionResult CreateSection(int formId, CreateSectionVM sectionModel)
         {
+            Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
 
+            section = new Section()
+            {
+                Name = sectionModel.Name,
+                Description = sectionModel.Description,
+                Criteria = section.Criteria,
+                EvaluationScale = (EvaluationScale)Int32.Parse(sectionModel.EvaluationScale),
+                ModifiedDate = DateTime.Now,
+                CreatedBy = DEFAULT_USER_ID,
+                ModifiedBy = DEFAULT_USER_ID
+            };
 
-            return NotFound();
+            Form form = HttpContext.Session.GetObjectFromJson<Form>("Form");
+            form.Sections.Add(section);
+
+            HttpContext.Session.SetObjectAsJson("Form", form);
+
+            return Redirect("/Form/Create");
         }
 
         [HttpGet]
         [Route("Forms/Section/Criteria")]
         public string GetCriteria()
         {
+            ICollection<Criteria> sectionCriteria = HttpContext.Session.GetObjectFromJson<Section>("Section").Criteria;
+
             List<CriteriaVM> criteriaModels = new List<CriteriaVM>();
-            for (int i = 0; i < formCriteria.Count; i++)
+            for (int i = 0; i < sectionCriteria.Count; i++)
             {
                 criteriaModels.Add(new CriteriaVM()
                 {
                     Index = i + 1,
-                    Name = formCriteria[i].Name,
-                    ModifiedBy = formCriteria[i].ModifiedBy,
+                    Name = sectionCriteria.ElementAt(i).Name,
+                    ModifiedBy = sectionCriteria.ElementAt(i).ModifiedBy,
                     ModifiedDate = DateTime.Now.ToString("dd MMM hh:mm tt")
                 });
             }
@@ -249,7 +274,11 @@ namespace EvaluationFormsManager.Controllers
                 ModifiedDate = DateTime.Now
             };
 
-            formCriteria.Add(criteria);
+            Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
+            section.Criteria.Add(criteria);
+
+            HttpContext.Session.SetObjectAsJson("Section", section);
+
             return true;
         }
 
@@ -257,29 +286,37 @@ namespace EvaluationFormsManager.Controllers
         [Route("Forms/Section/Criteria/Delete")]
         public bool DeleteCriteria(int index)
         {
-            if (index < formCriteria.Count && index >= 0)
-            {
-                formCriteria.RemoveAt(index);
-                return true;
-            }
+            if (index >= formCriteria.Count && index < 0)
+                return false;
 
-            return false;
+            Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
+
+            var criteria = section.Criteria.ToList();
+            criteria.RemoveAt(index);
+            section.Criteria = criteria;
+
+            HttpContext.Session.SetObjectAsJson("Section", section);
+
+            return true;
         }
 
         [HttpPost]
         [Route("Forms/Section/Criteria/Edit")]
         public bool EditCriteria(int index, string name)
         {
-            if (index < formCriteria.Count && index >= 0)
-            {
-                formCriteria[index].Name = name;
-                formCriteria[index].ModifiedBy = DEFAULT_USER_ID;
-                formCriteria[index].ModifiedDate = DateTime.Now;
+            if (index >= formCriteria.Count && index < 0)
+                return false;
 
-                return true;
-            }
+            Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
 
-            return false;
+            Criteria criteria = section.Criteria.ElementAt(index);
+            criteria.Name = name;
+            criteria.ModifiedBy = DEFAULT_USER_ID;
+            criteria.ModifiedDate = DateTime.Now;
+
+            HttpContext.Session.SetObjectAsJson("Section", section);
+
+            return true;
         }
 
         private bool FormExists(int id)

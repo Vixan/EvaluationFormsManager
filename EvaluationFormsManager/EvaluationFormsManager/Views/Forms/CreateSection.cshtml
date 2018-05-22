@@ -30,8 +30,9 @@
 
                     SelectList data = new SelectList(list, "Value", "Text");
                 }
-                <label asp-for="EvaluationScaleOption" class="control-label"></label>
-                @Html.DropDownList("idControl", data, new { @class = "form-control selectpicker dropdown dropdown_importance" })
+                <label asp-for="EvaluationScale" class="control-label"></label>
+                @*@Html.DropDownList("idControl", data, new {@class = "form-control selectpicker dropdown dropdown_importance" })*@
+                @Html.DropDownListFor(model => model.EvaluationScale, data, new { @class = "form-control selectpicker dropdown dropdown_importance" })
             </div>
 
             <div class="form-group panel panel-default">
