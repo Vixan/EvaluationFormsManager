@@ -1,9 +1,5 @@
 ﻿using EvaluationFormsManager.Domain;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace EvaluationFormsManager.Models
 {
@@ -21,14 +17,11 @@ namespace EvaluationFormsManager.Models
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [Display(Name = "Criteria")]
-        public ICollection<Criteria> Criteria { get; set; }
+        [Display(Name = "Evaluation Scale")]
+        //[DataType(DataType.Text)]
+        [Required(ErrorMessage = "Please specify the form evaluation scale")]
+        public int EvaluationScaleOption { get; set; }
 
-        [Display(Name = "Importance")]
-        [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Please specify the form importance")]
-        public int ImportanceId { get; set; }
-
-        public IEnumerable<SelectListItem> ImportanceList { get; set; }
+        public EvaluationScale EvaluationScaleEnum { get; set; }
     }
 }

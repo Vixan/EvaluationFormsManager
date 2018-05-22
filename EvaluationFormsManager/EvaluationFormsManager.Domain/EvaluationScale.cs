@@ -1,11 +1,18 @@
-﻿namespace EvaluationFormsManager.Domain
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EvaluationFormsManager.Domain
 {
     public enum EvaluationScale
     {
+        [Display(Name = "Agreement")]
         Agreement = 1,
+        [Display(Name = "Satisfaction")]
         Satisfaction,
+        [Display(Name = "SkillLevel")]
         SkillLevel,
+        [Display(Name = "Points")]
         Points,
+        [Display(Name = "Grades")]
         Grades
     }
 }

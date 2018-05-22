@@ -200,18 +200,8 @@ namespace EvaluationFormsManager.Controllers
         {
             CreateSectionVM model = new CreateSectionVM()
             {
-                UserId = DEFAULT_USER_ID,
-                Criteria = new List<Criteria>()
+                UserId = DEFAULT_USER_ID
             };
-
-            List<Importance> importances = formService.GetAllImportances().ToList();
-            List<SelectListItem> importanceSelectList = new List<SelectListItem>();
-            importances.ForEach(importance => importanceSelectList.Add(new SelectListItem
-            {
-                Value = importance.Id.ToString(),
-                Text = importance.Name
-            }));
-            model.ImportanceList = importanceSelectList;
 
             return View(model);
         }

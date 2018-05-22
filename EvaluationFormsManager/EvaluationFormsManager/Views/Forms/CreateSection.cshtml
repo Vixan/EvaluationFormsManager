@@ -1,4 +1,5 @@
-﻿@model CreateSectionVM
+﻿@using EvaluationFormsManager.Domain
+@model CreateSectionVM
 
 @{
     ViewData["Title"] = "CreateSection";
@@ -24,19 +25,20 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="ImportanceId" class="control-label"></label>
-                @Html.DropDownListFor(
-                    model => model.ImportanceId,
-                    Model.ImportanceList,
-                    new { @class = "form-control selectpicker dropdown dropdown_importance" })
+                @{
+                    IList<SelectListItem> list = Enum.GetValues(typeof(EvaluationScale)).Cast<EvaluationScale>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }).ToList();
+
+                    SelectList data = new SelectList(list, "Value", "Text");
+                }
+                <label asp-for="EvaluationScaleOption" class="control-label"></label>
+                @Html.DropDownList("idControl", data, new { @class = "form-control selectpicker dropdown dropdown_importance" })
             </div>
 
             <div class="form-group panel panel-default">
                 <div class="panel-heading">
-                    <label asp-for="Criteria" class="control-label">Evaluation Criteria</label>
+                    <label class="control-label">Evaluation Criteria</label>
+                    <div id="jsGrid"></div>
                 </div>
-
-                <div id="jsGrid"></div>
 
                 <div class="panel-body text-center">
                     <button id="cancelAddCriterion" type="button" class="btn btn-default" style="display: none"> Cancel</button>
