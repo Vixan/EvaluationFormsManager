@@ -40,6 +40,20 @@ namespace EvaluationFormsManager.Core
             return formRepository.GetAll();
         }
 
+        public IEnumerable<Form> GetOwnedForms(string userIdentifier)
+        {
+            IFormRepository formRepository = persistanceContext.GetFormRepository();
+
+            return formRepository.GetOwned(userIdentifier);
+        }
+
+        public IEnumerable<Form> GetSharedForms(string userIdentifier)
+        {
+            IFormRepository formRepository = persistanceContext.GetFormRepository();
+
+            return formRepository.GetShared(userIdentifier);
+        }
+
         public IEnumerable<Importance> GetAllImportances()
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
@@ -63,12 +77,15 @@ namespace EvaluationFormsManager.Core
             return formRepository.GetById(formIdentifier);
         }
 
+
+
         public Section GetSection(int sectionIdentifier)
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
 
             return formRepository.GetSection(sectionIdentifier);
         }
+
 
         public void UpdateForm(Form form)
         {

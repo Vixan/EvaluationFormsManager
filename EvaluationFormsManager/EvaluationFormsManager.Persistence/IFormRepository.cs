@@ -7,6 +7,8 @@ namespace EvaluationFormsManager.Persistence
     public interface IFormRepository : IRepository<Form>
     {
         Form GetByName(string formName);
+        IEnumerable<Form> GetOwned(string userIdentifier);
+        IEnumerable<Form> GetShared(string userIdentifier);
 
         Section GetSection(int sectionIdentifier);
 

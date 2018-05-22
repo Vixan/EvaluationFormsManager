@@ -7,6 +7,8 @@ namespace EvaluationFormsManager.Shared
     {
         Form GetForm(int formIdentifier);
         IEnumerable<Form> GetAllForms();
+        IEnumerable<Form> GetOwnedForms(string userIdentifier);
+        IEnumerable<Form> GetSharedForms(string userIdentifier);
 
         void AddForm(Form form);
         void DeleteForm(Form form);

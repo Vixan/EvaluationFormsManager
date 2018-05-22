@@ -19,6 +19,23 @@ namespace EvaluationFormsManager.Persistence.EF
             return forms;
         }
 
+        public IEnumerable<Form> GetOwned(string userIdentifier)
+        {
+            IEnumerable<Form> ownedforms = databaseContext.Forms
+                .Where(form => form.CreatedBy == userIdentifier);
+
+            return ownedforms;
+        }
+
+        public IEnumerable<Form> GetShared(string userIdentifier)
+        {
+            IEnumerable<Form> sharedForms = databaseContext.SharedForms
+                .Where(shared => shared.UserId == userIdentifier)
+                .Select(form => form.Form);
+
+            return sharedForms;
+        }
+
         public override Form GetById(int identifier)
         {
             Form foundForm = databaseContext.Forms
