@@ -27,11 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.WebA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.CommonAbstractions", "EvaluationFormsManager.CommonAbstractions\EvaluationFormsManager.CommonAbstractions.csproj", "{008E8C59-23C3-4573-B1B2-E970A7BCAE52}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EvaluationFormsManager.External", "EvaluationFormsManager.External", "{7565EE40-D194-47F6-AB64-3859C94D1FA7}"
-	ProjectSection(SolutionItems) = preProject
-		EvaluationFormsManager.IdentityServer\IdentityServer.Domain.dll = EvaluationFormsManager.IdentityServer\IdentityServer.Domain.dll
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.AuthenticationService.Abstractions", "AuthenticationService.Abstractions\EvaluationFormsManager.AuthenticationService.Abstractions.csproj", "{B684CC8A-8A9D-4FC0-B01B-CDCC016C4907}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.AuthenticationService", "AuthenticationService\EvaluationFormsManager.AuthenticationService.csproj", "{073DC4BD-4258-4974-8BDB-C3AC153EB46C}"
