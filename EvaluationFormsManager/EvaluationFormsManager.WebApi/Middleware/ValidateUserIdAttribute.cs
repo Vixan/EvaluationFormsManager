@@ -18,14 +18,6 @@ namespace EvaluationFormsManager.WebApi.Middleware
                 return;
             }
 
-            var userId = arguments[userIdKey];
-
-            if (!int.TryParse(userId.ToString(), out int internalUserId))
-            {
-                context.Result = noUserProvidedResult;
-                return;
-            }
-
             await next();
         }
     }

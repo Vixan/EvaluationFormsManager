@@ -67,8 +67,8 @@ namespace EvaluationFormsManager.Persistence.EF
                 new Criteria
                 {
                     Name = "Naming stuff",
-                    CreatedBy = 1,
-                    ModifiedBy = 1,
+                    CreatedBy = "user-admin",
+                    ModifiedBy = "user-admin",
                     ModifiedDate = new DateTime(2017, 4, 21)
                 }
             };
@@ -78,8 +78,8 @@ namespace EvaluationFormsManager.Persistence.EF
                 {
                     Name = "Software Engineering",
                     Description = "Cu ipsum oratio eum, ne quem fierent eum, meis mutat in vel. Te eos equidem necessitatibus, vim quem vidit errem ut.",
-                    CreatedBy = 1,
-                    ModifiedBy = 1,
+                    CreatedBy = "user-admin",
+                    ModifiedBy = "user-admin",
                     ModifiedDate = new DateTime(2017, 5, 28),
                     EvaluationScale = EvaluationScale.Agreement,
                     Criteria = criteria.FindAll(crit => crit.Name == "Naming stuff")
@@ -91,8 +91,8 @@ namespace EvaluationFormsManager.Persistence.EF
                 {
                     Name = "Core Technical .NET",
                     Description = "Lorem ipsum dolor sit amet, cum at vide detraxit, solum audire pro eu, in usu disputando dissentiet. Ad duo vide nostro, eos iusto legere officiis te, cum cu putant deleniti comprehensam.",
-                    CreatedBy = 1,
-                    ModifiedBy = 1,
+                    CreatedBy = "user-admin",
+                    ModifiedBy = "user-admin",
                     CreatedDate = new DateTime(2017, 5, 27),
                     ModifiedDate = new DateTime(2017, 5, 28),
                     Importance = importances.Find(importance => importance.Level == 3),
@@ -106,8 +106,8 @@ namespace EvaluationFormsManager.Persistence.EF
                 {
                     Name = "Team Lead Evaluation",
                     Description = "Lorem ipsum dolor sit amet, cum at vide detraxit, solum audire pro eu, in usu disputando dissentiet. Ad duo vide nostro, eos iusto legere officiis te, cum cu putant deleniti comprehensam.",
-                    CreatedBy = 1,
-                    ModifiedBy = 1,
+                    CreatedBy = "user-admin",
+                    ModifiedBy = "user-admin",
                     CreatedDate = new DateTime(2018, 1, 10),
                     ModifiedDate = new DateTime(2018, 1, 10),
                     Importance = importances.Find(importance => importance.Level == 1),

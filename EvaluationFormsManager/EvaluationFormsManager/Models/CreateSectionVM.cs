@@ -3,13 +3,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace EvaluationFormsManager.Models
 {
     public class CreateSectionVM
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [Display(Name = "Name")]
         [Required(ErrorMessage = "Name is required")]

@@ -21,5 +21,6 @@ namespace EvaluationFormsManager.Persistence.EF
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Criteria> Criteria { get; set; }
+        public DbSet<SharedForms> SharedForms { get; set; }
     }
 }

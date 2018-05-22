@@ -17,7 +17,7 @@ namespace EvaluationFormsManager.Controllers
         private readonly IFormService formService;
 
         // TODO: Remove DEFAULT_USER_ID
-        private const int DEFAULT_USER_ID = 1;
+        private const string DEFAULT_USER_ID = "userId";
 
         public FormsController(IFormService formService)
         {

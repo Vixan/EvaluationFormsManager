@@ -12,8 +12,8 @@ namespace EvaluationFormsManager.Domain
         public virtual Status Status { get; set; }
         public virtual ICollection<Section> Sections { get; set; }
 
-        public int CreatedBy { get; set; }
-        public int ModifiedBy { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifiedBy { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
