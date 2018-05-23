@@ -5,7 +5,7 @@
 
 <div class="form-group">
     <label asp-for="Name" class="control-label"></label>
-    <input asp-for="Name" class="form-control" placeholder="Write a suggestive @Html.DisplayNameFor(model => model.Name)" />
+    <input asp-for="Name" class="form-control" placeholder="Write a suggestive @Html.DisplayNameFor(model => model.Name)"/>
     <span asp-validation-for="Name" class="text-danger"></span>
 </div>
 <div class="form-group">
@@ -21,6 +21,7 @@
                         {
                             counter = 0;
                         }
+
                         <option value="@importance.Id"
                                 data-content="<i class='glyphicon glyphicon-exclamation-sign @(Model.ImportanceColors.ElementAt(counter++))'></i> @importance.Name">
                             @importance.Name
@@ -40,6 +41,7 @@
                         {
                             counter = 0;
                         }
+
                         <option value="@status.Id"
                                 data-content="<i class='glyphicon glyphicon-stop @(Model.StatusColors.ElementAt(counter++))'></i> @status.Name">
                             @status.Name
@@ -96,10 +98,14 @@
                 </tbody>
             </table>
             <div class="panel-body text-center">
-                <a href="/Forms/@Model.Id/Sections/Create" class="btn btn-success">
+                @*<a href="/Forms/@Model.Id/Sections/Create" class="btn btn-success">
                     <i class="glyphicon glyphicon-plus"></i>
                     Add Section
-                </a>
+                </a>*@
+                <button type="submit" class="btn btn-success" formaction="@Url.Action("FormCreateToSession", "Forms")" formmethod="post">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    Add Section
+                </button>
             </div>
         </div>
     </div>

@@ -1,5 +1,4 @@
-﻿using EvaluationFormsManager.Domain;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EvaluationFormsManager.Models
 {

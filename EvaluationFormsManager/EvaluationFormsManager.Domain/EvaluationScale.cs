@@ -8,7 +8,7 @@ namespace EvaluationFormsManager.Domain
         Agreement = 1,
         [Display(Name = "Satisfaction")]
         Satisfaction,
-        [Display(Name = "SkillLevel")]
+        [Display(Name = "Skill Level")]
         SkillLevel,
         [Display(Name = "Points")]
         Points,

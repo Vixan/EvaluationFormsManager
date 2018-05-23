@@ -16,7 +16,6 @@ namespace EvaluationFormsManager.Controllers
     public class FormsController : Controller
     {
         private readonly IFormService formService;
-        private static List<Criteria> formCriteria = new List<Criteria>();
 
         // TODO: Remove DEFAULT_USER_ID
         private const int DEFAULT_USER_ID = 1;
@@ -56,6 +55,14 @@ namespace EvaluationFormsManager.Controllers
         [Route("Form/Create", Name = "FormCreate")]
         public IActionResult Create()
         {
+            Form form = null;
+
+            if(HttpContext.Session.GetString("Action") != null)
+            {
+                if (HttpContext.Session.GetString("Action") == "Create")
+                    form = HttpContext.Session.GetObjectFromJson<Form>("Form");
+            }
+
             List<Status> statuses = formService.GetAllStatuses().ToList();
             List<Importance> importances = formService.GetAllImportances().ToList();
 
@@ -76,6 +83,25 @@ namespace EvaluationFormsManager.Controllers
                 Sections = new List<Section>()
             };
 
+            if(form != null)
+            {
+                if (form.Name != null)
+                    formCreate.Name = form.Name;
+
+                if (form.Description != null)
+                    formCreate.Description = form.Description;
+
+                if (form.Importance != null)
+                    formCreate.ImportanceId = form.Importance.Id;
+
+                if (form.Status != null)
+                    formCreate.StatusId = form.Status.Id;
+
+                if (form.Sections != null)
+                    formCreate.Sections = form.Sections;
+            }
+
+            HttpContext.Session.SetString("Action", "Create");
             HttpContext.Session.SetObjectAsJson("Form", formCreate);
 
             return View(formCreate);
@@ -93,12 +119,14 @@ namespace EvaluationFormsManager.Controllers
             List<Importance> importances = formService.GetAllImportances().ToList();
 
             Form createdForm = HttpContext.Session.GetObjectFromJson<Form>("Form");
+            ICollection<Section> formSections = createdForm != null ? createdForm.Sections : null;
 
             createdForm = new Form {
                 Name = form.Name,
                 Description = form.Description,
                 Importance = importances.Find(importance => importance.Id == form.ImportanceId),
                 Status = statuses.Find(status => status.Id == form.StatusId),
+                Sections = formSections,
                 CreatedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
                 CreatedBy = DEFAULT_USER_ID,
@@ -108,6 +136,35 @@ namespace EvaluationFormsManager.Controllers
             formService.AddForm(createdForm);
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Form/Create/Session")]
+        public IActionResult FormCreateToSession(FormEditVM formModel)
+        {
+            List<Status> statuses = formService.GetAllStatuses().ToList();
+            List<Importance> importances = formService.GetAllImportances().ToList();
+
+            Form createdForm = HttpContext.Session.GetObjectFromJson<Form>("Form");
+            ICollection<Section> formSections = createdForm != null ? createdForm.Sections : null;
+
+            createdForm = new Form
+            {
+                Name = formModel.Name,
+                Description = formModel.Description,
+                Importance = importances.Find(importance => importance.Id == formModel.ImportanceId),
+                Status = statuses.Find(status => status.Id == formModel.StatusId),
+                Sections = createdForm.Sections,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                CreatedBy = DEFAULT_USER_ID,
+                ModifiedBy = DEFAULT_USER_ID
+            };
+
+            HttpContext.Session.SetObjectAsJson("Form", createdForm);
+
+            return RedirectToAction("CreateSection");
         }
 
         // GET: Forms/Edit/5
@@ -195,8 +252,8 @@ namespace EvaluationFormsManager.Controllers
         }
 
         [HttpGet]
-        [Route("Forms/{formId}/Sections/Create")]
-        public IActionResult CreateSection(int formId)
+        [Route("Forms/Sections/Create")]
+        public IActionResult CreateSection()
         {
             Section section = new Section()
             {
@@ -214,8 +271,8 @@ namespace EvaluationFormsManager.Controllers
         }
 
         [HttpPost]
-        [Route("Forms/{formId}/Sections/Create")]
-        public IActionResult CreateSection(int formId, CreateSectionVM sectionModel)
+        [Route("Forms/Sections/Create")]
+        public IActionResult CreateSection(CreateSectionVM sectionModel)
         {
             Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
 
@@ -231,11 +288,17 @@ namespace EvaluationFormsManager.Controllers
             };
 
             Form form = HttpContext.Session.GetObjectFromJson<Form>("Form");
+            if (form.Sections == null)
+                form.Sections = new List<Section>();
+
             form.Sections.Add(section);
 
             HttpContext.Session.SetObjectAsJson("Form", form);
 
-            return Redirect("/Form/Create");
+            if (HttpContext.Session.GetString("Action") != null)
+                return RedirectToAction(HttpContext.Session.GetString("Action"));
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -286,12 +349,12 @@ namespace EvaluationFormsManager.Controllers
         [Route("Forms/Section/Criteria/Delete")]
         public bool DeleteCriteria(int index)
         {
-            if (index >= formCriteria.Count && index < 0)
+            Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
+            var criteria = section.Criteria.ToList();
+
+            if (index >= criteria.Count && index < 0)
                 return false;
 
-            Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
-
-            var criteria = section.Criteria.ToList();
             criteria.RemoveAt(index);
             section.Criteria = criteria;
 
@@ -304,10 +367,11 @@ namespace EvaluationFormsManager.Controllers
         [Route("Forms/Section/Criteria/Edit")]
         public bool EditCriteria(int index, string name)
         {
-            if (index >= formCriteria.Count && index < 0)
+            Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
+
+            if (index >= section.Criteria.Count && index < 0)
                 return false;
 
-            Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
 
             Criteria criteria = section.Criteria.ElementAt(index);
             criteria.Name = name;
