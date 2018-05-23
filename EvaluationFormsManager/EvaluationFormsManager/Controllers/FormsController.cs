@@ -4,7 +4,7 @@ using EvaluationFormsManager.Models;
 using EvaluationFormsManager.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +54,14 @@ namespace EvaluationFormsManager.Controllers
         [Route("Form/Create", Name = "FormCreate")]
         public IActionResult Create()
         {
+            Form form = null;
+
+            if(HttpContext.Session.GetString("Action") != null)
+            {
+                if (HttpContext.Session.GetString("Action") == "Create")
+                    form = HttpContext.Session.GetObjectFromJson<Form>("Form");
+            }
+
             List<Status> statuses = formService.GetAllStatuses().ToList();
             List<Importance> importances = formService.GetAllImportances().ToList();
 
@@ -63,8 +71,8 @@ namespace EvaluationFormsManager.Controllers
                 StatusList = statuses,
                 ImportanceColors = new List<string>
                 {
-                    "text-danger",
-                    "text-info"
+                    "text-info",
+                    "text-danger"
                 },
                 StatusColors = new List<string>
                 {
@@ -74,6 +82,25 @@ namespace EvaluationFormsManager.Controllers
                 Sections = new List<Section>()
             };
 
+            if(form != null)
+            {
+                if (form.Name != null)
+                    formCreate.Name = form.Name;
+
+                if (form.Description != null)
+                    formCreate.Description = form.Description;
+
+                if (form.Importance != null)
+                    formCreate.ImportanceId = form.Importance.Id;
+
+                if (form.Status != null)
+                    formCreate.StatusId = form.Status.Id;
+
+                if (form.Sections != null)
+                    formCreate.Sections = form.Sections;
+            }
+
+            HttpContext.Session.SetString("Action", "Create");
             HttpContext.Session.SetObjectAsJson("Form", formCreate);
 
             return View(formCreate);
@@ -91,12 +118,14 @@ namespace EvaluationFormsManager.Controllers
             List<Importance> importances = formService.GetAllImportances().ToList();
 
             Form createdForm = HttpContext.Session.GetObjectFromJson<Form>("Form");
+            ICollection<Section> formSections = createdForm != null ? createdForm.Sections : null;
 
             createdForm = new Form {
                 Name = form.Name,
                 Description = form.Description,
                 Importance = importances.Find(importance => importance.Id == form.ImportanceId),
                 Status = statuses.Find(status => status.Id == form.StatusId),
+                Sections = formSections,
                 CreatedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
                 CreatedBy = DEFAULT_USER_ID,
@@ -106,6 +135,35 @@ namespace EvaluationFormsManager.Controllers
             formService.AddForm(createdForm);
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Form/Create/Session")]
+        public IActionResult FormCreateToSession(FormEditVM formModel)
+        {
+            List<Status> statuses = formService.GetAllStatuses().ToList();
+            List<Importance> importances = formService.GetAllImportances().ToList();
+
+            Form createdForm = HttpContext.Session.GetObjectFromJson<Form>("Form");
+            ICollection<Section> formSections = createdForm != null ? createdForm.Sections : null;
+
+            createdForm = new Form
+            {
+                Name = formModel.Name,
+                Description = formModel.Description,
+                Importance = importances.Find(importance => importance.Id == formModel.ImportanceId),
+                Status = statuses.Find(status => status.Id == formModel.StatusId),
+                Sections = createdForm.Sections,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                CreatedBy = DEFAULT_USER_ID,
+                ModifiedBy = DEFAULT_USER_ID
+            };
+
+            HttpContext.Session.SetObjectAsJson("Form", createdForm);
+
+            return RedirectToAction("CreateSection");
         }
 
         // GET: Forms/Edit/5
@@ -193,34 +251,135 @@ namespace EvaluationFormsManager.Controllers
         }
 
         [HttpGet]
-        [Route("Forms/{formId}/Sections/Create")]
-        public IActionResult CreateSection(int formId)
+        [Route("Forms/Sections/Create")]
+        public IActionResult CreateSection()
         {
-            CreateSectionVM model = new CreateSectionVM()
+            Section section = new Section()
             {
-                UserId = DEFAULT_USER_ID,
                 Criteria = new List<Criteria>()
             };
 
-            List<Importance> importances = formService.GetAllImportances().ToList();
-            List<SelectListItem> importanceSelectList = new List<SelectListItem>();
-            importances.ForEach(importance => importanceSelectList.Add(new SelectListItem
+            CreateSectionVM model = new CreateSectionVM()
             {
-                Value = importance.Id.ToString(),
-                Text = importance.Name
-            }));
-            model.ImportanceList = importanceSelectList;
+                UserId = DEFAULT_USER_ID
+            };
+
+            HttpContext.Session.SetObjectAsJson("Section", section);
 
             return View(model);
         }
 
         [HttpPost]
-        [Route("Forms/{formId}/Sections/Create")]
-        public IActionResult CreateSection(int formId, CreateSectionVM sectionModel)
+        [Route("Forms/Sections/Create")]
+        public IActionResult CreateSection(CreateSectionVM sectionModel)
         {
+            Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
+
+            section = new Section()
+            {
+                Name = sectionModel.Name,
+                Description = sectionModel.Description,
+                Criteria = section.Criteria,
+                EvaluationScale = (EvaluationScale)Int32.Parse(sectionModel.EvaluationScale),
+                ModifiedDate = DateTime.Now,
+                CreatedBy = DEFAULT_USER_ID,
+                ModifiedBy = DEFAULT_USER_ID
+            };
+
+            Form form = HttpContext.Session.GetObjectFromJson<Form>("Form");
+            if (form.Sections == null)
+                form.Sections = new List<Section>();
+
+            form.Sections.Add(section);
+
+            HttpContext.Session.SetObjectAsJson("Form", form);
+
+            if (HttpContext.Session.GetString("Action") != null)
+                return RedirectToAction(HttpContext.Session.GetString("Action"));
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Route("Forms/Section/Criteria")]
+        public string GetCriteria()
+        {
+            ICollection<Criteria> sectionCriteria = HttpContext.Session.GetObjectFromJson<Section>("Section").Criteria;
+
+            List<CriteriaVM> criteriaModels = new List<CriteriaVM>();
+            for (int i = 0; i < sectionCriteria.Count; i++)
+            {
+                criteriaModels.Add(new CriteriaVM()
+                {
+                    Index = i + 1,
+                    Name = sectionCriteria.ElementAt(i).Name,
+                    ModifiedBy = sectionCriteria.ElementAt(i).ModifiedBy,
+                    ModifiedDate = DateTime.Now.ToString("dd MMM hh:mm tt")
+                });
+            }
+
+            return JsonConvert.SerializeObject(criteriaModels);
+        }
+
+        [HttpPost]
+        [Route("Forms/Section/Criteria/Create")]
+        public bool CreateCriteria(string name)
+        {
+            if (name == null)
+                return false;
+
+            Criteria criteria = new Criteria()
+            {
+                Name = name,
+                CreatedBy = DEFAULT_USER_ID,
+                ModifiedBy = DEFAULT_USER_ID,
+                ModifiedDate = DateTime.Now
+            };
+
+            Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
+            section.Criteria.Add(criteria);
+
+            HttpContext.Session.SetObjectAsJson("Section", section);
+
+            return true;
+        }
+
+        [HttpPost]
+        [Route("Forms/Section/Criteria/Delete")]
+        public bool DeleteCriteria(int index)
+        {
+            Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
+            var criteria = section.Criteria.ToList();
+
+            if (index >= criteria.Count && index < 0)
+                return false;
+
+            criteria.RemoveAt(index);
+            section.Criteria = criteria;
+
+            HttpContext.Session.SetObjectAsJson("Section", section);
+
+            return true;
+        }
+
+        [HttpPost]
+        [Route("Forms/Section/Criteria/Edit")]
+        public bool EditCriteria(int index, string name)
+        {
+            Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
+
+            if (index >= section.Criteria.Count && index < 0)
+                return false;
 
 
-            return NotFound();
+            Criteria criteria = section.Criteria.ElementAt(index);
+            criteria.Name = name;
+            criteria.ModifiedBy = DEFAULT_USER_ID;
+            criteria.ModifiedDate = DateTime.Now;
+
+            HttpContext.Session.SetObjectAsJson("Section", section);
+
+            return true;
         }
 
         private bool FormExists(int id)

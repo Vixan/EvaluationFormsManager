@@ -1,5 +1,4 @@
 ﻿using EvaluationFormsManager.Domain;
-using System;
 using System.Collections.Generic;
 
 namespace EvaluationFormsManager.Persistence
@@ -15,5 +14,8 @@ namespace EvaluationFormsManager.Persistence
         IEnumerable<Importance> GetImportances();
         IEnumerable<Status> GetStatuses();
         IEnumerable<Section> GetSections();
+
+        void AddImportance(Importance importance);
+        void AddStatus(Status status);
     }
 }

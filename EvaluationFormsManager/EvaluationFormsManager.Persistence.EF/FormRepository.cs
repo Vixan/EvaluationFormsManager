@@ -1,5 +1,4 @@
 ﻿using EvaluationFormsManager.Domain;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -72,6 +71,16 @@ namespace EvaluationFormsManager.Persistence.EF
         public IEnumerable<Section> GetSections()
         {
             return databaseContext.Sections;
+        }
+
+        public void AddImportance(Importance importance)
+        {
+            databaseContext.Importances.Add(importance);
+        }
+
+        public void AddStatus(Status status)
+        {
+            databaseContext.Statuses.Add(status);
         }
     }
 }

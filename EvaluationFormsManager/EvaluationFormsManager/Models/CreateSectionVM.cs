@@ -1,8 +1,4 @@
-﻿using EvaluationFormsManager.Domain;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EvaluationFormsManager.Models
 {
@@ -20,30 +16,9 @@ namespace EvaluationFormsManager.Models
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [Display(Name = "Criteria")]
-        public ICollection<Criteria> Criteria { get; set; }
-
-        [Display(Name = "Importance")]
+        [Display(Name = "Evaluation Scale")]
         [DataType(DataType.Text)]
-        [Required(ErrorMessage = "Please specify the form importance")]
-        public int ImportanceId { get; set; }
-
-        public IEnumerable<SelectListItem> ImportanceList { get; set; }
-
-
-        public Criteria CreateCriteria()
-        {
-            Criteria newCriteria = new Criteria()
-            {
-                Name = "Enter name here",
-                CreatedBy = UserId,
-                ModifiedBy = UserId,
-                ModifiedDate = DateTime.Now
-            };
-
-            Criteria.Add(newCriteria);
-
-            return newCriteria;
-        }
+        [Required(ErrorMessage = "Please specify the form evaluation scale")]
+        public string EvaluationScale { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using EvaluationFormsManager.Domain;
+using System.Linq;
 
 namespace EvaluationFormsManager.Persistence.EF
 {
@@ -38,95 +39,57 @@ namespace EvaluationFormsManager.Persistence.EF
 
         private void InitializeDatabaseData()
         {
-            #region initialData
             List<Importance> importances = new List<Importance>
             {
                 new Importance
                 {
-                    Name = "Not important",
+                    Name = "Important",
                     Level = 1
                 },
                 new Importance
                 {
-                    Name = "Regular",
+                    Name = "Not important",
                     Level = 2
-                },
-                new Importance
-                {
-                    Name = "Important",
-                    Level = 3
-                },
-                new Importance
-                {
-                    Name = "Very important",
-                    Level = 4
                 }
             };
-            List<Criteria> criteria = new List<Criteria>
+            List<Importance> existingImportances = formRepository.GetImportances().ToList();
+            foreach(var importance in importances)
             {
-                new Criteria
-                {
-                    Name = "Naming stuff",
-                    CreatedBy = "user-admin",
-                    ModifiedBy = "user-admin",
-                    ModifiedDate = new DateTime(2017, 4, 21)
-                }
-            };
-            List<Section> sections = new List<Section>
-            {
-                new Section
-                {
-                    Name = "Software Engineering",
-                    Description = "Cu ipsum oratio eum, ne quem fierent eum, meis mutat in vel. Te eos equidem necessitatibus, vim quem vidit errem ut.",
-                    CreatedBy = "user-admin",
-                    ModifiedBy = "user-admin",
-                    ModifiedDate = new DateTime(2017, 5, 28),
-                    EvaluationScale = EvaluationScale.Agreement,
-                    Criteria = criteria.FindAll(crit => crit.Name == "Naming stuff")
-                }
-            };
-            List<Form> forms = new List<Form>
-            {
-                new Form
-                {
-                    Name = "Core Technical .NET",
-                    Description = "Lorem ipsum dolor sit amet, cum at vide detraxit, solum audire pro eu, in usu disputando dissentiet. Ad duo vide nostro, eos iusto legere officiis te, cum cu putant deleniti comprehensam.",
-                    CreatedBy = "user-admin",
-                    ModifiedBy = "user-admin",
-                    CreatedDate = new DateTime(2017, 5, 27),
-                    ModifiedDate = new DateTime(2017, 5, 28),
-                    Importance = importances.Find(importance => importance.Level == 3),
-                    Sections = sections.FindAll(section => section.Name == "Software Engineering"),
-                    Status = new Status
-                    {
-                        Name = "Enabled"
-                    }
-                },
-                 new Form
-                {
-                    Name = "Team Lead Evaluation",
-                    Description = "Lorem ipsum dolor sit amet, cum at vide detraxit, solum audire pro eu, in usu disputando dissentiet. Ad duo vide nostro, eos iusto legere officiis te, cum cu putant deleniti comprehensam.",
-                    CreatedBy = "user-admin",
-                    ModifiedBy = "user-admin",
-                    CreatedDate = new DateTime(2018, 1, 10),
-                    ModifiedDate = new DateTime(2018, 1, 10),
-                    Importance = importances.Find(importance => importance.Level == 1),
-                    Sections = sections.FindAll(section => section.Name == "Software Engineering"),
-                    Status = new Status
-                    {
-                        Name = "Disabled"
-                    }
-                }
-            };
-            #endregion
+                if (existingImportances != null)
+                    if (existingImportances.Exists(imp => imp.Name == importance.Name))
+                        continue;
 
-            forms.ForEach(form => databaseContext.Forms.Add(form));
+                formRepository.AddImportance(importance);
+            }
+
+            List<Status> statuses = new List<Status>
+            {
+                new Status
+                {
+                    Name = "Enabled"
+                },
+
+                new Status
+                {
+                    Name = "Disabled"
+                }
+            };
+            List<Status> existingStatuses = formRepository.GetStatuses().ToList();
+            foreach(var status in statuses)
+            {
+                if (existingStatuses != null)
+                    if (existingStatuses.Exists(sts => sts.Name == status.Name))
+                        continue;
+
+                formRepository.AddStatus(status);
+            }
+
             databaseContext.SaveChanges();
         }
 
         public void InitializeData(IServiceProvider serviceProvider)
         {
-            //InitializeDatabaseData();
+            InitializeDatabaseData();
         }
 
         public IFormRepository GetFormRepository()
