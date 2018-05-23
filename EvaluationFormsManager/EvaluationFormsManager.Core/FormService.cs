@@ -11,16 +11,16 @@ namespace EvaluationFormsManager.Core
     public class FormService : IFormService
     {
         private readonly IPersistenceContext persistanceContext;
-        
+
 
         public FormService(IPersistenceContext persistanceContext)
         {
-            this.persistanceContext = persistanceContext;            
+            this.persistanceContext = persistanceContext;
         }
 
         public void AddForm(Form form)
         {
-            IFormRepository formRepository = persistanceContext.GetFormRepository();            
+            IFormRepository formRepository = persistanceContext.GetFormRepository();
             formRepository.Add(form);
             formRepository.Save();
         }
@@ -77,8 +77,6 @@ namespace EvaluationFormsManager.Core
             return formRepository.GetById(formIdentifier);
         }
 
-
-
         public Section GetSection(int sectionIdentifier)
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
@@ -86,13 +84,13 @@ namespace EvaluationFormsManager.Core
             return formRepository.GetSection(sectionIdentifier);
         }
 
-
         public void UpdateForm(Form form)
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
             IEnumerable<Form> forms = formRepository.GetAll();
 
             Form formToUpdate = forms.Where(searchedForm => searchedForm.Id == form.Id).FirstOrDefault();
+
             formToUpdate.Name = form.Name;
             formToUpdate.Description = form.Description;
             formToUpdate.Importance = form.Importance;
