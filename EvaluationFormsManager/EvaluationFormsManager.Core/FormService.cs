@@ -1,5 +1,4 @@
-﻿using AuthenticationService.Abstractions;
-using EvaluationFormsManager.Domain;
+﻿using EvaluationFormsManager.Domain;
 using EvaluationFormsManager.Persistence;
 using EvaluationFormsManager.Shared;
 using System;
@@ -97,6 +96,15 @@ namespace EvaluationFormsManager.Core
             formToUpdate.Status = form.Status;
             formToUpdate.ModifiedDate = form.ModifiedDate;
             formToUpdate.ModifiedBy = form.ModifiedBy;
+
+            formRepository.Save();
+        }
+
+        public void ShareForm(Form form, string shareWithUserId)
+        {
+            IFormRepository formRepository = persistanceContext.GetFormRepository();
+
+            formRepository.Share(form, shareWithUserId);
 
             formRepository.Save();
         }

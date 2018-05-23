@@ -51,6 +51,17 @@ namespace EvaluationFormsManager.Persistence.EF
             return formByName;
         }
 
+        public void Share(Form formToShare, string shareWithUserIdentifier)
+        {
+            SharedForms sharedForm = new SharedForms
+            {
+                Form = formToShare,
+                UserId = shareWithUserIdentifier
+            };
+
+            databaseContext.SharedForms.Add(sharedForm);
+        }
+
         public Section GetSection(int sectionIdentifier)
         {
             Section formSection = databaseContext.Sections.ToList().Find(section => section.Id == sectionIdentifier);
