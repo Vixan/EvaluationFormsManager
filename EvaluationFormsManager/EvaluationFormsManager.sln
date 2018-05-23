@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Auth
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.AuthenticationService", "AuthenticationService\EvaluationFormsManager.AuthenticationService.csproj", "{073DC4BD-4258-4974-8BDB-C3AC153EB46C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvaluationFormsManager.ErrorHandling", "EvaluationFormsManager.ErrorHandling\EvaluationFormsManager.ErrorHandling.csproj", "{4345D593-9AE1-4230-81E2-5F627739DC1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{073DC4BD-4258-4974-8BDB-C3AC153EB46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{073DC4BD-4258-4974-8BDB-C3AC153EB46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{073DC4BD-4258-4974-8BDB-C3AC153EB46C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4345D593-9AE1-4230-81E2-5F627739DC1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4345D593-9AE1-4230-81E2-5F627739DC1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4345D593-9AE1-4230-81E2-5F627739DC1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4345D593-9AE1-4230-81E2-5F627739DC1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 		{008E8C59-23C3-4573-B1B2-E970A7BCAE52} = {B64D4951-4B2F-4BC5-ADA6-1FB7057D9A69}
 		{B684CC8A-8A9D-4FC0-B01B-CDCC016C4907} = {B64D4951-4B2F-4BC5-ADA6-1FB7057D9A69}
 		{073DC4BD-4258-4974-8BDB-C3AC153EB46C} = {B64D4951-4B2F-4BC5-ADA6-1FB7057D9A69}
+		{4345D593-9AE1-4230-81E2-5F627739DC1C} = {B64D4951-4B2F-4BC5-ADA6-1FB7057D9A69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {65C4A75A-55B6-4EB4-8C75-C1CF936DC919}

@@ -1,4 +1,5 @@
 ﻿using EvaluationFormsManager.Domain;
+using EvaluationFormsManager.ErrorHandling;
 using EvaluationFormsManager.Shared;
 using EvaluationFormsManager.WebApi.Middleware;
 using EvaluationFormsManager.WebApi.Models;

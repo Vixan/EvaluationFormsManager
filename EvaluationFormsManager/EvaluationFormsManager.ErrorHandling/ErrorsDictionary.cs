@@ -2,14 +2,14 @@
 using System.ComponentModel;
 using System.Reflection;
 
-namespace EvaluationFormsManager.WebApi.Middleware
+namespace EvaluationFormsManager.ErrorHandling
 {
     public static class ErrorsDictionary
     {
         public static string GetDescription(Enum value)
         {
             Type type = value.GetType();
-            string name = Enum.GetName(type, value);\
+            string name = Enum.GetName(type, value);
 
             if (name != null)
             {
