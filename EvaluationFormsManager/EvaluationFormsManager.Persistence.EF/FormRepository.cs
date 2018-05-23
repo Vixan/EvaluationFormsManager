@@ -1,5 +1,4 @@
 ﻿using EvaluationFormsManager.Domain;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -50,6 +49,17 @@ namespace EvaluationFormsManager.Persistence.EF
             Form formByName = databaseContext.Forms.Where(form => form.Name == formName).FirstOrDefault();
 
             return formByName;
+        }
+
+        public void Share(Form formToShare, string shareWithUserIdentifier)
+        {
+            SharedForms sharedForm = new SharedForms
+            {
+                Form = formToShare,
+                UserId = shareWithUserIdentifier
+            };
+
+            databaseContext.SharedForms.Add(sharedForm);
         }
 
         public Section GetSection(int sectionIdentifier)
