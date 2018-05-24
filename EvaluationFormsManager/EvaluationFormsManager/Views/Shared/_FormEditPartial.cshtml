@@ -5,7 +5,7 @@
 
 <div class="form-group">
     <label asp-for="Name" class="control-label"></label>
-    <input asp-for="Name" class="form-control" placeholder="Write a suggestive @Html.DisplayNameFor(model => model.Name)"/>
+    <input asp-for="Name" class="form-control" placeholder="Write a suggestive @Html.DisplayNameFor(model => model.Name)" />
     <span asp-validation-for="Name" class="text-danger"></span>
 </div>
 <div class="form-group">
@@ -88,7 +88,7 @@
                                     <a asp-route="EditSection" asp-route-id="@formSection.Id" class="text-info">
                                         <i class="glyphicon glyphicon-edit icon icon-lg"></i>
                                     </a>
-                                    <a asp-route="DeleteSection" asp-route-id="@formSection.Id" class="text-danger">
+                                    <a asp-route="DeleteSection" asp-route-id="@formSection.Id" class="text-danger" onclick="return confirmDelete(this, '@formSection.Name');">
                                         <i class="glyphicon glyphicon-trash icon icon-lg"></i>
                                     </a>
                                 </td>
@@ -99,9 +99,9 @@
             </table>
             <div class="panel-body text-center">
                 @*<a href="/Forms/@Model.Id/Sections/Create" class="btn btn-success">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    Add Section
-                </a>*@
+                        <i class="glyphicon glyphicon-plus"></i>
+                        Add Section
+                    </a>*@
                 <button type="submit" class="btn btn-success" formaction="@Url.Action("FormCreateToSession", "Forms")" formmethod="post">
                     <i class="glyphicon glyphicon-plus"></i>
                     Add Section

@@ -70,7 +70,7 @@
                             <a asp-route="FormEdit" asp-route-id="@item.Id" class="text-info">
                                 <i class="glyphicon glyphicon-edit icon icon-lg"></i>
                             </a>
-                            <a asp-route="FormDelete" asp-route-id="@item.Id" class="text-danger confirm-delete" onclick="return confirm('Are you sure ?');">
+                            <a asp-route="FormDelete" asp-route-id="@item.Id" class="text-danger confirm-delete" onclick="return confirmDelete(this, '@item.Name');">
                                 <i class="glyphicon glyphicon-trash icon icon-lg"></i>
                             </a>
                         </td>
@@ -87,3 +87,35 @@
         </p>
     </div>
 </div>
+
+@section Scripts {
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script type="text/javascript">
+        function confirmDelete(sender, formName) {
+            if ($(sender).attr("confirmed") == "true") { return true; }
+
+            bootbox.confirm({
+                title: "Are you sure?",
+                message: `You will not be able to retrieve the Form <b>${formName}</b> after this.`,
+                buttons: {
+                    confirm: {
+                        label: "Yes, delete it",
+                        className: "btn-success"
+                    },
+                    cancel: {
+                        label: "No, keep it",
+                        className: "btn-danger"
+                    }
+                },
+                callback: function (confirmed) {
+                    if (confirmed) {
+                        $(sender).attr("confirmed", confirmed)
+                        sender.click();
+                    }
+                }
+            });
+
+            return false;
+        }
+    </script>
+}
