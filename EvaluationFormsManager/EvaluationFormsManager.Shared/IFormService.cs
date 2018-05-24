@@ -13,7 +13,7 @@ namespace EvaluationFormsManager.Shared
         void AddForm(Form form);
         void DeleteForm(Form form);
         void UpdateForm(Form form);
-        void ShareForm(Form form, string shareWithUserId);
+        void ShareForm(Form form, IEnumerable<string> shareWithUsers);
 
         Section GetSection(int sectionIdentifier);
 

@@ -8,7 +8,7 @@ namespace EvaluationFormsManager.Persistence
         Form GetByName(string formName);
         IEnumerable<Form> GetOwned(string userIdentifier);
         IEnumerable<Form> GetShared(string userIdentifier);
-        void Share(Form formToShare, string shareWithUserIdentifier);
+        void Share(Form formToShare, IEnumerable<string> shareWithUsers);
 
         Section GetSection(int sectionIdentifier);
 

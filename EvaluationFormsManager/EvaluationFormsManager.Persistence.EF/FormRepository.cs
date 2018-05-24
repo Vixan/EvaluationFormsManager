@@ -51,15 +51,17 @@ namespace EvaluationFormsManager.Persistence.EF
             return formByName;
         }
 
-        public void Share(Form formToShare, string shareWithUserIdentifier)
+        public void Share(Form formToShare, IEnumerable<string> shareWithUsers)
         {
-            SharedForms sharedForm = new SharedForms
+            List<SharedForms> sharedForms = new List<SharedForms>();
+
+            shareWithUsers.ToList().ForEach(userId => sharedForms.Add(new SharedForms
             {
                 Form = formToShare,
-                UserId = shareWithUserIdentifier
-            };
+                UserId = userId
+            }));
 
-            databaseContext.SharedForms.Add(sharedForm);
+            sharedForms.ForEach(sharedForm => databaseContext.SharedForms.Add(sharedForm));
         }
 
         public Section GetSection(int sectionIdentifier)

@@ -196,20 +196,22 @@ namespace EvaluationFormsManager.WebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/forms/1/share?userId=1&shareWithUserId=2
+        // POST: api/forms/1/share?userId=1
         [HttpPost("{formId}/Share")]
         [Route("Share")]
         [ValidateUserId]
-        public IActionResult Share([FromQuery]string userId, string formId, [FromQuery]string shareWithUserId)
+        public IActionResult Share([FromQuery]string userId, string formId, [FromBody]ShareFormVM shareObject)
         {
+            IEnumerable<string> shareList = shareObject.UsersList;
+
             if (!int.TryParse(formId, out int internalFormId))
             {
                 return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_ID_INVALID));
             }
 
-            if (shareWithUserId == null || shareWithUserId.Length == 0)
+            if (shareList == null || shareList.Count() == 0)
             {
-                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_USER_TO_SHARE_ID_INVALID));
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_USERLIST_SHARE_INVALID));
             }
 
             Form formToShare = formService.GetForm(internalFormId);
@@ -219,7 +221,7 @@ namespace EvaluationFormsManager.WebApi.Controllers
                 return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_NOT_FOUND));
             }
 
-            formService.ShareForm(formToShare, shareWithUserId);
+            formService.ShareForm(formToShare, shareList);
 
             return Created(HttpContext.Request.Path, formToShare);
         }

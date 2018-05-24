@@ -100,11 +100,11 @@ namespace EvaluationFormsManager.Core
             formRepository.Save();
         }
 
-        public void ShareForm(Form form, string shareWithUserId)
+        public void ShareForm(Form form, IEnumerable<string> shareWithUsers)
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
 
-            formRepository.Share(form, shareWithUserId);
+            formRepository.Share(form, shareWithUsers);
 
             formRepository.Save();
         }

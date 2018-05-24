@@ -52,7 +52,7 @@ namespace EvaluationFormsManager.ErrorHandling
         [Description("User Identifier provided is invalid.")]
         ERR_USER_ID_INVALID = 4,
 
-        [Description("User Identifier to share the form with is invalid.")]
-        ERR_USER_TO_SHARE_ID_INVALID = 5
+        [Description("The list of Users to share the form with is empty or invalid.")]
+        ERR_USERLIST_SHARE_INVALID = 5
     }
 }
