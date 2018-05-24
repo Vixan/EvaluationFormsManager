@@ -225,5 +225,35 @@ namespace EvaluationFormsManager.WebApi.Controllers
 
             return Created(HttpContext.Request.Path, formToShare);
         }
+
+        // DELETE: api/forms/1/unshare?userId=1
+        [HttpDelete("{formId}/Unshare")]
+        [Route("Unshare")]
+        [ValidateUserId]
+        public IActionResult Unshare([FromQuery]string userId, string formId, [FromBody]ShareFormVM unshareObject)
+        {
+            IEnumerable<string> shareList = unshareObject.UsersList;
+
+            if (!int.TryParse(formId, out int internalFormId))
+            {
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_ID_INVALID));
+            }
+
+            if (shareList == null || shareList.Count() == 0)
+            {
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_USERLIST_UNSHARE_INVALID));
+            }
+
+            Form formToUnshare = formService.GetForm(internalFormId);
+
+            if (formToUnshare == null)
+            {
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_NOT_FOUND));
+            }
+
+            formService.UnshareForm(formToUnshare, shareList);
+
+            return NoContent();
+        }
     }
 }

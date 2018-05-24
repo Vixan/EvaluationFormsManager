@@ -11,7 +11,6 @@ namespace EvaluationFormsManager.Core
     {
         private readonly IPersistenceContext persistanceContext;
 
-
         public FormService(IPersistenceContext persistanceContext)
         {
             this.persistanceContext = persistanceContext;
@@ -105,6 +104,15 @@ namespace EvaluationFormsManager.Core
             IFormRepository formRepository = persistanceContext.GetFormRepository();
 
             formRepository.Share(form, shareWithUsers);
+
+            formRepository.Save();
+        }
+
+        public void UnshareForm(Form form, IEnumerable<string> unshareWithUsers)
+        {
+            IFormRepository formRepository = persistanceContext.GetFormRepository();
+
+            formRepository.Unshare(form, unshareWithUsers);
 
             formRepository.Save();
         }

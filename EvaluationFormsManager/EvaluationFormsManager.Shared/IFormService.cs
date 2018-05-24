@@ -14,6 +14,7 @@ namespace EvaluationFormsManager.Shared
         void DeleteForm(Form form);
         void UpdateForm(Form form);
         void ShareForm(Form form, IEnumerable<string> shareWithUsers);
+        void UnshareForm(Form form, IEnumerable<string> unshareWithUsers);
 
         Section GetSection(int sectionIdentifier);
 

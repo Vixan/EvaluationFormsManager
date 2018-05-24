@@ -64,6 +64,20 @@ namespace EvaluationFormsManager.Persistence.EF
             sharedForms.ForEach(sharedForm => databaseContext.SharedForms.Add(sharedForm));
         }
 
+        public void Unshare(Form formToUnshare, IEnumerable<string> unshareWithUsers)
+        {
+            unshareWithUsers.ToList().ForEach(userId => 
+            {
+                SharedForms toDelete = databaseContext
+                    .SharedForms
+                    .Where(sharedForm => sharedForm.Form.Id == formToUnshare.Id)
+                    .Where(sharedForm => sharedForm.UserId == userId)
+                    .SingleOrDefault();
+
+                databaseContext.SharedForms.Remove(toDelete);
+            });
+        }
+
         public Section GetSection(int sectionIdentifier)
         {
             Section formSection = databaseContext.Sections.ToList().Find(section => section.Id == sectionIdentifier);
