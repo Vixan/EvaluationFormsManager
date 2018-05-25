@@ -7,6 +7,7 @@ namespace EvaluationFormsManager.Persistence
         IEnumerable<T> GetAll();
         T GetById(int identifier);
         void Add(T entity);
+        void Update(T entity);
         void Delete(T entity);
         void Save();
     }

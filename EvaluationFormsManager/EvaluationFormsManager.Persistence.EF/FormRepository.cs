@@ -11,6 +11,82 @@ namespace EvaluationFormsManager.Persistence.EF
             databaseContext = context;
         }
 
+        private void UpdateCriteria(Criteria existingCriteria, Criteria newCriteria)
+        {
+            databaseContext.Entry(existingCriteria).CurrentValues.SetValues(newCriteria);
+        }
+
+        private void UpdateSection(Section existingSection, Section newSection)
+        {
+            databaseContext.Entry(existingSection).CurrentValues.SetValues(newSection);
+
+            foreach (var criteria in newSection.Criteria)
+            {
+                var existingCriteria = existingSection.Criteria
+                                                  .Where(c => c.Id == criteria.Id)
+                                                  .FirstOrDefault();
+                if (existingCriteria != null)
+                {
+                    UpdateCriteria(existingCriteria, criteria);
+                }
+                else
+                {
+                    existingSection.Criteria.Add(criteria);
+                }
+            }
+
+            var criteriasToRemove = existingSection.Criteria
+                                                        .Where(existingCriteria =>
+                                                                               !newSection
+                                                                               .Criteria
+                                                                               .Select(c => c.Id)
+                                                                               .Contains(existingCriteria.Id)).ToList();
+
+            foreach (var criteriaToRemove in criteriasToRemove)
+            {
+                existingSection.Criteria.Remove(criteriaToRemove);
+            }
+
+        }
+
+        public override void Update(Form entity)
+        {
+            var existingForm = GetById(entity.Id);
+            if (existingForm != null)
+            {
+                databaseContext.Entry(existingForm).CurrentValues.SetValues(entity);
+                foreach (var section in entity.Sections)
+                {
+                    var existingSection = existingForm.Sections
+                                                      .Where(s => s.Id == section.Id)
+                                                      .FirstOrDefault();
+                    if (existingSection != null)
+                    {
+                        UpdateSection(existingSection, section);                       
+                    }
+                    else
+                    {
+                        existingForm.Sections.Add(section);
+                    }
+                }
+
+                var sectionsToRemove = existingForm.Sections
+                                                            .Where( existingSection => 
+                                                                                    !entity
+                                                                                    .Sections
+                                                                                    .Select(s => s.Id)
+                                                                                    .Contains(existingSection.Id)).ToList();
+
+                foreach(var sectionToRemove in sectionsToRemove)
+                { 
+                    existingForm.Sections.Remove(sectionToRemove);
+                }
+            }
+
+            databaseContext.Forms.Update(existingForm);
+           
+        }
+
         public override IEnumerable<Form> GetAll()
         {
             IEnumerable<Form> forms = databaseContext.Forms;

@@ -30,5 +30,10 @@ namespace EvaluationFormsManager.Persistence.EF
         {
             databaseContext.SaveChanges();
         }
+
+        public virtual void Update( T entity)
+        {            
+            databaseContext.Update(entity);
+        }
     }
 }

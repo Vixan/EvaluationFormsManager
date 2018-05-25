@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EvaluationFormsManager.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace EvaluationFormsManager.Models
 {
@@ -17,8 +18,8 @@ namespace EvaluationFormsManager.Models
         public string Description { get; set; }
 
         [Display(Name = "Evaluation Scale")]
-        [DataType(DataType.Text)]
+        //[DataType(DataType.Text)]
         [Required(ErrorMessage = "Please specify the form evaluation scale")]
-        public string EvaluationScale { get; set; }
+        public EvaluationScale EvaluationScale { get; set; }
     }
 }

@@ -80,29 +80,27 @@
                         foreach (var formSection in Model.Sections)
                         {
                             <tr>
-                                <td class="text-center">@(counter++)</td>
+                                <td class="text-center">@(counter)</td>
                                 <td>@formSection.Name</td>
                                 <td>@formSection.ModifiedBy</td>
                                 <td>@formSection.ModifiedDate.ToString("dd.MMM HH:mm tt")</td>
                                 <td>
-                                    <a asp-route="EditSection" asp-route-id="@formSection.Id" class="text-info">
-                                        <i class="glyphicon glyphicon-edit icon icon-lg"></i>
-                                    </a>
-                                    <a asp-route="DeleteSection" asp-route-id="@formSection.Id" class="text-danger">
-                                        <i class="glyphicon glyphicon-trash icon icon-lg"></i>
-                                    </a>
+                                    <button type="submit" class="btn-link" formaction="@Url.Action("UpdateSessionEdit", "Forms", new { index = counter - 1})" formmethod="post">
+                                        <i class="glyphicon glyphicon-edit icon icon-lg text-info"></i>
+                                    </button>
+                                    <button type="submit" class="btn-link">
+                                        <i class="glyphicon glyphicon-trash icon icon-lg text-danger"></i>
+                                    </button>
                                 </td>
+
                             </tr>
+                            ++counter;
                         }
                     }
                 </tbody>
             </table>
             <div class="panel-body text-center">
-                @*<a href="/Forms/@Model.Id/Sections/Create" class="btn btn-success">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    Add Section
-                </a>*@
-                <button type="submit" class="btn btn-success" formaction="@Url.Action("FormCreateToSession", "Forms")" formmethod="post">
+                <button type="submit" class="btn btn-success" formaction="@Url.Action("UpdateSessionCreate", "Forms")" formmethod="post">
                     <i class="glyphicon glyphicon-plus"></i>
                     Add Section
                 </button>

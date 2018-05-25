@@ -1,14 +1,14 @@
 ﻿@model CreateSectionVM
 
 @{
-    ViewData["Title"] = "Create Section";
+    ViewData["Title"] = "Edit Section";
 }
 
-<h2>Create Section</h2>
+<h2>Edit Section</h2>
 <hr />
 <div class="row">
     <div class="col-md-10">
-        <form asp-action="CreateSection">
+        <form asp-action="EditSection">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             @await Html.PartialAsync("_SectionEditPartial", Model)
@@ -19,7 +19,7 @@
             </div>
 
         </form>
-        
+
     </div>
 </div>
 

@@ -39,9 +39,7 @@
                     <tr>
                         <td>
                             <i class="glyphicon glyphicon-exclamation-sign icon icon-lg
-                               @(item.ImportanceLevel == 1 ? "text-info" :
-                                @item.ImportanceLevel == 2 ? "text-warning" :
-                                "text-danger")"></i>
+                               @(item.ImportanceLevel == 2 ? "text-info" : "text-danger")"></i>
                             @item.Name
                         </td>
                         <td>

@@ -1,8 +1,6 @@
-﻿using AuthenticationService.Abstractions;
-using EvaluationFormsManager.Domain;
+﻿using EvaluationFormsManager.Domain;
 using EvaluationFormsManager.Persistence;
 using EvaluationFormsManager.Shared;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -87,16 +85,8 @@ namespace EvaluationFormsManager.Core
         public void UpdateForm(Form form)
         {
             IFormRepository formRepository = persistanceContext.GetFormRepository();
-            IEnumerable<Form> forms = formRepository.GetAll();
 
-            Form formToUpdate = forms.Where(searchedForm => searchedForm.Id == form.Id).FirstOrDefault();
-
-            formToUpdate.Name = form.Name;
-            formToUpdate.Description = form.Description;
-            formToUpdate.Importance = form.Importance;
-            formToUpdate.Status = form.Status;
-            formToUpdate.ModifiedDate = form.ModifiedDate;
-            formToUpdate.ModifiedBy = form.ModifiedBy;
+            formRepository.Update(form);
 
             formRepository.Save();
         }
