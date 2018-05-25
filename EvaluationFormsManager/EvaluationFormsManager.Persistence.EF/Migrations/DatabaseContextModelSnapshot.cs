@@ -149,7 +149,8 @@ namespace EvaluationFormsManager.Persistence.EF.Migrations
                 {
                     b.HasOne("EvaluationFormsManager.Domain.Section")
                         .WithMany("Criteria")
-                        .HasForeignKey("SectionId");
+                        .HasForeignKey("SectionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EvaluationFormsManager.Domain.Form", b =>
@@ -167,7 +168,8 @@ namespace EvaluationFormsManager.Persistence.EF.Migrations
                 {
                     b.HasOne("EvaluationFormsManager.Domain.Form")
                         .WithMany("Sections")
-                        .HasForeignKey("FormId");
+                        .HasForeignKey("FormId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EvaluationFormsManager.Domain.SharedForms", b =>

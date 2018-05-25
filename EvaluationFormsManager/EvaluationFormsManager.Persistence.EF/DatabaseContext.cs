@@ -16,6 +16,19 @@ namespace EvaluationFormsManager.Persistence.EF
             optionsBuilder.UseLazyLoadingProxies();
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Section>()
+                .HasMany(section => section.Criteria)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Form>()
+                .HasMany(form => form.Sections)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+
         public DbSet<Form> Forms { get; set; }
         public DbSet<Importance> Importances { get; set; }
         public DbSet<Status> Statuses { get; set; }

@@ -11,7 +11,7 @@
         <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-           @await Html.PartialAsync("_FormEditPartial", Model)
+            @await Html.PartialAsync("_FormEditPartial", Model)
 
             <div class="form-group text-right">
                 <input type="submit" value="Save Template" class="btn btn-primary btn--submit" />
@@ -28,4 +28,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <!-- Bootstrap Select JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+
+    <script type="text/javascript">
+        function confirmDelete(sender, sectionName) {
+            if ($(sender).attr("confirmed") == "true") { return true; }
+
+            bootbox.confirm({
+                title: "Are you sure?",
+                message: `You will not be able to retrieve the Section <b>${sectionName}</b> after this.`,
+                className: "modal--middle",
+                buttons: {
+                    confirm: {
+                        label: "Yes, delete it",
+                        className: "btn-success"
+                    },
+                    cancel: {
+                        label: "No, keep it",
+                        className: "btn-danger"
+                    }
+                },
+                callback: function (confirmed) {
+                    if (confirmed) {
+                        $(sender).attr("confirmed", confirmed)
+                        sender.click();
+                    }
+                }
+            });
+
+            return false;
+        }
+    </script>
 }
+

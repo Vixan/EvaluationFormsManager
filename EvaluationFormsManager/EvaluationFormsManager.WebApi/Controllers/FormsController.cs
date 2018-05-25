@@ -69,7 +69,7 @@ namespace EvaluationFormsManager.WebApi.Controllers
         }
 
         // GET: api/forms/1/sections?userId=1
-        [HttpGet("{sectionId}")]
+        [HttpGet("{sectionId}/Sections")]
         [Route("Sections")]
         [ValidateUserId]
         public IActionResult GetSection([FromQuery]string userId, int sectionId)
@@ -192,6 +192,66 @@ namespace EvaluationFormsManager.WebApi.Controllers
             }
 
             formService.DeleteForm(formToDelete);
+
+            return NoContent();
+        }
+
+        // POST: api/forms/1/share?userId=1
+        [HttpPost("{formId}/Share")]
+        [Route("Share")]
+        [ValidateUserId]
+        public IActionResult Share([FromQuery]string userId, string formId, [FromBody]ShareFormVM shareObject)
+        {
+            IEnumerable<string> shareList = shareObject.UsersList;
+
+            if (!int.TryParse(formId, out int internalFormId))
+            {
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_ID_INVALID));
+            }
+
+            if (shareList == null || shareList.Count() == 0)
+            {
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_USERLIST_SHARE_INVALID));
+            }
+
+            Form formToShare = formService.GetForm(internalFormId);
+
+            if (formToShare == null)    
+            {
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_NOT_FOUND));
+            }
+
+            formService.ShareForm(formToShare, shareList);
+
+            return Created(HttpContext.Request.Path, formToShare);
+        }
+
+        // DELETE: api/forms/1/unshare?userId=1
+        [HttpDelete("{formId}/Unshare")]
+        [Route("Unshare")]
+        [ValidateUserId]
+        public IActionResult Unshare([FromQuery]string userId, string formId, [FromBody]ShareFormVM unshareObject)
+        {
+            IEnumerable<string> shareList = unshareObject.UsersList;
+
+            if (!int.TryParse(formId, out int internalFormId))
+            {
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_ID_INVALID));
+            }
+
+            if (shareList == null || shareList.Count() == 0)
+            {
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_USERLIST_UNSHARE_INVALID));
+            }
+
+            Form formToUnshare = formService.GetForm(internalFormId);
+
+            if (formToUnshare == null)
+            {
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_NOT_FOUND));
+            }
+
+            formService.UnshareForm(formToUnshare, shareList);
 
             return NoContent();
         }

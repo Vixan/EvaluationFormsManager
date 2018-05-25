@@ -127,6 +127,33 @@ namespace EvaluationFormsManager.Persistence.EF
             return formByName;
         }
 
+        public void Share(Form formToShare, IEnumerable<string> shareWithUsers)
+        {
+            List<SharedForms> sharedForms = new List<SharedForms>();
+
+            shareWithUsers.ToList().ForEach(userId => sharedForms.Add(new SharedForms
+            {
+                Form = formToShare,
+                UserId = userId
+            }));
+
+            sharedForms.ForEach(sharedForm => databaseContext.SharedForms.Add(sharedForm));
+        }
+
+        public void Unshare(Form formToUnshare, IEnumerable<string> unshareWithUsers)
+        {
+            unshareWithUsers.ToList().ForEach(userId => 
+            {
+                SharedForms toDelete = databaseContext
+                    .SharedForms
+                    .Where(sharedForm => sharedForm.Form.Id == formToUnshare.Id)
+                    .Where(sharedForm => sharedForm.UserId == userId)
+                    .SingleOrDefault();
+
+                databaseContext.SharedForms.Remove(toDelete);
+            });
+        }
+
         public Section GetSection(int sectionIdentifier)
         {
             Section formSection = databaseContext.Sections.ToList().Find(section => section.Id == sectionIdentifier);
