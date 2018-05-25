@@ -1,8 +1,4 @@
-﻿function close() {
-    $('#jsGrid .jsgrid-grid-header .jsgrid-table .jsgrid-insert-row').css("display", "none");
-}
-
-$(function () {
+﻿$(function () {
 
     $("#jsGrid").jsGrid({
         width: "100%",
@@ -69,6 +65,7 @@ $(function () {
     });
 
     $('#cancelAddCriterion').click(function () {
+        $('#jsGrid').jsGrid("clearInsert");
         $('#jsGrid .jsgrid-grid-header .jsgrid-table .jsgrid-insert-row').css("display", "none");
 
         $('#addCriterion').show();
