@@ -6,7 +6,7 @@ namespace AuthenticationService
     {
         public string GetCurrentUserId()
         {
-            return "1";
+            return "userId";
         }
 
         public bool IsUserAuthenticated()

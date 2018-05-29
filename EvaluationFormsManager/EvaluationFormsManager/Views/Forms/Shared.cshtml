@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<FormBriefVM>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Shared Forms";
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 
-<h2>Forms</h2>
+<h2>Forms shared with me</h2>
 
 <div class="row">
     <div class="col-sm-12">
@@ -34,43 +34,40 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var form in Model)
                 {
                     <tr class="form">
                         <td>
                             <i class="glyphicon glyphicon-exclamation-sign icon icon-lg
-                               @(item.ImportanceLevel == 1 ? "text-info" :
-                                @item.ImportanceLevel == 2 ? "text-warning" :
+                               @(form.ImportanceLevel == 1 ? "text-info" :
+                                @form.ImportanceLevel == 2 ? "text-warning" :
                                 "text-danger")"></i>
-                            @item.Name
+                            @form.Name
                         </td>
                         <td>
-                            @if (item.Status.Name == "Enabled")
+                            @if (form.Status.Name == "Enabled")
                             {
                                 <span class="label label-md label-success">Enabled</span>
                             }
-                            else if (item.Status.Name == "Disabled")
+                            else if (form.Status.Name == "Disabled")
                             {
                                 <span class="label label-md label-default">Disabled</span>
                             }
                         </td>
                         <td>
-                            @item.Description
+                            @form.Description
                         </td>
                         <td>
-                            @item.CreatedDate.ToString("dd.MMM HH:mm tt")
+                            @form.CreatedDate.ToString("dd.MMM HH:mm tt")
                         </td>
                         <td>
-                            @item.ModifiedDate.ToString("dd.MMM HH:mm tt")
+                            @form.ModifiedDate.ToString("dd.MMM HH:mm tt")
                         </td>
                         <td>
-                            <a asp-action="" class="text-success">
-                                <i class="glyphicon glyphicon-share icon icon-lg"></i>
-                            </a>
-                            <a asp-route="Edit" asp-route-id="@item.Id" class="text-info">
+                            <a asp-route="Edit" asp-route-id="@form.Id" class="text-info" title="Edit">
                                 <i class="glyphicon glyphicon-edit icon icon-lg"></i>
                             </a>
-                            <a href="#" class="text-danger confirm-delete" onclick="return confirmDelete(event, this, '@item.Id', '@item.Name');">
+                            <a href="#" class="text-danger" title="Remove from Shared" onclick="return confirmDelete(event, this, '@form.Id', '@form.Name');">
                                 <i class="glyphicon glyphicon-trash icon icon-lg"></i>
                             </a>
                         </td>
@@ -78,13 +75,6 @@
                 }
             </tbody>
         </table>
-
-        <p class="text-center">
-            <a asp-action="Create" class="btn btn-success">
-                <i class="glyphicon glyphicon-plus"></i>
-                Add new template
-            </a>
-        </p>
     </div>
 </div>
 
@@ -96,7 +86,7 @@
 
             bootbox.confirm({
                 title: "Are you sure?",
-                message: `You will not be able to retrieve the Form <b>${formName}</b> after this.`,
+                message: `You will not be able to access the Form <b>${formName}</b> after removing it from the shared list.`,
                 className: "modal--middle",
                 buttons: {
                     confirm: {
@@ -112,7 +102,7 @@
                     if (confirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: `./Forms/${formId}/delete`,
+                            url: `./Shared/${formId}/unshare`,
                             success: function (response) {
                                 $(sender).closest(".form").remove();
                             }

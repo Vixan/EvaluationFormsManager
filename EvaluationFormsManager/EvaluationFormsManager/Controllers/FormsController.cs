@@ -1,4 +1,5 @@
 ﻿using EvaluationFormsManager.Domain;
+using EvaluationFormsManager.ErrorHandling;
 using EvaluationFormsManager.Extensions;
 using EvaluationFormsManager.Models;
 using EvaluationFormsManager.Shared;
@@ -12,6 +13,7 @@ using System.Linq;
 
 namespace EvaluationFormsManager.Controllers
 {
+    [Route("[controller]")]
     public class FormsController : Controller
     {
         private readonly IFormService formService;
@@ -25,9 +27,10 @@ namespace EvaluationFormsManager.Controllers
         }
 
         // GET: Forms
-        public ActionResult Index()
+        [HttpGet]
+        public IActionResult Index()
         {
-            List<Form> forms = formService.GetAllForms().ToList();
+            List<Form> forms = formService.GetOwnedForms(DEFAULT_USER_ID).ToList();
             List<FormBriefVM> employeeForms = new List<FormBriefVM>();
 
             forms.ForEach(form => employeeForms.Add(new FormBriefVM
@@ -44,19 +47,36 @@ namespace EvaluationFormsManager.Controllers
             return View(employeeForms);
         }
 
-        // GET: Forms/Details/5
-        public IActionResult Details(int? id)
+        // GET: Forms/Shared
+        [HttpGet]
+        [Route("Shared")]
+        public IActionResult Shared()
         {
-            return NotFound();
+            List<Form> sharedForms = formService.GetSharedForms(DEFAULT_USER_ID).ToList();
+            List<FormBriefVM> formsToDisplay = new List<FormBriefVM>();
+
+            sharedForms.ForEach(form => formsToDisplay.Add(new FormBriefVM
+            {
+                Id = form.Id,
+                Name = form.Name,
+                Description = form.Description,
+                ImportanceLevel = form.Importance.Level,
+                Status = form.Status,
+                CreatedDate = form.CreatedDate,
+                ModifiedDate = form.ModifiedDate
+            }));
+
+            return View(formsToDisplay);
         }
 
         // GET: Forms/Create
-        [Route("Form/Create", Name = "FormCreate")]
+        [HttpGet]
+        [Route("Create")]
         public IActionResult Create()
         {
             Form form = null;
 
-            if(HttpContext.Session.GetString("Action") != null)
+            if (HttpContext.Session.GetString("Action") != null)
             {
                 if (HttpContext.Session.GetString("Action") == "Create")
                     form = HttpContext.Session.GetObjectFromJson<Form>("Form");
@@ -82,7 +102,7 @@ namespace EvaluationFormsManager.Controllers
                 Sections = new List<Section>()
             };
 
-            if(form != null)
+            if (form != null)
             {
                 if (form.Name != null)
                     formCreate.Name = form.Name;
@@ -111,7 +131,7 @@ namespace EvaluationFormsManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Form/Create", Name = "FormCreate")]
+        [Route("Create")]
         public IActionResult Create(FormEditVM form)
         {
             List<Status> statuses = formService.GetAllStatuses().ToList();
@@ -139,7 +159,7 @@ namespace EvaluationFormsManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Form/Create/Session")]
+        [Route("Create/Session")]
         public IActionResult FormCreateToSession(FormEditVM formModel)
         {
             List<Status> statuses = formService.GetAllStatuses().ToList();
@@ -166,8 +186,9 @@ namespace EvaluationFormsManager.Controllers
             return RedirectToAction("CreateSection");
         }
 
-        // GET: Forms/Edit/5
-        [Route("Form/{id}/Edit", Name = "FormEdit")]
+        // GET: Forms/5/Edit
+        [HttpGet]
+        [Route("{id}/Edit", Name = "Edit")]
         public IActionResult Edit(int id)
         {
             Form form = formService.GetForm(id);
@@ -208,8 +229,8 @@ namespace EvaluationFormsManager.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Route("{id}/Edit")]
         [ValidateAntiForgeryToken]
-        [Route("Form/{id}/Edit", Name = "FormEdit")]
         public IActionResult Edit(int id, FormEditVM form)
         {
             List<Status> statuses = formService.GetAllStatuses().ToList();
@@ -231,27 +252,25 @@ namespace EvaluationFormsManager.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Forms/Delete/5
-        [Route("Form/{id}/Delete", Name = "FormDelete")]
-        public IActionResult Delete(int id)
+        // DELETE: Forms/5/Delete
+        [HttpDelete]
+        [Route("{formId}/Delete")]
+        public IActionResult Delete(int formId)
         {
-            Form formToDelete = formService.GetForm(id);
+            Form formToDelete = formService.GetForm(formId);
+
+            if (formToDelete == null)
+            {
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_NOT_FOUND));
+            }
+
             formService.DeleteForm(formToDelete);
 
-            return RedirectToAction("Index");
-        }
-
-        // POST: Forms/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        [Route("Form/{id}/Delete", Name = "FormDelete")]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            return RedirectToAction(nameof(Index));
+            return NoContent();
         }
 
         [HttpGet]
-        [Route("Forms/Sections/Create")]
+        [Route("Sections/Create")]
         public IActionResult CreateSection()
         {
             Section section = new Section()
@@ -270,7 +289,7 @@ namespace EvaluationFormsManager.Controllers
         }
 
         [HttpPost]
-        [Route("Forms/Sections/Create")]
+        [Route("Sections/Create")]
         public IActionResult CreateSection(CreateSectionVM sectionModel)
         {
             Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
@@ -301,7 +320,7 @@ namespace EvaluationFormsManager.Controllers
         }
 
         [HttpGet]
-        [Route("Forms/Section/Criteria")]
+        [Route("Section/Criteria")]
         public string GetCriteria()
         {
             ICollection<Criteria> sectionCriteria = HttpContext.Session.GetObjectFromJson<Section>("Section").Criteria;
@@ -322,7 +341,7 @@ namespace EvaluationFormsManager.Controllers
         }
 
         [HttpPost]
-        [Route("Forms/Section/Criteria/Create")]
+        [Route("Section/Criteria/Create")]
         public bool CreateCriteria(string name)
         {
             if (name == null)
@@ -345,7 +364,7 @@ namespace EvaluationFormsManager.Controllers
         }
 
         [HttpPost]
-        [Route("Forms/Section/Criteria/Delete")]
+        [Route("Section/Criteria/Delete")]
         public bool DeleteCriteria(int index)
         {
             Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
@@ -363,7 +382,7 @@ namespace EvaluationFormsManager.Controllers
         }
 
         [HttpPost]
-        [Route("Forms/Section/Criteria/Edit")]
+        [Route("Section/Criteria/Edit")]
         public bool EditCriteria(int index, string name)
         {
             Section section = HttpContext.Session.GetObjectFromJson<Section>("Section");
@@ -380,6 +399,24 @@ namespace EvaluationFormsManager.Controllers
             HttpContext.Session.SetObjectAsJson("Section", section);
 
             return true;
+        }
+
+        [HttpDelete]
+        [Route("Shared/{formId}/Unshare")]
+        public IActionResult Unshare(int formId)
+        {
+            Form formToUnshare = formService.GetForm(formId);
+
+            if (formToUnshare == null)
+            {
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_NOT_FOUND));
+            }
+
+            IEnumerable<string> usersToUnshareWith = new List<string> { DEFAULT_USER_ID };
+
+            formService.UnshareForm(formToUnshare, usersToUnshareWith);
+
+            return NoContent();
         }
 
         private bool FormExists(int id)
