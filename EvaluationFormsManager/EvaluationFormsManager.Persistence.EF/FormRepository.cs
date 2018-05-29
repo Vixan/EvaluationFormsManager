@@ -55,6 +55,7 @@ namespace EvaluationFormsManager.Persistence.EF
             if (existingForm != null)
             {
                 databaseContext.Entry(existingForm).CurrentValues.SetValues(entity);
+
                 foreach (var section in entity.Sections)
                 {
                     var existingSection = existingForm.Sections
@@ -81,10 +82,12 @@ namespace EvaluationFormsManager.Persistence.EF
                 { 
                     existingForm.Sections.Remove(sectionToRemove);
                 }
-            }
 
-            databaseContext.Forms.Update(existingForm);
-           
+                existingForm.Importance = entity.Importance;
+                existingForm.Status = entity.Status;
+
+                databaseContext.Forms.Update(existingForm);
+            }
         }
 
         public override IEnumerable<Form> GetAll()

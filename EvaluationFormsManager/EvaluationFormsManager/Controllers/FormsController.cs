@@ -261,7 +261,7 @@ namespace EvaluationFormsManager.Controllers
             List<Status> statuses = formService.GetAllStatuses().ToList();
             List<Importance> importances = formService.GetAllImportances().ToList();
 
-            Form createdForm = HttpContext.Session.GetObjectFromJson<Form>("Form");
+            Form formFormSession = HttpContext.Session.GetObjectFromJson<Form>("Form");
             Form formToEdit = formService.GetForm(id);
 
             Form editedForm = new Form
@@ -275,11 +275,11 @@ namespace EvaluationFormsManager.Controllers
                 ModifiedBy = DEFAULT_USER_ID
             };
 
-            if (createdForm != null)
+            if (formFormSession != null)
             {
-                editedForm.Sections = createdForm.Sections;
-                editedForm.CreatedBy = createdForm.CreatedBy;
-                editedForm.CreatedDate = createdForm.CreatedDate;
+                editedForm.Sections = formFormSession.Sections;
+                editedForm.CreatedBy = formFormSession.CreatedBy;
+                editedForm.CreatedDate = formFormSession.CreatedDate;
             }
 
             formService.UpdateForm(editedForm);
