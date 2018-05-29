@@ -317,6 +317,15 @@ namespace EvaluationFormsManager.Controllers
             if (action == null)
                 return RedirectToAction("Index");
 
+            if(action == "Edit")
+            {
+                Form form = HttpContext.Session.GetObjectFromJson<Form>("Form");
+                if (form != null)
+                    return RedirectToAction(action, new { id = form.Id.ToString() });
+
+                return RedirectToAction("Index");
+            }
+
             return RedirectToAction(action);
         }
 
