@@ -32,14 +32,13 @@ namespace EvaluationFormsManager.Controllers
             HttpContext.Session.Clear();
         }
 
-        // GET: Forms
-        [HttpGet]
-        public ActionResult Index()
+        private List<FormBriefVM> BuildFormsVM(List<Form> forms)
         {
-            List<Form> forms = formService.GetAllForms().ToList();
-            List<FormBriefVM> employeeForms = new List<FormBriefVM>();
+            if (forms == null)
+                return new List<FormBriefVM>();
 
-            forms.ForEach(form => employeeForms.Add(new FormBriefVM
+            List<FormBriefVM> formModels = new List<FormBriefVM>();
+            forms.ForEach(form => formModels.Add(new FormBriefVM
             {
                 Id = form.Id,
                 Name = form.Name,
@@ -49,6 +48,16 @@ namespace EvaluationFormsManager.Controllers
                 CreatedDate = form.CreatedDate,
                 ModifiedDate = form.ModifiedDate
             }));
+
+            return formModels;
+        }
+
+        // GET: Forms
+        [HttpGet]
+        public ActionResult Index()
+        {
+            List<Form> forms = formService.GetAllForms().ToList();
+            List<FormBriefVM> employeeForms = BuildFormsVM(forms);
 
             ClearSession();
 
@@ -61,18 +70,7 @@ namespace EvaluationFormsManager.Controllers
         public IActionResult Shared()
         {
             List<Form> sharedForms = formService.GetSharedForms(DEFAULT_USER_ID).ToList();
-            List<FormBriefVM> formsToDisplay = new List<FormBriefVM>();
-
-            sharedForms.ForEach(form => formsToDisplay.Add(new FormBriefVM
-            {
-                Id = form.Id,
-                Name = form.Name,
-                Description = form.Description,
-                ImportanceLevel = form.Importance.Level,
-                Status = form.Status,
-                CreatedDate = form.CreatedDate,
-                ModifiedDate = form.ModifiedDate
-            }));
+            List<FormBriefVM> formsToDisplay = BuildFormsVM(sharedForms);
 
             return View(formsToDisplay);
         }
