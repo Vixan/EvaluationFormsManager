@@ -1,8 +1,8 @@
-﻿using EvaluationFormsManager.Domain;
+﻿using EvaluationFormsManager.DataTransferObjects;
+using EvaluationFormsManager.Domain;
 using EvaluationFormsManager.ErrorHandling;
 using EvaluationFormsManager.Shared;
 using EvaluationFormsManager.WebApi.Middleware;
-using EvaluationFormsManager.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -26,9 +26,22 @@ namespace EvaluationFormsManager.WebApi.Controllers
         [ValidateUserId]
         public IActionResult Get([FromQuery]string userId)
         {
-            List<Form> forms = formService.GetAllForms().ToList();
+            List<EvaluationFormDTO> formsToSend = new List<EvaluationFormDTO>();
 
-            return Ok(forms);
+            formService.GetAllForms().ToList().ForEach(form => formsToSend.Add(new EvaluationFormDTO
+            {
+                Id = form.Id,
+                Name = form.Name,
+                Description = form.Description,
+                Importance = form.Importance,
+                Status = form.Status,
+                Sections = form.Sections,
+                CreatedDate = form.CreatedDate,
+                ModifiedDate = form.ModifiedDate
+            }));
+
+
+            return Ok(formsToSend);
         }
 
         // GET: api/forms/1?userId=1
@@ -41,9 +54,21 @@ namespace EvaluationFormsManager.WebApi.Controllers
                 return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_ID_INVALID));
             }
 
-            Form forms = formService.GetForm(internalFormId);
+            Form form = formService.GetForm(internalFormId);
 
-            return Ok(forms);
+            EvaluationFormDTO formToSend = new EvaluationFormDTO
+            {
+                Id = form.Id,
+                Name = form.Name,
+                Description = form.Description,
+                Importance = form.Importance,
+                Status = form.Status,
+                Sections = form.Sections,
+                CreatedDate = form.CreatedDate,
+                ModifiedDate = form.ModifiedDate
+            };
+
+            return Ok(formToSend);
         }
 
         // GET: api/forms/owned?userId=1
@@ -52,9 +77,21 @@ namespace EvaluationFormsManager.WebApi.Controllers
         [ValidateUserId]
         public IActionResult GetOwned([FromQuery]string userId)
         {
-            List<Form> forms = formService.GetOwnedForms(userId).ToList();
+            List<EvaluationFormDTO> formsToSend = new List<EvaluationFormDTO>();
 
-            return Ok(forms);
+            formService.GetOwnedForms(userId).ToList().ForEach(form => formsToSend.Add(new EvaluationFormDTO
+            {
+                Id = form.Id,
+                Name = form.Name,
+                Description = form.Description,
+                Importance = form.Importance,
+                Status = form.Status,
+                Sections = form.Sections,
+                CreatedDate = form.CreatedDate,
+                ModifiedDate = form.ModifiedDate
+            }));
+
+            return Ok(formsToSend);
         }
 
         // GET: api/forms/shared?userId=1
@@ -63,14 +100,26 @@ namespace EvaluationFormsManager.WebApi.Controllers
         [ValidateUserId]
         public IActionResult GetShared([FromQuery]string userId)
         {
-            List<Form> forms = formService.GetSharedForms(userId).ToList();
+            List<EvaluationFormDTO> formsToSend = new List<EvaluationFormDTO>();
 
-            return Ok(forms);
+            formService.GetSharedForms(userId).ToList().ForEach(form => formsToSend.Add(new EvaluationFormDTO
+            {
+                Id = form.Id,
+                Name = form.Name,
+                Description = form.Description,
+                Importance = form.Importance,
+                Status = form.Status,
+                Sections = form.Sections,
+                CreatedDate = form.CreatedDate,
+                ModifiedDate = form.ModifiedDate
+            }));
+
+            return Ok(formsToSend);
         }
 
-        // GET: api/forms/1/sections?userId=1
-        [HttpGet("{sectionId}/Sections")]
-        [Route("Sections")]
+        // GET: api/forms/sections/2?userId=1
+        [HttpGet]
+        [Route("Sections/{sectionId}")]
         [ValidateUserId]
         public IActionResult GetSection([FromQuery]string userId, int sectionId)
         {
@@ -78,10 +127,19 @@ namespace EvaluationFormsManager.WebApi.Controllers
 
             if (section == null)
             {
-                return NotFound(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_NOT_FOUND));
+                return NotFound(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_SECTION_NOT_FOUND));
             }
 
-            return Ok(section);
+            SectionDTO sectionToSend = new SectionDTO
+            {
+                Id = section.Id,
+                Name = section.Name,
+                Description = section.Description,
+                EvaluationScale = section.EvaluationScale,
+                Criteria = section.Criteria
+            };
+
+            return Ok(sectionToSend);
         }
 
         // GET: api/forms/importances?userId=1
@@ -109,7 +167,7 @@ namespace EvaluationFormsManager.WebApi.Controllers
         // POST: api/forms?userId=1
         [HttpPost]
         [ValidateUserId]
-        public IActionResult Post([FromQuery]string userId, [FromBody]FormEditVM form)
+        public IActionResult Post([FromQuery]string userId, [FromBody]EditFormDTO form)
         {
             if (form == null)
             {
@@ -125,11 +183,25 @@ namespace EvaluationFormsManager.WebApi.Controllers
                 Description = form.Description,
                 Importance = importances.Find(importance => importance.Id == form.ImportanceId),
                 Status = statuses.Find(status => status.Id == form.StatusId),
-                Sections = form.Sections,
+                Sections = form.Sections.Select(section => new Section {
+                    Name = section.Name,
+                    Description = section.Description,
+                    EvaluationScale = section.EvaluationScale,
+                    Criteria = section.Criteria.Select(criteria => new Criteria
+                    {
+                        Name = criteria.Name,
+                        ModifiedBy = userId,
+                        CreatedBy = userId,
+                        ModifiedDate = DateTime.Now
+                    }).ToList(),
+                    CreatedBy = userId,
+                    ModifiedBy = userId,
+                    ModifiedDate = DateTime.Now
+                }).ToList(),
                 CreatedBy = userId,
                 ModifiedBy = userId,
                 CreatedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now
             };
 
             formService.AddForm(formToCreate);
@@ -140,7 +212,7 @@ namespace EvaluationFormsManager.WebApi.Controllers
         // PUT: api/forms/1?userId=1
         [HttpPut("{formId}")]
         [ValidateUserId]
-        public IActionResult Put([FromQuery]string userId, string formId, [FromBody]FormEditVM form)
+        public IActionResult Put([FromQuery]string userId, string formId, [FromBody]EditFormDTO form)
         {
             if (!int.TryParse(formId, out int internalFormId))
             {
@@ -164,11 +236,26 @@ namespace EvaluationFormsManager.WebApi.Controllers
                 Description = form.Description,
                 Importance = importances.Find(importance => importance.Id == form.ImportanceId),
                 Status = statuses.Find(status => status.Id == form.StatusId),
-                Sections = form.Sections,
+                Sections = form.Sections.Select(section => new Section
+                {
+                    Name = section.Name,
+                    Description = section.Description,
+                    EvaluationScale = section.EvaluationScale,
+                    Criteria = section.Criteria.Select(criteria => new Criteria
+                    {
+                        Name = criteria.Name,
+                        ModifiedBy = userId,
+                        CreatedBy = userId,
+                        ModifiedDate = DateTime.Now
+                    }).ToList(),
+                    CreatedBy = userId,
+                    ModifiedBy = userId,
+                    ModifiedDate = DateTime.Now
+                }).ToList(),
                 ModifiedBy = userId,
-                ModifiedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now
             };
-
+                
             formService.UpdateForm(formToUpdate);
 
             return Ok();
@@ -200,7 +287,7 @@ namespace EvaluationFormsManager.WebApi.Controllers
         [HttpPost("{formId}/Share")]
         [Route("Share")]
         [ValidateUserId]
-        public IActionResult Share([FromQuery]string userId, string formId, [FromBody]ShareFormVM shareObject)
+        public IActionResult Share([FromQuery]string userId, string formId, [FromBody]ShareFormDTO shareObject)
         {
             IEnumerable<string> shareList = shareObject.UsersList;
 
@@ -216,7 +303,7 @@ namespace EvaluationFormsManager.WebApi.Controllers
 
             Form formToShare = formService.GetForm(internalFormId);
 
-            if (formToShare == null)    
+            if (formToShare == null)
             {
                 return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_NOT_FOUND));
             }
@@ -230,7 +317,7 @@ namespace EvaluationFormsManager.WebApi.Controllers
         [HttpDelete("{formId}/Unshare")]
         [Route("Unshare")]
         [ValidateUserId]
-        public IActionResult Unshare([FromQuery]string userId, string formId, [FromBody]ShareFormVM unshareObject)
+        public IActionResult Unshare([FromQuery]string userId, string formId, [FromBody]ShareFormDTO unshareObject)
         {
             IEnumerable<string> shareList = unshareObject.UsersList;
 

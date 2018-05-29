@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace EvaluationFormsManager.WebApi.Models
+namespace EvaluationFormsManager.DataTransferObjects
 {
-    public class ShareFormVM
+    public class ShareFormDTO
     {
         public IEnumerable<string> UsersList { get; set; }
     }
