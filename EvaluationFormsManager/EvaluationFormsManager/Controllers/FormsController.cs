@@ -308,15 +308,21 @@ namespace EvaluationFormsManager.Controllers
             return RedirectToAction("Index");
         }
 
+        // DELETE: Forms/5/Delete
         [HttpDelete]
         [Route("{formId}/Delete")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int formId)
         {
-            Form formToDelete = formService.GetForm(id);
-            if (formToDelete != null)
-                formService.DeleteForm(formToDelete);
+            Form formToDelete = formService.GetForm(formId);
 
-            return RedirectToAction("Index");
+            if (formToDelete == null)
+            {
+                return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_NOT_FOUND));
+            }
+
+            formService.DeleteForm(formToDelete);
+
+            return NoContent();
         }
 
         [HttpGet]
