@@ -109,7 +109,11 @@ namespace EvaluationFormsManager.Controllers
                     formCreate.Sections = form.Sections;
             }
 
-            ClearSession();
+            if (form == null)
+                form = new Form();
+
+            HttpContext.Session.SetObjectAsJson("Form", form);
+            HttpContext.Session.SetString("Action", "Create");
 
             return View(formCreate);
         }
@@ -302,6 +306,18 @@ namespace EvaluationFormsManager.Controllers
         public IActionResult DeleteConfirmed(int id)
         {
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [Route("Forms/Sections/Cancel")]
+        public IActionResult CancelSection()
+        {
+            string action = HttpContext.Session.GetString("Action");
+
+            if (action == null)
+                return RedirectToAction("Index");
+
+            return RedirectToAction(action);
         }
 
         [HttpGet]
