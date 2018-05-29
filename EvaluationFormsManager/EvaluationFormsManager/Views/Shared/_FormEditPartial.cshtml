@@ -88,7 +88,7 @@
                                     <button type="submit" class="btn-link" formaction="@Url.Action("UpdateSessionEdit", "Forms", new { index = counter - 1})" formmethod="post">
                                         <i class="glyphicon glyphicon-edit icon icon-lg text-info"></i>
                                     </button>
-                                    <button type="submit" class="btn-link">
+                                    <button type="submit" class="btn-link" formaction="@Url.Action("DeleteSection", "Forms", new { index = counter - 1 })" formmethod="post" onclick="return confirmDelete(this, '@formSection.Name');">
                                         <i class="glyphicon glyphicon-trash icon icon-lg text-danger"></i>
                                     </button>
                                 </td>
@@ -108,3 +108,37 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script type="text/javascript">
+        function confirmDelete(sender, sectionName) {
+            if ($(sender).attr("confirmed") == "true") { return true; }
+
+            bootbox.confirm({
+                title: "Are you sure?",
+                message: `You will not be able to retrieve the Section <b>${sectionName}</b> after this.`,
+                className: "modal--middle",
+                buttons: {
+                    confirm: {
+                        label: "Yes, delete it",
+                        className: "btn-success"
+                    },
+                    cancel: {
+                        label: "No, keep it",
+                        className: "btn-danger"
+                    }
+                },
+                callback: function (confirmed) {
+                    if (confirmed) {
+                        $(sender).attr("confirmed", confirmed)
+                        sender.click();
+                    }
+                }
+            })
+
+
+            return false;
+        }
+    </script>
+}

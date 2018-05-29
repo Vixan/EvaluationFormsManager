@@ -288,45 +288,15 @@ namespace EvaluationFormsManager.Controllers
 
             return RedirectToAction("Index");
         }
-
-        // GET: Forms/Delete/5
+        
         [Route("Form/{id}/Delete", Name = "FormDelete")]
         public IActionResult Delete(int id)
         {
             Form formToDelete = formService.GetForm(id);
-            formService.DeleteForm(formToDelete);
+            if (formToDelete != null)
+                formService.DeleteForm(formToDelete);
 
             return RedirectToAction("Index");
-        }
-
-        // POST: Forms/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        [Route("Form/{id}/Delete", Name = "FormDelete")]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpGet]
-        [Route("Forms/Sections/Cancel")]
-        public IActionResult CancelSection()
-        {
-            string action = HttpContext.Session.GetString("Action");
-
-            if (action == null)
-                return RedirectToAction("Index");
-
-            if(action == "Edit")
-            {
-                Form form = HttpContext.Session.GetObjectFromJson<Form>("Form");
-                if (form != null)
-                    return RedirectToAction(action, new { id = form.Id.ToString() });
-
-                return RedirectToAction("Index");
-            }
-
-            return RedirectToAction(action);
         }
 
         [HttpGet]
@@ -440,6 +410,57 @@ namespace EvaluationFormsManager.Controllers
 
             // If we got here, something failed
             return RedirectToAction("Index");
+        }
+
+        private IActionResult RedirectToForm()
+        {
+            string action = HttpContext.Session.GetString("Action");
+
+            if (action == null)
+                return RedirectToAction("Index");
+
+            if (action == "Edit")
+            {
+                Form form = HttpContext.Session.GetObjectFromJson<Form>("Form");
+                if (form != null)
+                    return RedirectToAction(action, new { id = form.Id.ToString() });
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction(action);
+        } 
+
+        [HttpPost]
+        [Route("Forms/Sections/Delete")]
+        public IActionResult DeleteSection(FormEditVM formModel,int index)
+        {
+            UpdateSessionFromVM(formModel);
+
+            Form form = HttpContext.Session.GetObjectFromJson<Form>("Form");
+            if(form != null)
+            {
+                if (form.Sections != null)
+                {
+                    List<Section> formSections = form.Sections.ToList();
+                    if (index >= 0 && index < formSections.Count)
+                    {
+                        formSections.RemoveAt(index);
+                        form.Sections = formSections;
+                    }
+
+                    HttpContext.Session.SetObjectAsJson("Form", form);
+                }
+            }
+
+            return RedirectToForm();
+        }
+
+        [HttpGet]
+        [Route("Forms/Sections/Cancel")]
+        public IActionResult CancelSection()
+        {
+            return RedirectToForm();
         }
 
         [HttpGet]
