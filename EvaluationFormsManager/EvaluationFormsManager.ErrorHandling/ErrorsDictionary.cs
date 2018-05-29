@@ -44,18 +44,21 @@ namespace EvaluationFormsManager.ErrorHandling
         ERR_FORM_ID_INVALID = 1,
 
         [Description("Form data object cannot be empty.")]
-        ERR_FORM_OBJ_EMPTY = 2,
+        ERR_FORM_OBJ_EMPTY,
 
         [Description("Form has not been found.")]
-        ERR_FORM_NOT_FOUND = 3,
+        ERR_FORM_NOT_FOUND,
+
+        [Description("Section has not been found.")]
+        ERR_SECTION_NOT_FOUND,
 
         [Description("User Identifier provided is invalid.")]
-        ERR_USER_ID_INVALID = 4,
+        ERR_USER_ID_INVALID,
 
         [Description("The list of Users to share the form with is empty or invalid.")]
-        ERR_USERLIST_SHARE_INVALID = 5,
+        ERR_USERLIST_SHARE_INVALID,
 
         [Description("The list of Users to unshare the form with is empty or invalid.")]
-        ERR_USERLIST_UNSHARE_INVALID = 6
+        ERR_USERLIST_UNSHARE_INVALID
     }
 }

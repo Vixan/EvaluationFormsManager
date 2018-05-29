@@ -1,9 +1,9 @@
 ﻿using EvaluationFormsManager.Domain;
 using System.Collections.Generic;
 
-namespace EvaluationFormsManager.WebApi.Models
+namespace EvaluationFormsManager.DataTransferObjects
 {
-    public class FormEditVM
+    public class EditFormDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
