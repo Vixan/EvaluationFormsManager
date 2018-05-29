@@ -10,6 +10,6 @@ namespace EvaluationFormsManager.DataTransferObjects
         public string Description { get; set; }
 
         public virtual ICollection<Criteria> Criteria { get; set; }
-        public EvaluationScale EvaluationScale { get; set; }
+        public EvaluationScaleDTO EvaluationScale { get; set; }
     }
 }

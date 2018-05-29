@@ -135,7 +135,7 @@ namespace EvaluationFormsManager.WebApi.Controllers
                 Id = section.Id,
                 Name = section.Name,
                 Description = section.Description,
-                EvaluationScale = section.EvaluationScale,
+                EvaluationScale = (EvaluationScaleDTO)section.EvaluationScale,
                 Criteria = section.Criteria
             };
 
