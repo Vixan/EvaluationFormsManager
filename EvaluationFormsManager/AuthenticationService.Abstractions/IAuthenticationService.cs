@@ -1,4 +1,4 @@
-﻿namespace AuthenticationService.Abstractions
+﻿namespace EvaluationFormsManager.Authentication.Abstractions
 {
     public interface IAuthenticationService
     {

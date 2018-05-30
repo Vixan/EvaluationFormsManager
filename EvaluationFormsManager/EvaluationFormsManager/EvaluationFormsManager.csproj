@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AuthenticationService\EvaluationFormsManager.Authentication.csproj" />
     <ProjectReference Include="..\EvaluationFormsManager.Core\EvaluationFormsManager.Core.csproj" />
     <ProjectReference Include="..\EvaluationFormsManager.ErrorHandling\EvaluationFormsManager.ErrorHandling.csproj" />
     <ProjectReference Include="..\EvaluationFormsManager.Persistence.EF\EvaluationFormsManager.Persistence.EF.csproj" />

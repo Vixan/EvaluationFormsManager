@@ -1,4 +1,5 @@
-﻿using EvaluationFormsManager.Domain;
+﻿using EvaluationFormsManager.Authentication.Abstractions;
+using EvaluationFormsManager.Domain;
 using EvaluationFormsManager.ErrorHandling;
 using EvaluationFormsManager.Extensions;
 using EvaluationFormsManager.Models;
@@ -18,13 +19,12 @@ namespace EvaluationFormsManager.Controllers
     public class FormsController : Controller
     {
         private readonly IFormService formService;
+        private readonly IAuthenticationService authenticationService;
 
-        // TODO: Remove DEFAULT_USER_ID
-        private const string DEFAULT_USER_ID = "userId";
-
-        public FormsController(IFormService formService)
+        public FormsController(IFormService formService, IAuthenticationService authenticationService)
         {
             this.formService = formService;
+            this.authenticationService = authenticationService;
         }
 
         private void ClearSession()
@@ -56,7 +56,7 @@ namespace EvaluationFormsManager.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            List<Form> forms = formService.GetAllForms().ToList();
+            List<Form> forms = formService.GetOwnedForms(authenticationService.GetCurrentUserId()).ToList();
             List<FormBriefVM> employeeForms = CreateFormsVMs(forms);
 
             ClearSession();
@@ -69,7 +69,7 @@ namespace EvaluationFormsManager.Controllers
         [Route("Shared")]
         public IActionResult Shared()
         {
-            List<Form> sharedForms = formService.GetSharedForms(DEFAULT_USER_ID).ToList();
+            List<Form> sharedForms = formService.GetSharedForms(authenticationService.GetCurrentUserId()).ToList();
             List<FormBriefVM> formsToDisplay = CreateFormsVMs(sharedForms);
 
             return View(formsToDisplay);
@@ -155,7 +155,7 @@ namespace EvaluationFormsManager.Controllers
                 Importance = importances.Find(importance => importance.Id == formModel.ImportanceId),
                 Status = statuses.Find(status => status.Id == formModel.StatusId),
                 ModifiedDate = DateTime.Now,
-                ModifiedBy = DEFAULT_USER_ID
+                ModifiedBy = authenticationService.GetCurrentUserId()
             };
 
             if(formFromSession != null)
@@ -164,7 +164,7 @@ namespace EvaluationFormsManager.Controllers
                     form.Id = formFromSession.Id;
 
                 form.Sections = formFromSession.Sections ?? new List<Section>();
-                form.CreatedBy = formFromSession.CreatedBy ?? DEFAULT_USER_ID;
+                form.CreatedBy = formFromSession.CreatedBy ?? authenticationService.GetCurrentUserId();
                 form.CreatedDate = formFromSession.CreatedDate != null ? formFromSession.CreatedDate : DateTime.Now;
             }
 
@@ -204,8 +204,8 @@ namespace EvaluationFormsManager.Controllers
                 Sections = formSections,
                 CreatedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
-                CreatedBy = DEFAULT_USER_ID,
-                ModifiedBy = DEFAULT_USER_ID
+                CreatedBy = authenticationService.GetCurrentUserId(),
+                ModifiedBy = authenticationService.GetCurrentUserId()
             };
 
             if (formId != -1)
@@ -299,7 +299,7 @@ namespace EvaluationFormsManager.Controllers
             };
             CreateSectionVM model = new CreateSectionVM()
             {
-                UserId = DEFAULT_USER_ID
+                UserId = authenticationService.GetCurrentUserId()
             };
 
             HttpContext.Session.SetObjectAsJson("Section", section);
@@ -317,7 +317,7 @@ namespace EvaluationFormsManager.Controllers
                 Description = sectionModel.Description,
                 EvaluationScale = sectionModel.EvaluationScale,
                 ModifiedDate = DateTime.Now,
-                ModifiedBy = DEFAULT_USER_ID
+                ModifiedBy = authenticationService.GetCurrentUserId()
             };
 
             Section sectionFromSession = HttpContext.Session.GetObjectFromJson<Section>("Section");
@@ -327,7 +327,7 @@ namespace EvaluationFormsManager.Controllers
                     section.Id = sectionFromSession.Id;
 
                 section.Criteria = sectionFromSession.Criteria ?? new List<Criteria>();
-                section.CreatedBy = sectionFromSession.CreatedBy ?? DEFAULT_USER_ID;
+                section.CreatedBy = sectionFromSession.CreatedBy ?? authenticationService.GetCurrentUserId();
             }
 
             return section;
@@ -359,7 +359,7 @@ namespace EvaluationFormsManager.Controllers
 
             CreateSectionVM model = new CreateSectionVM()
             {
-                UserId = DEFAULT_USER_ID,
+                UserId = authenticationService.GetCurrentUserId(),
                 Name = section.Name,
                 Description = section.Description,
                 EvaluationScale = section.EvaluationScale
@@ -462,8 +462,8 @@ namespace EvaluationFormsManager.Controllers
             Criteria criteria = new Criteria()
             {
                 Name = name,
-                CreatedBy = DEFAULT_USER_ID,
-                ModifiedBy = DEFAULT_USER_ID,
+                CreatedBy = authenticationService.GetCurrentUserId(),
+                ModifiedBy = authenticationService.GetCurrentUserId(),
                 ModifiedDate = DateTime.Now
             };
 
@@ -505,7 +505,7 @@ namespace EvaluationFormsManager.Controllers
 
             Criteria criteria = section.Criteria.ElementAt(index);
             criteria.Name = name;
-            criteria.ModifiedBy = DEFAULT_USER_ID;
+            criteria.ModifiedBy = authenticationService.GetCurrentUserId();
             criteria.ModifiedDate = DateTime.Now;
 
             HttpContext.Session.SetObjectAsJson("Section", section);
@@ -524,7 +524,7 @@ namespace EvaluationFormsManager.Controllers
                 return BadRequest(ErrorsDictionary.GetResultObject(ErrorCodes.ERR_FORM_NOT_FOUND));
             }
 
-            IEnumerable<string> usersToUnshareWith = new List<string> { DEFAULT_USER_ID };
+            IEnumerable<string> usersToUnshareWith = new List<string> { authenticationService.GetCurrentUserId() };
 
             formService.UnshareForm(formToUnshare, usersToUnshareWith);
 

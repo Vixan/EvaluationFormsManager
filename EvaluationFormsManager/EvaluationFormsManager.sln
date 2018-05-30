@@ -29,11 +29,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Comm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.AuthenticationService.Abstractions", "AuthenticationService.Abstractions\EvaluationFormsManager.AuthenticationService.Abstractions.csproj", "{B684CC8A-8A9D-4FC0-B01B-CDCC016C4907}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.AuthenticationService", "AuthenticationService\EvaluationFormsManager.AuthenticationService.csproj", "{073DC4BD-4258-4974-8BDB-C3AC153EB46C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Authentication", "AuthenticationService\EvaluationFormsManager.Authentication.csproj", "{073DC4BD-4258-4974-8BDB-C3AC153EB46C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.ErrorHandling", "EvaluationFormsManager.ErrorHandling\EvaluationFormsManager.ErrorHandling.csproj", "{4345D593-9AE1-4230-81E2-5F627739DC1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvaluationFormsManager.DataTransferObjects", "EvaluationFormsManager.DataTransferObjects\EvaluationFormsManager.DataTransferObjects.csproj", "{59E4CAE0-5EDE-4444-A0CA-239271A511B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.DataTransferObjects", "EvaluationFormsManager.DataTransferObjects\EvaluationFormsManager.DataTransferObjects.csproj", "{59E4CAE0-5EDE-4444-A0CA-239271A511B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
-﻿using AuthenticationService.Abstractions;
+﻿using EvaluationFormsManager.Authentication.Abstractions;
 
-namespace AuthenticationService
+namespace EvaluationFormsManager.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
