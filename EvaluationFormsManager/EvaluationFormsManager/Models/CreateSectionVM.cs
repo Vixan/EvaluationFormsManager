@@ -18,7 +18,6 @@ namespace EvaluationFormsManager.Models
         public string Description { get; set; }
 
         [Display(Name = "Evaluation Scale")]
-        //[DataType(DataType.Text)]
         [Required(ErrorMessage = "Please specify the form evaluation scale")]
         public EvaluationScale EvaluationScale { get; set; }
     }
