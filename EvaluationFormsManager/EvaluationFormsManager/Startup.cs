@@ -6,6 +6,7 @@ using EvaluationFormsManager.Persistence.EF;
 using EvaluationFormsManager.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,10 +32,13 @@ namespace EvaluationFormsManager
             // Add business
             services.AddScoped<IFormService, FormService>();
 
+            services.AddMvc();
+
             // Add Authentication
             services.AddScoped<IAuthenticationService, AuthenticationService>();
 
-            services.AddMvc();
+            var authenticationService = services.BuildServiceProvider().GetService<IAuthenticationService>();
+            authenticationService.Initialize(services, Configuration);
 
             // Adds a default in-memory implementation of IDistributedCache
             services.AddDistributedMemoryCache(); 
@@ -56,6 +60,8 @@ namespace EvaluationFormsManager
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseAuthentication();
 
             app.UseStaticFiles();
 

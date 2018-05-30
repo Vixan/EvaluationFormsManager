@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.WebA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.CommonAbstractions", "EvaluationFormsManager.CommonAbstractions\EvaluationFormsManager.CommonAbstractions.csproj", "{008E8C59-23C3-4573-B1B2-E970A7BCAE52}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.AuthenticationService.Abstractions", "AuthenticationService.Abstractions\EvaluationFormsManager.AuthenticationService.Abstractions.csproj", "{B684CC8A-8A9D-4FC0-B01B-CDCC016C4907}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Authentication.Abstractions", "AuthenticationService.Abstractions\EvaluationFormsManager.Authentication.Abstractions.csproj", "{B684CC8A-8A9D-4FC0-B01B-CDCC016C4907}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EvaluationFormsManager.Authentication", "AuthenticationService\EvaluationFormsManager.Authentication.csproj", "{073DC4BD-4258-4974-8BDB-C3AC153EB46C}"
 EndProject
