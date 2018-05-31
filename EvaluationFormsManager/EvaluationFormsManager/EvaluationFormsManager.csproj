@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <Reference Include="IdentityServer.Domain">
-      <HintPath>..\..\..\DirectoryManager\src\IdentityServer.Core.Shared\bin\Debug\netcoreapp2.0\IdentityServer.Domain.dll</HintPath>
+      <HintPath>..\IdentityServer.Domain.dll</HintPath>
     </Reference>
   </ItemGroup>
 
