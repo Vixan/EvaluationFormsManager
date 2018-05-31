@@ -1,10 +1,11 @@
 ﻿using IdentityServer.Domain;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EvaluationFormsManager.Core.Shared
 {
     public interface IEmployeeService
     {
-        IEnumerable<Employee> GetEmployees(string currentUserId);
+        Task<IEnumerable<Employee>> GetEmployeesAsync(string currentUserId, string currentUrl);
     }
 }

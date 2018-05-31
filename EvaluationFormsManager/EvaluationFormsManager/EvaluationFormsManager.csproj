@@ -17,10 +17,17 @@
   <ItemGroup>
     <ProjectReference Include="..\AuthenticationService\EvaluationFormsManager.Authentication.csproj" />
     <ProjectReference Include="..\EvaluationFormsManager.Core\EvaluationFormsManager.Core.csproj" />
+    <ProjectReference Include="..\EvaluationFormsManager.DataTransferObjects\EvaluationFormsManager.DataTransferObjects.csproj" />
     <ProjectReference Include="..\EvaluationFormsManager.ErrorHandling\EvaluationFormsManager.ErrorHandling.csproj" />
     <ProjectReference Include="..\EvaluationFormsManager.Persistence.EF\EvaluationFormsManager.Persistence.EF.csproj" />
     <ProjectReference Include="..\EvaluationFormsManager.Persistence\EvaluationFormsManager.Persistence.csproj" />
     <ProjectReference Include="..\EvaluationFormsManager.Shared\EvaluationFormsManager.Core.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="IdentityServer.Domain">
+      <HintPath>..\..\..\DirectoryManager\src\IdentityServer.Core.Shared\bin\Debug\netcoreapp2.0\IdentityServer.Domain.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

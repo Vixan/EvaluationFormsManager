@@ -1,6 +1,7 @@
 ﻿using EvaluationFormsManager.Authentication;
 using EvaluationFormsManager.Authentication.Abstractions;
 using EvaluationFormsManager.Core;
+using EvaluationFormsManager.Core.Shared;
 using EvaluationFormsManager.Persistence;
 using EvaluationFormsManager.Persistence.EF;
 using EvaluationFormsManager.Shared;
@@ -34,6 +35,7 @@ namespace EvaluationFormsManager
 
             // Add Authentication
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
 
             services.AddMvc();
 

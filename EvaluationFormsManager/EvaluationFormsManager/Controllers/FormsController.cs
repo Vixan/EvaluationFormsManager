@@ -1,9 +1,12 @@
 ﻿using EvaluationFormsManager.Authentication.Abstractions;
+using EvaluationFormsManager.Core.Shared;
+using EvaluationFormsManager.DataTransferObjects;
 using EvaluationFormsManager.Domain;
 using EvaluationFormsManager.ErrorHandling;
 using EvaluationFormsManager.Extensions;
 using EvaluationFormsManager.Models;
 using EvaluationFormsManager.Shared;
+using IdentityServer.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +15,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace EvaluationFormsManager.Controllers
 {
@@ -22,11 +25,13 @@ namespace EvaluationFormsManager.Controllers
     {
         private readonly IFormService formService;
         private readonly IAuthenticationService authenticationService;
+        private readonly IEmployeeService employeeService;
 
-        public FormsController(IFormService formService, IAuthenticationService authenticationService)
+        public FormsController(IFormService formService, IAuthenticationService authenticationService, IEmployeeService employeeService)
         {
             this.formService = formService;
             this.authenticationService = authenticationService;
+            this.employeeService = employeeService;
         }
 
         private void ClearSession()
@@ -537,6 +542,33 @@ namespace EvaluationFormsManager.Controllers
             formService.UnshareForm(formToUnshare, usersToUnshareWith);
 
             return NoContent();
+        }
+
+        [HttpGet]
+        [Route("{formId}/Share")]
+        public async Task<IActionResult> Share(int formId)
+        {
+            IEnumerable<Employee> employees = await employeeService.GetEmployeesAsync(authenticationService.GetCurrentUserId(), HttpContext.Request.Path);
+
+            return View(employees);
+        }
+
+        [HttpPost]
+        [Route("{formId}/Share")]
+        public IActionResult Share(int formId, [FromBody]ShareFormDTO shareObject)
+        {
+            IEnumerable<string> shareList = shareObject.UsersList;
+
+            Form formToShare = formService.GetForm(formId);
+
+            if (formToShare == null)
+            {
+                return NotFound();
+            }
+
+            formService.ShareForm(formToShare, shareList);
+
+            return RedirectToAction("Index");
         }
 
         [Route("SignOut")]

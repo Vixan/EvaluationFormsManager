@@ -14,6 +14,9 @@
     <Reference Include="IdentityServer.Domain">
       <HintPath>..\..\..\DirectoryManager\src\IdentityServer.Core.Shared\bin\Debug\netcoreapp2.0\IdentityServer.Domain.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\10.0.1\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
