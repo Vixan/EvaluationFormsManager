@@ -18,7 +18,7 @@ namespace EvaluationFormsManager.Authentication
 
         public string GetCurrentUserId()
         {
-            return "userId";
+            return currentContext.User.Identity.Name;
         }
 
         public void Initialize(IServiceCollection services, IConfiguration configuration)

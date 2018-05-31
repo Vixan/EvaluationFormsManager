@@ -25,7 +25,7 @@ namespace EvaluationFormsManager.Persistence.EF
                 databaseContext = serviceProvider.GetService<DatabaseContext>();
             }
 
-            databaseContext.Database.Migrate();
+            databaseContext?.Database.Migrate();
 
             formRepository = new FormRepository(databaseContext);
         }
