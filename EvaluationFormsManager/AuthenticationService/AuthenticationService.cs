@@ -1,4 +1,5 @@
-﻿using EvaluationFormsManager.Authentication.Abstractions;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,8 +7,15 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace EvaluationFormsManager.Authentication
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthenticationService : Abstractions.IAuthenticationService
     {
+        private HttpContext currentContext;
+
+        public AuthenticationService(IHttpContextAccessor context)
+        {
+            currentContext = context?.HttpContext;
+        }
+
         public string GetCurrentUserId()
         {
             return "userId";
@@ -18,6 +26,8 @@ namespace EvaluationFormsManager.Authentication
             string returnUrl = "signin-oidc";
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            var authSettings = configuration.GetSection("Authentication");
 
             services
                 .AddAuthentication(options =>
@@ -30,11 +40,11 @@ namespace EvaluationFormsManager.Authentication
                 {
                     options.SignInScheme = "Cookies";
 
-                    options.Authority = configuration.GetSection("Authentication")["Authority"];
+                    options.Authority = authSettings["Authority"];
                     options.RequireHttpsMetadata = false;
                     options.CallbackPath = PathString.FromUriComponent("/" + returnUrl);
-                    options.ClientId = configuration.GetSection("Authentication")["ClientId"];
-                    options.ClientSecret = configuration.GetSection("Authentication")["ClientSecret"];
+                    options.ClientId = authSettings["ClientId"];
+                    options.ClientSecret = authSettings["ClientSecret"];
                     options.ResponseType = "code id_token";
 
                     options.SaveTokens = true;
@@ -46,7 +56,18 @@ namespace EvaluationFormsManager.Authentication
 
         public bool IsUserAuthenticated()
         {
-            return true;
+            return currentContext.User.Identity.IsAuthenticated;
+        }
+        
+        public void Configure(IApplicationBuilder applicationBuilder)
+        {
+            applicationBuilder.UseAuthentication();
+        }
+
+        public void SignOut()
+        {
+            currentContext?.SignOutAsync("Cookies").Wait();
+            currentContext?.SignOutAsync("oidc").Wait();
         }
     }
 }

@@ -6,7 +6,6 @@ using EvaluationFormsManager.Persistence.EF;
 using EvaluationFormsManager.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,6 +19,7 @@ namespace EvaluationFormsManager
         }
 
         public IConfiguration Configuration { get; }
+        public IAuthenticationService AuthenticationService { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -27,18 +27,19 @@ namespace EvaluationFormsManager
             // Add persistance
             services.AddScoped<IPersistenceContext, PersistanceContext>();
             var dataService = services.BuildServiceProvider().GetService<IPersistenceContext>();
-            dataService.InitializeContext(services, Configuration);
+            dataService?.InitializeContext(services, Configuration);
 
             // Add business
             services.AddScoped<IFormService, FormService>();
 
-            services.AddMvc();
-
             // Add Authentication
             services.AddScoped<IAuthenticationService, AuthenticationService>();
 
-            var authenticationService = services.BuildServiceProvider().GetService<IAuthenticationService>();
-            authenticationService.Initialize(services, Configuration);
+            services.AddMvc();
+
+            // Initialize Authentication service
+            AuthenticationService = services.BuildServiceProvider().GetService<IAuthenticationService>();
+            AuthenticationService?.Initialize(services, Configuration);
 
             // Adds a default in-memory implementation of IDistributedCache
             services.AddDistributedMemoryCache(); 
@@ -61,7 +62,7 @@ namespace EvaluationFormsManager
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseAuthentication();
+            AuthenticationService?.Configure(app);
 
             app.UseStaticFiles();
 

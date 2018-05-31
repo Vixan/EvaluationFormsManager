@@ -4,6 +4,7 @@ using EvaluationFormsManager.ErrorHandling;
 using EvaluationFormsManager.Extensions;
 using EvaluationFormsManager.Models;
 using EvaluationFormsManager.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -16,6 +17,7 @@ using System.Linq;
 namespace EvaluationFormsManager.Controllers
 {
     [Route("[controller]")]
+    [Authorize]
     public class FormsController : Controller
     {
         private readonly IFormService formService;
@@ -529,6 +531,14 @@ namespace EvaluationFormsManager.Controllers
             formService.UnshareForm(formToUnshare, usersToUnshareWith);
 
             return NoContent();
+        }
+
+        [Route("SignOut")]
+        public IActionResult SignOut()
+        {
+            authenticationService.SignOut();
+
+            return RedirectToAction("Index");
         }
     }
 }

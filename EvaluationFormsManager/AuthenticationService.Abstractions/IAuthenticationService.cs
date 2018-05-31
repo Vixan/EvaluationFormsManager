@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EvaluationFormsManager.Authentication.Abstractions
@@ -8,5 +9,7 @@ namespace EvaluationFormsManager.Authentication.Abstractions
         string GetCurrentUserId();
         bool IsUserAuthenticated();
         void Initialize(IServiceCollection services, IConfiguration configuration);
+        void Configure(IApplicationBuilder applicationBuilder);
+        void SignOut();
     }
 }
