@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 
 namespace EvaluationFormsManager.Authentication
 {
@@ -18,7 +20,9 @@ namespace EvaluationFormsManager.Authentication
 
         public string GetCurrentUserId()
         {
-            return currentContext.User.Identity.Name;
+            var nameClaim = currentContext.User.Claims.Where(claim => claim.Type.Equals("name")).FirstOrDefault();
+
+            return nameClaim.Value;
         }
 
         public void Initialize(IServiceCollection services, IConfiguration configuration)
