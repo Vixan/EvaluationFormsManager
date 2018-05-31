@@ -534,11 +534,9 @@ namespace EvaluationFormsManager.Controllers
         }
 
         [Route("SignOut")]
-        public IActionResult SignOut()
+        public void SignOut()
         {
             authenticationService.SignOut();
-
-            return RedirectToAction("Index");
         }
     }
 }
