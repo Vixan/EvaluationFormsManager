@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 
 namespace EvaluationFormsManager.Authentication
 {
@@ -22,7 +21,7 @@ namespace EvaluationFormsManager.Authentication
         {
             var nameClaim = currentContext.User.Claims.Where(claim => claim.Type.Equals("name")).FirstOrDefault();
 
-            return nameClaim.Value;
+            return nameClaim?.Value;
         }
 
         public void Initialize(IServiceCollection services, IConfiguration configuration)
