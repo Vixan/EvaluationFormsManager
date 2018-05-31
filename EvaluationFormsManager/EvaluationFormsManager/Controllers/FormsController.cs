@@ -375,10 +375,16 @@ namespace EvaluationFormsManager.Controllers
         public IActionResult EditSection(int index, CreateSectionVM sectionModel)
         {
             Form form = HttpContext.Session.GetObjectFromJson<Form>("Form");
-            if (form.Sections != null)
-                form.Sections.ToList()[index] = UpdateSectionFromVM(sectionModel);
+            List<Section> formSections = form?.Sections.ToList();
+
+            if (formSections != null)
+            {
+                formSections[index] = UpdateSectionFromVM(sectionModel);
+                form.Sections = formSections;
+            }
 
             HttpContext.Session.SetObjectAsJson("Form", form);
+
             return RedirectToForm();
         }
 
