@@ -22,7 +22,7 @@ namespace EvaluationFormsManager.Authentication
         {
             var nameClaim = currentContext.User.Claims.Where(claim => claim.Type.Equals("name")).FirstOrDefault();
 
-            return nameClaim.Value;
+            return nameClaim?.Value;
         }
 
         public void Initialize(IServiceCollection services, IConfiguration configuration)
